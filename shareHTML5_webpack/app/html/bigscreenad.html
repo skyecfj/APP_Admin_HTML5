@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>大屏广告</title>
+  <!-- 加载公共部分 -->
+  <script type="text/javascript" src="./assets/js/head.js"></script>
+  <!-- 加载页面单独部分 -->
+  <style type="text/css">
+    .big-ad-tbody tr td:nth-child(3),
+    .big-ad-tbody tr td:nth-child(5){
+      width: 90px;
+    }
+    .big-ad-tbody tr td:nth-child(2){
+      max-width: 135px;
+    }
+    .big-ad-tbody tr td:nth-child(8) input{
+      width: 56px;
+      margin-left: 15%;
+    }
+    .big-ad-show{
+      cursor: pointer;
+    }
+    #add-bigad-day{
+      display: inline-block !important;
+    }
+    .btn-add-bigadfile-box{
+      display: inline-block;
+      position: relative;
+    }
+    .btn-add-bigadfile-box .btn-addbigad-file{
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 82px;
+      height: 34px;
+      opacity: 0;
+    }
+</style>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+  <div class='row'>
+    <div id="leftMenu"></div>
+    <div>
+      <div class='col-sm-9 information' id='bigscreenad'>
+        <div class='col-sm-12'>
+          <ul class="nav nav-tabs ">
+            <li class="active in-s"><a href="#bigadinfo" data-toggle="tab">广告列表</a></li>
+            <li class="in-s"><a href="#addBigAd" data-toggle="tab">新增广告</a></li>
+          </ul>
+          <div class='tab-content book-content panel-default clearfix'>
+            <div class='col-sm-12 tab-pane fade in active panel-body' id='bigadinfo'>
+              <div>
+                <table class='table table-bordered table-hover'  id='big-ad-table'>
+                  <thead class="custom-head">
+                  <tr>
+                    <th>编号</th>
+                    <th>主题内容</th>
+                    <th>图片地址</th>
+                    <th>类型</th>
+                    <th>跳转URL</th>
+                    <th>状态</th>
+                    <th>投放对象</th>
+                    <th>弹出条件(天)<i class="glyphicon glyphicon-question-sign"
+                                  title="当天数为负数时，每次登陆都会弹广告
+当天数为0时，每天仅第一次登陆弹广告
+当天数设置大于0时，将广告推送给那些所设置数值天数未登录的人
+                  "></i>
+                    </th>
+                    <th>操作</th>
+                  </tr>
+                  </thead>
+                  <tbody class="big-ad-tbody table-center">
+                  </tbody>
+                </table>
+                <div class='peges' id='big-ad-page'></div>
+                <div id="big-ad-totalCounts" class="search-num">
+                  本次查询共 <span class="font-red"></span> 条记录
+                </div>
+              </div>
+            </div>
+            <div class='tab-pane fade panel-body' id='addBigAd'>
+              <div class='col-sm-12'>
+                <form class='form-horizontal' id='add-bigad-form' class='col-sm-12'>
+                  <div class='form-group'>
+                    <label class='control-label col-sm-3' for='add-bigad-title'>主题内容：</label>
+                    <div class='col-sm-6'>
+                      <input class='form-control' id='add-bigad-title' name='title' type='text' maxlength="15"/>(不超过15个中文字符)
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-sm-3">上传图片：</label>
+                    <div class='col-sm-7'>
+                      <input type="text" class='form-control add-bigad-img' name='photoUrl' disabled/>
+                    </div>
+                    <div class="btn-add-bigadfile-box">
+                      <button class="btn btn-default" type="button">
+                        上传文件
+                      </button>
+                      <input class="btn-addbigad-file" name='txtFile' type="file">
+                    </div>
+                  </div>
+                  <!-- <div class='form-group'>
+                    <label class='control-label col-sm-3' for=''>类型：</label>
+                    <div class='col-sm-6'>
+                      <select name="type" id="add-bigad-linktype" class="custom-select">
+                      </select>
+                    </div>
+                  </div> -->
+                  <!-- <div>
+                    <div class='form-group outline'>
+                      <label class='control-label col-sm-3' for=''>跳转URL:</label>
+                      <div  class='col-sm-6'>
+                        <input class='form-control' id='add-bigad-outurl' name='returnUrl' disabled/>
+                        <select name="returnUrl" class="custom-select hide" id="add-bigad-strategy">
+                        </select>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class='form-group'>
+                    <label class='control-label col-sm-3' for='add-bigad-people'>投放对象:</label>
+                    <div class='col-sm-3'>
+                      <select id='add-bigad-people' class='form-control' name="userOrVisitor">
+                        <option value='0'>游客</option>
+                        <option value='1'>登录用户</option>
+                        <option value='2'>全部用户</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class='form-group'>
+                    <label class='control-label col-sm-3' for='adopen'>弹出条件:</label>
+                    <div class='col-sm-6'>
+                      <label class="checkbox-inline"> 
+                        <input type="radio" name="bigadday" class="bigadday" value=-1>每次打开APP均弹出<br>
+                        <input type="radio" name="bigadday" class="bigadday" value=1>当天首次打开APP弹出<br>
+                        <input type="radio" name="bigadday" class="bigadday" value=2>
+                        用户连续
+                        <input type="number" class="form-control width50" name="days" id="add-bigad-day"> 天及以上未登录系统
+                      </label>
+                    </div>
+                    <!-- <div class='col-sm-3'>
+                      <label class="checkbox-inline"> 
+                        <input type="radio" name="bigadday" class="bigadday" value=1>当天首次打开APP弹出
+                      </label>
+                    </div>
+                    <div class='col-sm-3'>
+                      <label class="checkbox-inline"> 
+                        <input type="radio" name="bigadday" class="bigadday" value=2>
+                        用户连续
+                        <input type="number" class="form-control width50" name="days" id="add-bigad-day"> 天及以上未登录系统
+                      </label>
+                    </div> -->
+                  </div>
+                  <div class='form-group'>
+										<label class='control-label col-sm-3' for='bigAdpushType'>参数类型:</label>
+										<div class='col-sm-3'>
+											<select id='bigAdpushType' class='form-control'></select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class='control-label col-sm-3' for='bigAdPushParams'>参数:</label>
+										<div class='col-sm-6' id='bigAdPushParams'></div>
+									</div>
+                  <div class='form-group'>
+                    <div class='col-sm-offset-3 col-sm-6' id='add-bigad-submit'>
+                      <button type='button' class='btn btn-success saveandstart'>保存并启用</button>
+                      <button type='button' class='btn btn-default save' style="padding:6px 33px;margin-left:45px;">保存</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="user"></div>
+  </div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

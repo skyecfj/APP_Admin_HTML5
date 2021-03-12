@@ -1,0 +1,44 @@
+label.text-right{
+    font-weight:400;
+}
+#send-sms-form>div{
+    margin-top:10px;
+}
+.checked-per{
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+    min-height: 50px;
+    max-height: 120px;
+    max-width: 100%;
+    overflow-y: scroll;
+    word-wrap: break-word;
+}
+div.per-category input[type=radio]{
+    margin-left:15px;
+}
+.btn-addbatch-file{
+    display: inline-block;
+    position: relative;
+
+}
+.btn-addbatch-file #btn-addbatch-file{
+    position: absolute;
+    top:0px;
+    left:0px;
+    width:82px;
+    height:34px;
+    opacity:0;
+}
+.font-red{
+    color:red;
+}
+#sms-temp-content{
+    width:100%;
+}
+#checked-sms-user .del-user i{
+    color:#8e8e8e;
+}
+#checked-sms-user .del-user i:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>管理员管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='usermanage'>
+				<div class='col-sm-12 clearfix'>
+					<div class="table-responsive" id='usertable'>
+						<table class="table table-hover table-bordered ">
+							<caption>管理员用户信息</caption>
+							<thead class='user-head'>
+							<tr>
+								<th>用户名</th>
+								<th>添加日期</th>
+								<th>用户类型</th>
+								<th>邮箱</th>
+								<th>手机号</th>
+								<th>操作</th>
+							</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<ul class="pager" id='userpage' style="display: none">
+							<li class='previous disabled'><a href="#">上一页</a></li>
+							<li class='next'><a href="#">下一页</a></li>
+						</ul>
+					</div>
+					<div>
+						<div class='add'>
+							<button class='btn btn-primary' id='addUser'>添加用户</button>
+						</div>
+					</div>
+					<!-- 模态框（Modal） -->
+					<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog"
+						 aria-labelledby="addModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+											aria-hidden="true">&times;</button>
+									<h4 class="modal-title" id="addModalLabel">添加用户</h4>
+								</div>
+								<div class="modal-body">
+									<form class="form-horizontal" role="form" id='adduserform'>
+										<div class="form-group">
+											<label for="name" class="col-sm-2 control-label label-left">用户名<em
+													class='required'>*</em></label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control col-6" id="name"
+													   name='name' placeholder="请输入用户名">
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="usertype" class="col-sm-2 control-label label-left">类别<em
+													class='required'>*</em></label>
+											<div class="form-group">
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="usertype" class="usertype" value='0' checked='checked'>分析师
+												</label>
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="usertype" class="usertype" value='1'>管理员
+												</label>
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="usertype" class="usertype" value='2'>运营管理员
+												</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="email" class="col-sm-2 control-label label-left">邮箱<em
+													class='required'>*</em></label>
+											<div class="col-sm-10">
+												<input type="email" class="form-control col-6" id="email"
+													   name='email' placeholder="请输入邮箱">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phonenum" class="col-sm-2 control-label label-left">手机号</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control col-6" id="phonenum"
+													   name='phonenum' placeholder="请输入手机号">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='add'>提交
+									</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+									</button>
+								</div>
+							</div>
+							<!-- /.modal-content -->
+						</div>
+						<!-- /.modal -->
+					</div>
+					<div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4>编辑用户</h4>
+								</div>
+								<div class="modal-body">
+									<form class="form-horizontal" role="form" id='updateuserform'>
+										<div class="form-group">
+											<label class="col-sm-2 control-label label-left">用户名</label>
+											<div class="col-sm-10">
+												<span id="update-name"></span>
+											</div>
+										</div>
+										<div class="form-group update-admin">
+											<label for="update-usertype" class="col-sm-2 control-label label-left">类别<em
+													class='required'>*</em></label>
+											<div class="form-group">
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="usertype" class="update-usertype" value='0'>分析师
+												</label>
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="usertype" class="update-usertype" value='1'>管理员
+												</label>
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="usertype" class="update-usertype" value='2'>运营管理员
+												</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="update-email" class="col-sm-2 control-label label-left">邮箱<em
+													class='required'>*</em></label>
+											<div class="col-sm-10">
+												<input type="email" class="form-control col-6" id="update-email"
+													   name='email' placeholder="请输入邮箱">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="update-phonenum" class="col-sm-2 control-label label-left">手机号</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control col-6" id="update-phonenum"
+													   name='phonenum' placeholder="请输入手机号">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='update-submit'>提交
+									</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+									</button>
+								</div>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

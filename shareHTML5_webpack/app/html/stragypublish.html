@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>策略发布管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<style>
+		#bookprice,#discountPrice{
+			width: 16.6667%;
+		}
+		.preferential-discount{
+			font-size: 16px;
+			height: 34px;
+			line-height: 34px;
+		}
+		label.label-left.book-price-box{
+			width: 13%;
+		}
+		#strategy-off-message{
+			vertical-align: top;
+			padding: 5px;
+			border-radius: 5px;
+			margin-left: 10px;
+		}
+		#strategy-off-modal{
+			margin-top: 240px;
+		}
+		#strategy-off-modal .modal-dialog{
+			width: 540px;
+		}
+		.pay-input{
+			width: 56px;
+		}
+	</style>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='strategypublishcontent'>
+				<div class='col-sm-12'>
+					<table class=' table table-hover table-bordered' id='stragepublishtable'>
+						<caption>策略表</caption>
+						<thead>
+						<tr>
+							<th class="nosort">策略APP显示名称</th>
+							<th class="nosort">策略类型</th>
+							<th class='sorting'>策略上架时间</th>
+							<th class='sorting'>回测年化收益率</th>
+							<th class='sorting'>阿尔法</th>
+							<th class='sorting'>最大回撤</th>
+							<th class='sorting'>夏普比率</th>
+							<th class='sorting'>订阅人数</th>
+							<th class='sorting'>最大空仓天数</th>
+							<th class='sorting'>推荐序号</th>
+							<th class='nosort'>策略状态</th>
+							<th class="nosort">操作</th>
+						</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+					<div class='add'>
+						<button class='btn btn-primary margin' id='strategy-template-btn'>策略推送消息模板</button>
+						<button class='btn btn-primary' id='btn-publish-add'>添加策略</button>
+					</div>
+				</div>
+				<div class="modal fade" id="publihModal" tabindex="-1" role="dialog" aria-labelledby="publihModalLabel" aria-hidden="true">
+					<div class="modal-dialog " style="width: 810px;">
+						<div class="modal-content" style="width: 810px;">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+								<h4 class="modal-title" id="publihModalLabel">策略发布修改</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" role="form" id='stagetypublishform'>
+									<div class="form-group">
+										<label for="stragetyname"
+											   class="col-sm-2 control-label label-left">策略英文名称<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6" id="stragetyname"
+												   name='stragetyname' placeholder="策略英文名">
+											<span class='error name-error' style='display:none'>名字已存在</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="appname" class="col-sm-2 control-label label-left">策略App显示名字<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6" id="appname"
+												   name='appname' placeholder="策略在APP端显示的名字">
+											<span class='error displayname-error' style='display:none'>名字已存在</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="des" class="col-sm-2 control-label label-left">策略描述<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<textarea class="form-control" rows="5" placeholder="请输入一段策略描述的文字" id="des" name="des"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="sharetext" class="col-sm-2 control-label label-left">策略分享简介<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<textarea class="form-control" rows="5" placeholder="策略分享到微信等平台的简介" id="sharetext" name="sharetext"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-2 control-label label-left">策略类型</label>
+										<div class="form-group">
+											<label for="styletype" class="col-sm-2 control-label label-left">投资风格<em
+													class='required'>*</em></label>
+											<div class="form-group">
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="styletype" class="styletype" value=1 checked='checked'>资产配置型
+												</label>
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="styletype" class="styletype" value=3>荐股类策略</label>
+												<label class="checkbox-inline"> <input type="radio"
+																					   name="styletype" class="styletype" value=2>盘前策略
+												</label>
+											</div>
+										</div>
+										<div class=" col-sm-offset-2 assets-config" >
+											<label for="circletype" class="col-sm-2 control-label label-left">投资周期<em
+													class='required'>*</em></label>
+											<div class="form-group">
+												<label class="checkbox-inline"><input type="radio"
+																					  name="circletype" class="circletype" value=3
+																					  checked='checked'>短线
+												</label> <label class="checkbox-inline"><input type="radio"
+																							   name="circletype" class="circletype" value=2>中线
+											</label> <label class="checkbox-inline"><input type="radio"
+																						   name="circletype" class="circletype" value=1>长线
+											</label>
+											</div>
+										</div>
+										<div class=" col-sm-offset-2 recomment-config" >
+											<label for="recommnttype" class="col-sm-2 control-label label-left">推荐周期<em class='required'>*</em></label>
+											<div class="form-group">
+												<label class="checkbox-inline"><input type="radio"
+																					  name="recommnttype" class="recommnttype" value='week'
+																					  checked='checked'>近一周
+												</label> <label class="checkbox-inline"><input type="radio"
+																							   name="recommnttype" class="recommnttype" value='month'>近一月
+											</label>
+											</div>
+										</div>
+										<div class=" col-sm-offset-2 assets-config" >
+											<label for="pushtype" class="col-sm-2 control-label label-left">买卖点<em class='required'>*</em></label>
+											<div class="form-group">
+												<label class="checkbox-inline"><input type="radio"
+																					  name="pushtype" class="pushtype" value=1
+																					  checked='checked'>买卖点推送
+												</label> <label class="checkbox-inline"><input type="radio"
+																							   name="pushtype" class="pushtype" value=2>只推送买点
+											</label>
+											</div>
+										</div>
+										<span></span>
+									</div>
+									<div class='form-group assets-config' >
+										<label for="referenceType" class="col-sm-2 control-label label-left">策略指数参照类型<em class='required'>*</em>
+										</label>
+										<div class="col-sm-10" class='reference-type'>
+											<select class='referenceType' name='referenceType'>
+												<option value=''>-请选择-</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group assets-config" >
+										<label for="testannualrate"
+											   class="col-sm-2 control-label label-left">回测年化收益率<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6"
+												   id="testannualrate" name='testannualrate' placeholder="">
+										</div>
+									</div>
+									<div class="form-group assets-config">
+										<label for="alphatvalue"
+											   class="col-sm-2 control-label label-left">阿尔法<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6" id="alphatvalue"
+												   name='alphatvalue' placeholder="">
+										</div>
+									</div>
+									<div class="form-group assets-config">
+										<label for="biggestAssetRetreatRatio"
+											   class="col-sm-2 control-label label-left">最大回撤<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6" id="biggestAssetRetreatRatio"
+												   name='biggestAssetRetreatRatio' placeholder="">
+										</div>
+									</div>
+									<div class="form-group assets-config" >
+										<label for="xiapurate" class="col-sm-2 control-label label-left">夏普比率<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6" id="xiapurate"
+												   name='xiapurate' placeholder="">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="recommendOrder" class="col-sm-2 control-label label-left">推荐序号<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6" id="recommendOrder"
+												   name='recommendOrder' placeholder="">
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="submaxnum" class="col-sm-2 control-label label-left">订阅人数上限<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6" id="submaxnum"
+												   name='submaxnum' placeholder="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="bookprice" class="col-sm-2 control-label label-left">策略订购价格<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<div class="form-group">
+												<label for="bookprice" class="col-sm-2 control-label label-left book-price-box">原价<em
+														class='required'>*</em></label>
+												<input type="number" class="col-sm-2 form-control" id="bookprice" name='bookprice' placeholder="">
+												<label for="discountPrice" class="col-sm-2 control-label label-left book-price-box">优惠价<em
+														class='required'>*</em></label>
+												<input type="number" class="col-sm-2 form-control" id="discountPrice" name='discountPrice' placeholder="">
+												<label class="col-sm-2 control-label label-left book-price-box">折扣</label>
+												<span class="preferential-discount"></span>
+											</div>
+											<div class="form-group">
+												<label for="book-type" class="col-sm-2 control-label label-left">当前价格<em
+														class='required'>*</em></label>
+												<div class="form-group">
+													<label class="checkbox-inline"> <input type="radio"
+																						   name="discount" class="discount" value='0' checked='checked'>原价
+													</label>
+													<label class="checkbox-inline"> <input type="radio"
+																						   name="discount" class="discount" value='1'>优惠价</label>
+												</div>
+											</div>
+											<div class='form-group assets-config'>
+												<label for="priceType" class="col-sm-2 control-label label-left">支付方式<em
+														class='required'>*</em>
+												</label>
+												<div class="col-sm-10" class='price-type'>
+													<select class='priceType' name='priceType'>
+														<option value='季'>按季</option>
+														<option value='月'>按月</option>
+														<option value='年'>按年</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="maxpostionemptydates"
+											   class="col-sm-2 control-label label-left">最大空仓天数<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6"
+												   id="maxpostionemptydates" name='maxpostionemptydates'
+												   placeholder="">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="positionemptyinfo"
+											   class="col-sm-2 control-label label-left">空仓提示信息<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<textarea class="form-control" rows="5" placeholder="" id="positionemptyinfo" name="positionemptyinfo"></textarea>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="publishtime"
+											   class="col-sm-2 control-label label-left">策略上架时间<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control col-6" id="publishtime" value=''
+												   name="publishtime" placeholder=""
+												   onfocus="WdatePicker({minDate: '%y-%M-%d 00:00:00'})">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="" class="col-sm-2 control-label label-left">推送消息模板</label>
+										<div class="col-sm-10 strategy-templist">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="publishtime" class="col-sm-2 control-label label-left">策略推送消息<em
+												class='required'>*</em></label>
+										<div class="col-sm-10">
+											<textarea name="pushMessage" id="strategy-pushmsg" class="col-sm-12" rows="4"></textarea>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<span style='display:none' class='check-value'></span>
+								<button type="button" class="btn btn-primary" id='btn-publish-save'>保存
+								</button>
+								<button type="button" class="btn btn-primary"
+										id='btn-publish-saveandpush'>保存并上架</button>
+								<button type="button" class="btn btn-primary hide" data-status="0"
+										id='btn-publish-update'>更新</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消
+								</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade" id="strategy-off-modal" tabindex="-1" role="dialog" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+								<h4 class="" id="">策略下架</h4>
+							</div>
+							<div class="modal-body">
+								<input type="hidden" id="strategy-off-mid">
+								下架消息推送内容
+								<textarea name="" id="strategy-off-message" cols="50" rows="5" maxlength="100"></textarea>
+								<div class="text-right">您还可输入<span class="font-red strategy-off-msgnum">100</span>个文字</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id='btn-off-sure'>确认下架</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade margintop200" id="strategy-template-modal" role="dialog" aria-hidden="true">
+					<div class="modal-dialog width800">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h4 class="" id=""></h4>
+							</div>
+							<div class="modal-body">
+								<table class='table table-hover table-bordered' id=''>
+									<thead class="custom-head">
+									<tr>
+										<th class="">模板名称</th>
+										<th class="">模板内容</th>
+										<th class=''>操作</th>
+									</tr>
+									</thead>
+									<tbody class="table-center strategy-template-tbody">
+									</tbody>
+								</table>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade" id="strategy-pay-modal" role="dialog" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h4 class="" id="">支付信息</h4>
+							</div>
+							<div class="modal-body">
+								<table class="table table-hover table-bordered" id="strategy-pay">
+									<thead class="custom-head">
+										<tr>
+											<th class="">订阅名称</th>
+											<th class="">订阅描述</th>
+											<th class="">订阅原价</th>
+											<th class="">是否折扣</th>
+											<th class="">订阅折扣价</th>
+											<th class="">订阅类型</th>
+											<th class="">创建时间</th>
+											<th class="">操作</th>
+										</tr>
+									</thead>
+									<tbody class="table-center strategy-pay-tbody"></tbody>
+								</table>
+								<button class="btn btn-primary" id="btn-pay-add">添加支付方式</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade" id="strategy-add-pay" role="dialog" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h4 class="" id="">新增支付方式</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal" role="form" id="strategypayform">
+									<div class="form-group">
+										<label for="payprice" class="col-sm-2 control-label label-left">订阅原价<em class="required">*</em></label>
+										<div class="col-sm-10">
+											<input type="number" class="form-control col-6" id="payprice" name="payprice" placeholder=""/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="paydiscountprice" class="col-sm-2 control-label label-left">订阅折扣价<em class="required">*</em></label>
+										<div class="col-sm-10">
+											<input type="number" class="form-control col-6" id="paydiscountprice" name="paydiscountprice" placeholder=""/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="paypricetype" class="col-sm-2 control-label label-left">订阅类型<em class="required">*</em></label>
+										<div class="col-sm-10" class="">
+											<select class='paypricetype' name='paypricetype'>
+												<option value=''>-请选择-</option>
+											</select>
+										</div>
+									</div>
+								</form>
+								<button class="btn btn-primary" id="btn-pay-save">保存</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

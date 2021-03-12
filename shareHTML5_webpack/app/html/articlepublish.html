@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>资讯文章发布</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<style>
+		.article-publish-head{
+			background-color: rgba(200, 221, 252, 1);
+		}
+		#article-publish-from{
+			margin-bottom: 40px;
+		}
+		#article-publish-from div{
+			margin-bottom: 10px;
+		}
+		.article-publish-btns{
+			float:right;
+		}
+		div.article-publish-dialog{
+			width: 80%;
+		}
+		div.article-publish-dialog-add{
+			width: 40%;
+		}
+		.btn-article-file-box{
+			display: inline-block;
+			position: relative;
+		}
+		.btn-article-file-box .btn-article-file{
+			position: absolute;
+			top:0px;
+			left:0px;
+			width:82px;
+			height:34px;
+			opacity:0;
+		}
+		#article-detail-img{
+			max-width: 40px;
+			max-height: 40px;
+		}
+		#article-detail-modal{
+			width: 70%;
+			margin: 100px auto;
+		}
+		#article-detail-modal #article-detail-content{
+			border: 1px solid #ddd;
+			max-height: 150px;
+			min-height: 80px;
+			overflow: scroll;
+		}
+		#article-detail-modal .modal-body>div{
+			margin-top:20px;
+		}
+		#article-edit-img-show{
+			max-height: 30px;
+			max-width: 15%;
+		}
+		#article-edit-img-url{
+			width: 85%;
+			display: inline;
+		}
+		#publish-article-content,#article-edit-content{
+		  width: 100%;
+		  padding: 6px 12px;
+		  font-size: 14px;
+		  border: 1px solid rgb(204, 204, 204);
+		  border-radius: 4px;
+		  box-shadow: rgba(0, 0, 0, 0.0745098) 0px 1px 1px inset;
+		  margin: 0px;
+		  min-height: 104px;
+		  background-color: rgb(255, 255, 255);
+		}
+		#add-article-modal{
+			margin-top:150px;
+		}
+</style>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='articlepublish'>
+				<div>
+					<h3 class='form-group text-center'>资讯文章</h3>
+					<div class="panel-body">
+						<form class="form-inline" id="article-publish-from">
+							<div>
+								文章标题:
+								<input type="text" class="form-control col-6 margin times" name="title" id="article-publish-title">
+								发布日期：
+								<input id="publish-start-time" name="startDate" type="text" class="form-control col-6" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+								<input id="publish-end-time" name="endDate" type="text" class="form-control col-6" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+								<div class="publish-checktime checktime hiddens">请正确选择时间</div>
+							</div>
+							<div>
+								创建人：
+								<select name="publisherName" class="form-control col-6 margin" id="article-publisher"></select>
+								发布状态：
+								<select name="articleState" class="form-control col-6 margin" id="article-publish-status">
+									<option value="" selected>全部</option>
+									<option value="1" >已发布</option>
+									<option value="0">未发布</option>
+								</select>
+								<div class="article-publish-btns">
+									<button type="button" id="article-publish-searchbtn" class="btn btn-sm btn-primary">
+										<i class="ace-icon glyphicon glyphicon-search"></i>
+										查询
+									</button>
+									<button type="button" id="" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#add-article-modal">
+										<i class="ace-icon glyphicon glyphicon-plus"></i>
+										发布文章
+									</button>
+								</div>
+							</div>
+						</form>
+						<span id="recommendTitle">当前推荐文章：</span>
+						<div class="table-responsive" id='article-publish-table'>
+							<table class="table table-hover table-bordered ">
+								<caption></caption>
+								<thead id="all" class='article-publish-head'>
+								<tr>
+									<th>文章标题</th>
+									<th>发布状态</th>
+									<th>发布日期</th>
+									<th>创建人</th>
+									<th>图</th>
+									<th>推荐</th>
+									<th width='150'>操作</th>
+								</tr>
+								</thead>
+								<tbody class="article-publish-body"></tbody>
+							</table>
+						</div>
+						<nav class="peges" id="article-publish-page"></nav>
+					</div>
+				</div>
+				<!-- 模态框 -->
+				<div id="add-article-modal" class="modal fade" role="dialog">
+					<div class="modal-dialog article-publish-dialog-add" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h3 class="text-center" id="myModalLabel">添加文章</h3>
+							</div>
+							<div class="modal-body">
+								<div class='tab-content panel-default clearfix'>
+									<div class='col-sm-12   tab-pane fade  in active panel-body' id='stockarticle' >
+										<form action="" role='form' class='form-horizontal' id='articlestockform'>
+											<div class='form-group'>
+												<label class='col-sm-3 control-label' for='articletitle'>文章标题:</label>
+												<div class='col-sm-6'>
+													<input class='form-control article-title' name='articletitle' id='articletitle'/>
+												</div>
+											</div>
+											<div class='form-group'>
+												<label class='col-sm-3 control-label' for='articletitle'>文章分类：</label>
+												<select name="tab" class="form-control col-4 margin" id="get-article-tab"></select>
+											</div>
+											<div class='form-group'>
+												<label class='col-sm-3 control-label'>文章图标:</label>
+												<div class='col-sm-6'>
+													<input type="text" class='form-control article-title article-edit-img' name='articleImg'/>
+												</div>
+												<div class="btn-article-file-box">
+													<button class="btn btn-default" type="button">
+														上传文件
+													</button>
+													<input class="btn-article-file" name='txtFile' type="file">
+												</div>
+											</div>
+											<div  class='form-group'>
+												<label class='col-sm-3 control-label' for='publish-article-content' >文章链接:</label>
+												<div class='col-sm-6'>
+													<textarea name="content" id="publish-article-content" cols="" rows=""></textarea>
+												</div>
+											</div>
+											<div class='form-group'>
+												<button type='button' class='btn btn-success col-sm-offset-4 col-sm-1 btn-publish-article stock-publish' data-status="0">保存</button>
+												<button type='button' class='btn btn-success col-sm-offset-1 col-sm-2 btn-publish-article stock-publish' data-status="1">保存并发布</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!-- modal -->
+				<!-- 文章详情 -->
+				<div id="article-detail-modal" class="modal fade" role="dialog">
+					<div class="modal-dialog article-publish-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h3 class="text-center">文章详情</h3>
+							</div>
+							<div class="modal-body clearfix">
+								<div class="col-sm-12">
+									<p class="col-sm-2">文章标题:</p>
+									<p class="col-sm-10" id="article-detail-title"></p>
+								</div>
+								<div class="col-sm-12">
+									<p class="col-sm-2">文章图标:</p>
+									<p class="col-sm-10">
+										<img src="" alt="" id="article-detail-img">
+									</p>
+								</div>
+								<div class="col-sm-12">
+									<p class="col-sm-2">创建人:</p>
+									<p class="col-sm-10" id="article-detail-publisher"></p>
+								</div>
+								<div class="col-sm-12">
+									<p class="col-sm-2">文章链接:</p>
+									<p class="col-sm-10" id="article-detail-content"></p>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+							</div>
+						</div>
+					</div>
+				</div><!-- modal -->
+				<!-- 编辑文章 -->
+				<div id="article-edit-modal" class="modal fade" role="dialog">
+					<div class="modal-dialog article-publish-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h3 class="text-center">文章编辑</h3>
+							</div>
+							<div class="modal-body">
+								<form action="" role='form' class='form-horizontal' id='article-edit-form'>
+									<input type="hidden" id="article-edit-id">
+									<div class='form-group'>
+										<label class='col-sm-3 control-label' for='article-edit-title'>文章标题:</label>
+										<div class='col-sm-6'>
+											<input class='form-control article-title' name='articletitle' id='article-edit-title'/>
+										</div>
+									</div>
+									<div class='form-group'>
+										<label class='col-sm-3 control-label' for='article-edit-publisher'>发布人:</label>
+										<div class='col-sm-6'>
+											<span id='article-edit-publisher'></span>
+										</div>
+									</div>
+									<div class='form-group'>
+										<label class='col-sm-3 control-label'>文章图标:</label>
+										<div class='col-sm-6'>
+											<img src="" alt="" id="article-edit-img-show">
+											<input type="text" class='form-control article-title article-edit-img' name='articleImg' id="article-edit-img-url"/>
+										</div>
+										<div class="btn-article-file-box">
+											<button class="btn btn-default" type="button">
+												重新上传
+											</button>
+											<input class="btn-article-file" name='txtFile' type="file">
+										</div>
+									</div>
+									<div  class='form-group'>
+										<label class='col-sm-3 control-label' for='article-edit-content' >文章链接:</label>
+										<div class='col-sm-6'>
+											<textarea name="content" id="article-edit-content" cols="" rows=""></textarea>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer" id="article-edit-btns">
+								<button type="button" class="btn btn-primary" data-status='0'>保存</button>
+								<button type="button" class="btn btn-primary" data-status='1'>保存并发布</button>
+							</div>
+						</div>
+					</div>
+				</div><!-- modal -->
+				<!-- 发布文章 -->
+				<div id="article-publish-modal" class="modal fade" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h3 class="text-center"></h3>
+							</div>
+							<div class="modal-body">
+								<h4>确定要发布文章《<span id="article-publish-showtitles"></span>》吗？</h4>
+								<input type="hidden" id="article-publish-id">
+								<input type="hidden" id="article-publish-titles">
+								<input type="hidden" id="article-publish-content">
+								<input type="hidden" id="article-publish-img">
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id="publish-article-sure">确定</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div><!-- modal -->
+				<!-- 删除 -->
+				<div id="article-delete-modal" class="modal fade" role="dialog">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h3 class="text-center"></h3>
+							</div>
+							<div class="modal-body">
+								<h4>确定要删除文章《<span id="article-delete-showtitles"></span>》吗？</h4>
+								<input type="hidden" id="article-delete-id">
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id="delete-article-sure">确定</button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div>
+					</div>
+				</div><!-- modal -->
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

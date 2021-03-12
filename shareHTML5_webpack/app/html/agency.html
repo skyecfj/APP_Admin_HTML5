@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>代理管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<style>
+		.brokerage-body tr td:nth-child(5){
+			width:105px;
+		}
+	</style>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='agency'>
+				<div class='col-sm-12' id="agency-manage">
+					<ul id="" class="nav nav-tabs operating-tab" style="display: block;">
+						<li class="active"><a href="#agency-info" data-toggle="tab"> 代理信息</a></li>
+						<li><a href="#brokerage-Settlement" data-toggle="tab">佣金结算</a></li>
+					</ul>
+					<div class='tab-content'>
+						<div class='col-sm-12 tab-pane fade in active' id='agency-info'>
+							<div class='clearfix agency-info-box'>
+								<form class="form-inline" id="agency-info-search">
+									<div>
+										代理用户名:
+										<input type="text" class="form-control col-6 margin width160" name="userName" id="agency-user">
+										转代理时间：
+										<input id="agency-start-time" name="startTime" type="text" class="form-control col-6 width160" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+										<input id="agency-end-time" name="endTime" type="text" class="form-control col-6 margin width160" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+										<div class="agency-checktime checktime checktimes hiddens">请正确选择时间</div>
+									</div>
+									<div>
+										支付宝账号:
+										<input type="text" class="form-control col-6 margin width200" name="payAccount" id="alipay-id">
+										支付宝姓名:
+										<input type="text" class="form-control col-6 margin width120" name="payName" id="alipay-name">
+										<button type="button" id="agency-searchbtn" class="btn btn-success float-right">
+											查询
+										</button>
+									</div>
+								</form>
+								<div class="table-responsive">
+									<div>
+										<div>
+											每页显示
+											<select name="size" id="agency-info-size" class="custom-select">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+											条记录
+										</div>
+									</div>
+									<table class="table table-hover table-bordered " id='agency-info-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>代理用户名</th>
+											<th class="table-sorting" data-prop="0" data-sort="">注册时间</th>
+											<th class="table-sorting-desc" data-prop="1" data-sort="1">转代理时间</th>
+											<th>支付宝账号</th>
+											<th>支付宝姓名</th>
+											<!-- <th class="table-sorting" data-prop="2" data-sort="">本月有效邀请(人)</th> -->
+											<!-- <th class="table-sorting" data-prop="3" data-sort="">上月有效邀请(人)</th> -->
+											<th class="table-sorting" data-prop="3" data-sort="">实付金额</th>
+											<th class="table-sorting" data-prop="4" data-sort="">累计邀请(人)</th>
+											<th class="table-sorting" data-prop="5" data-sort="">有效邀请(人)</th>
+											<th>邀请用户</th>
+											<th>app显示</th>
+										</tr>
+										</thead>
+										<tbody class="agency-info-body table-center">
+										</tbody>
+									</table>
+								</div>
+								<nav class="peges" id="agency-info-pages">
+								</nav>
+								<div id="agency-info-totalCounts" class="search-num">
+									本次查询共 <span class="font-red"></span> 条记录
+								</div>
+							</div>
+						</div>
+						<div class='col-sm-12 tab-pane fade' id='brokerage-Settlement'>
+							<div class='clearfix brokerage-Settlement-box'>
+								<form class="form-inline" id="brokerage-Settlement-search">
+									<div>
+										代理用户名:
+										<input type="text" class="form-control col-6 margin width160" name="userName" id="brokerage-agency-user">&nbsp;&nbsp;
+										支付宝账号：
+										<input type="text" class="form-control col-6 width200" name="totalCount" id="brokerage-alipay-id">&nbsp;&nbsp;
+										支付宝姓名：
+										<input type="text" class="form-control col-6 width120" name="totalCount" id="brokerage-alipay-name">&nbsp;&nbsp;
+									</div>
+									<div>
+										月数：
+										<input id="brokerage-start-time" name="startTime" type="text" class="form-control col-6 width120" value="" onfocus="WdatePicker({dateFmt: 'yyyy-MM',maxDate: '%y-%M-%d 00:00:00'})"/>至
+										<input id="brokerage-end-time" name="endTime" type="text" class="form-control col-6 margin width120" value="" onfocus="WdatePicker({dateFmt: 'yyyy-MM',maxDate: '%y-%M-%d 00:00:00'})"/>
+										佣金状态：
+										<select name="type" id="brokerage-pay-status" class="custom-select margin">
+											<option value="">全部</option>
+											<option value="0" selected>待支付</option>
+											<option value="1">已支付</option>
+										</select>
+										代理状态：
+										<select name="agencyType" id="brokerage-pay-agentStatus" class="custom-select">
+											<option value="0">全部</option>
+											<option value="1" selected>启用</option>
+											<option value="2">停用</option>
+										</select>
+										<button type="button" id="brokerage-searchbtn" class="btn btn-success float-right">
+											查询
+										</button>
+										<div class="brokerage-checktime checktime checktimes hiddens">请正确选择时间</div>
+									</div>
+								</form>
+								<div class="table-responsive">
+									<div>
+										<div>
+											每页显示
+											<select name="size" id="brokerage-size" class="custom-select">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+											条记录
+										</div>
+									</div>
+									<table class="table table-hover table-bordered " id='brokerage-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th>选择</th>
+											<th>编号</th>
+											<th class="table-sorting-desc" data-prop="0" data-sort="1">月数</th>
+											<th>代理用户名</th>
+											<th>支付宝账号</th>
+											<th>支付宝姓名</th>
+											<th class="table-sorting" data-prop="1" data-sort="">邀请用户(人)</th>
+											<th class="table-sorting" data-prop="2" data-sort="">扣减邀请(人)</th>
+											<th>佣金单价(元/人)</th>
+											<th class="table-sorting" data-prop="3" data-sort="">应付佣金(元)</th>
+											<th>佣金状态</th>
+											<th>操作</th>
+										</tr>
+										</thead>
+										<tbody class="brokerage-body table-center">
+										</tbody>
+										<tfoot class="custom-head brokerage-foot">
+										<tr>
+											<td colspan="3">
+												<input type="checkbox" class="check-all hebing" id="check-all">
+												<label for="check-all" style="cursor:pointer;font-weight: 400;" class="hebing">全选</label>
+											</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td class="foot-invite-total"></td>
+											<td class="foot-discount"></td>
+											<td></td>
+											<td class="foot-brokerage"></td>
+											<td colspan="2">
+												<button class="btn btn-warning btn-sm btn-brokerage-mergepay hebing">合并支付</button>
+											</td>
+										</tr>
+										</tfoot>
+									</table>
+								</div>
+								<nav class="peges" id="brokerage-pages">
+								</nav>
+								<div id="brokerage-totalCounts" class="search-num">
+									本次查询共 <span class="font-red"></span> 条记录
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 模态框 -->
+					<div id="agency-info-modal" class="modal fade" role="dialog">
+						<div class="modal-dialog agency-info-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button> -->
+									<h3 class="text-center" id="">邀请用户查询</h3>
+								</div>
+								<div class="modal-body">
+									<div class="col-sm-12 agency-info-user">
+										<input type="hidden" class="agency-modal-userId">
+										代理用户名：<span class="agency-modal-user"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										支付宝账号：<span class="agency-modal-alipayid"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+										支付宝姓名：<span class="agency-modal-alipayname"></span>
+									</div>
+									<div class='clearfix agency-modal-box'>
+										<form class="form-inline" id="agency-modal-search">
+											<div>
+												用户名:
+												<input type="text" class="form-control col-6 margin width160" name="userName" id="agency-modal-user">
+												注册时间：
+												<input id="agency-modal-start-time" name="startTime" type="text" class="form-control col-6 width160" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+												<input id="agency-modal-end-time" name="endTime" type="text" class="form-control col-6 margin width160" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/><br><br>
+												最近登录时间:
+												<input type="number" class="form-control col-6 margin width70" name="lastLoginTime" id="agency-modal-lastloading">天内
+												<div class="agency-modal-checktime checktime checktimes hiddens">请正确选择时间</div>
+											</div>
+											<div>
+												最近：
+												<select name="type" id="lately-agency-modal" class="custom-select">
+													<option value="">请选择</option>
+													<option value="0">一周</option>
+													<option value="1">一个月</option>
+													<option value="2">三个月</option>
+												</select>
+												登陆次数：
+												<select name="compare" id="login-agency-modal" class="custom-select">
+													<option value="">请选择</option>
+													<option value="0">小于</option>
+													<option value="1">等于</option>
+													<option value="2">大于</option>
+													<option value="3">小于等于</option>
+													<option value="4">大于等于</option>
+												</select>
+												<input type="number" class="form-control col-6 margin width70" name="count" id="agency-modal-count">次&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+												是否有效注册：
+												<select name="howValid" id="login-agency-howValid" class="custom-select">
+													<option value="0">全部</option>
+													<option value="1">是</option>
+													<option value="2">否</option>
+												</select>
+												<button type="button" id="agency-modal-searchbtn" class="btn btn-success float-right">
+													查询
+												</button>
+											</div>
+										</form>
+										<div class="table-responsive">
+											<div>
+												<div class="float-right">
+													导出：
+													<select name="" id="agency-modal-export-page" class="custom-select">
+														<option value="0" selected>当前页</option>
+														<option value="1">所有页</option>
+													</select>
+													<button type='button' id='btn-agency-modal-export' class='btn btn-success'>导出</button>
+												</div>
+												<div>
+													每页显示
+													<select name="size" id="agency-modal-size" class="custom-select">
+														<option value="10">10</option>
+														<option value="25">25</option>
+														<option value="50">50</option>
+														<option value="100">100</option>
+													</select>
+													条记录
+												</div>
+											</div>
+											<table class="table table-hover table-bordered " id='agency-modal-table'>
+												<caption></caption>
+												<thead class='custom-head'>
+												<tr>
+													<th>编号</th>
+													<th>用户名</th>
+													<th class="table-sorting-desc" data-prop="0" data-sort="1">注册时间</th>
+													<th class="table-sorting" data-prop="1" data-sort="">首次登录时间</th>
+													<th class="table-sorting" data-prop="2" data-sort="">最近登录时间</th>
+													<th>近一周登录次数</th>
+													<th>近一月登录次数</th>
+													<th>近三月登录次数</th>
+													<th>设备号</th>
+												</tr>
+												</thead>
+												<tbody class="agency-modal-body">
+												</tbody>
+											</table>
+										</div>
+										<nav class="peges" id="agency-modal-pages">
+										</nav>
+										<div id="agency-modal-totalCounts" class="search-num">
+											本次查询共 <span class="font-red"></span> 条记录
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-info" data-dismiss="modal">返回代理列表</button>
+								</div>
+							</div>
+						</div>
+					</div><!-- modal -->
+					<!-- 佣金结算-查看 -->
+					<div id="brokerage-show-modal" class="modal fade" role="dialog">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-body clearfix">
+									<div class="col-sm-7 lpadding0">
+										<span class="fweight600">付款支付宝账户：</span><span id="brokerage-show-payid"></span>
+									</div>
+									<div class="col-sm-5 lpadding0">
+										<span class="fweight600">付款支付宝姓名：</span><span id="brokerage-show-payname"></span>
+									</div>
+									<div class="col-sm-7 lpadding0">
+										<span class="fweight600">收款支付宝账户：</span><span id="brokerage-show-receiptid"></span>
+									</div>
+									<div class="col-sm-5 lpadding0">
+										<span class="fweight600">收款支付宝姓名：</span><span id="brokerage-show-receiptname"></span>
+									</div>
+									<div class="col-sm-7 lpadding0">
+										<span class="fweight600">记录时间：</span><span id="brokerage-show-time"></span>
+									</div>
+									<div class="col-sm-5 lpadding0">
+										<span class="fweight600">支付金额：</span><span id="brokerage-show-money"></span>
+									</div>
+									<div class="col-sm-12 lpadding0 brokerage-show-months hide">
+										<span class="fweight600">合并月数：</span><span id="brokerage-show-months"></span>
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="fweight600">支付凭证：</span>
+										<img src="" alt="" id="brokerage-show-img">
+										<a href="" id="brokerage-show-a" class="btn btn-default btn-sm" target="_blank">查看原图</a>
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="fweight600">备注：</span>
+										<span id="brokerage-show-comment"></span>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-default" data-dismiss="modal">关闭</button>
+								</div>
+							</div>
+						</div>
+					</div><!-- modal -->
+					<!-- 佣金结算-支付 -->
+					<div id="brokerage-pay-modal" class="modal fade" role="dialog">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-body clearfix">
+									<input type="hidden" class="brokerage-pay-agentid">
+									<input type="hidden" class="brokerage-pay-id">
+									<div class="col-sm-7 lpadding0">
+										<span class="fweight600">付款支付宝账户:</span>
+										<span class="font-red">*</span>&nbsp;<input type="text" class="pay-input width190 brokerage-pay-alipayid">
+									</div>
+									<div class="col-sm-5 lpadding0">
+										<span class="fweight600">付款支付宝姓名:</span>
+										<span class="font-red">*</span>&nbsp;<input type="text" class="pay-input width96 brokerage-pay-alipayname">
+									</div>
+									<div class="col-sm-7 lpadding0">
+										<span class="fweight600">收款支付宝账户:</span>&nbsp;&nbsp;
+										<span class="brokerage-pay-receiptid"></span>
+									</div>
+									<div class="col-sm-5 lpadding0">
+										<span class="fweight600">收款支付宝姓名:</span>&nbsp;&nbsp;
+										<span class="brokerage-pay-receiptname"></span>
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="fweight600">支付金额:</span>&nbsp;&nbsp;
+										<span class="brokerage-pay-total"></span>
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="col-sm-2 fweight600 lpadding0">支付凭证:</span>
+										<div class='col-sm-8 lpadding0'>
+											<span class="font-red">*</span>&nbsp;<input type="text" class='pay-input brokerage-pay-img' name='' disabled/>
+										</div>
+										<div class="btn-brokerage-pay-box lpadding0">
+											<button class="btn btn-default" type="button">
+												上传文件
+											</button>
+											<input class="btn-brokerage-file" name='txtFile' type="file">
+										</div>
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="col-sm-2 fweight600 lpadding0">备注:</span>
+										<textarea name="" id="brokerage-pay-comment" cols="60" rows="6"></textarea>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-info" id="btn-brokerage-pay">确认</button>
+									<button class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div>
+						</div>
+					</div><!-- modal -->
+					<!-- 佣金结算-合并支付 -->
+					<div id="brokerage-mergepay-modal" class="modal fade" role="dialog">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-body clearfix">
+									<input type="hidden" class="brokerage-mergepay-id">
+									<input type="hidden" class="brokerage-mergepay-ids">
+									<div class="col-sm-7 lpadding0">
+										<span class="fweight600">付款支付宝账户:</span>
+										<span class="font-red">*</span>&nbsp;<input type="text" class="pay-input width190 brokerage-mergepay-alipayid">
+									</div>
+									<div class="col-sm-5 lpadding0">
+										<span class="fweight600">付款支付宝姓名:</span>
+										<span class="font-red">*</span>&nbsp;<input type="text" class="pay-input width96 brokerage-mergepay-alipayname">
+									</div>
+									<div class="col-sm-7 lpadding0">
+										<span class="fweight600">收款支付宝账户:</span>&nbsp;&nbsp;
+										<span class="brokerage-mergepay-receiptid"></span>
+									</div>
+									<div class="col-sm-5 lpadding0">
+										<span class="fweight600">收款支付宝姓名:</span>&nbsp;&nbsp;
+										<span class="brokerage-mergepay-receiptname"></span>
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="fweight600">支付金额:</span>&nbsp;&nbsp;
+										<span class="brokerage-mergepay-total"></span>
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="fweight600">合并月数:</span>&nbsp;&nbsp;
+										<span class="brokerage-mergepay-months"></span>共<span class="brokerage-mergepay-monthscount"></span>个月
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="col-sm-2 fweight600 lpadding0">支付凭证:</span>
+										<div class='col-sm-8 lpadding0'>
+											<span class="font-red">*</span>&nbsp;<input type="text" class='pay-input brokerage-pay-img' name='' disabled/>
+										</div>
+										<div class="btn-brokerage-pay-box lpadding0">
+											<button class="btn btn-default" type="button">
+												上传文件
+											</button>
+											<input class="btn-brokerage-file" name='txtFile' type="file">
+										</div>
+									</div>
+									<div class="col-sm-12 lpadding0">
+										<span class="col-sm-2 fweight600 lpadding0">备注:</span>
+										<textarea name="" id="brokerage-mergepay-comment" cols="60" rows="6"></textarea>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-info" id="btn-brokerage-mergepay">确认</button>
+									<button class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div>
+						</div>
+					</div><!-- modal -->
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

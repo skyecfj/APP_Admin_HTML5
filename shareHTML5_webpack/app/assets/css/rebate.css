@@ -1,0 +1,74 @@
+.day-middle{
+    width: 100px;
+}
+.peges{
+    float: right;
+}
+.form-inline{
+    margin-bottom: 10px;
+}
+.select-beautify{
+    margin-right: 10px;
+    height: 25px;
+}
+.botton-right{
+    float:right;
+}
+.center{
+    text-align: center;
+    margin-bottom: 10px;
+}
+.hiddens{
+    display:none!important;
+}
+.show{
+    display:block!important;
+}
+.delUser,.btn-update-user,.btn-delete-user{
+    margin-left: 10px;
+}
+.times{
+    width:140px!important;
+}
+.time{
+    width:100px!important;
+}
+.tip{
+    text-align: center;
+    color: red;
+    margin-bottom: 10px;
+}
+.close{
+    margin-bottom: 11px;
+}
+.margin{
+    margin-right: 10px;
+}
+#back{
+    background:#23527c;
+    border-color:#23527c;
+}
+#reds{
+    background:#d9534f;
+    border-color:#d9534f;
+}
+.closed,.btn-group-adduser{
+    float:right;
+}
+.checktime{
+    text-align: center;
+    color: red;
+    margin-bottom: 10px;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+.btn-group-adduser{
+    margin-left:20px;
+}

@@ -1,0 +1,86 @@
+body{
+    padding: 0;
+    margin: 0;
+}
+.chart{
+    width: 100%;
+    height: 250px;
+}
+.VOL .chart,
+.KPI .chart,
+.KDJ .chart{
+    width: 100%;
+    height: 150px;
+}
+.kline,.VOL,.KPI,.KDJ{
+    position: relative;
+}
+.klineCurrent{
+    position: absolute;
+    left: 0;
+    top: 12px;
+    font-size: 14px;
+    width: 100%;
+
+}
+.VOLCurrent,.KPICurrent,.KDJCurrent{
+    position: absolute;
+    left: 0;
+    top: 0px;
+    font-size: 14px;
+    width: 100%;
+}
+.kvalue{
+    color: red;
+    font-size: 13px;
+}
+.avenue{
+    display: flex;
+    margin-top: 10px;
+}
+.value{
+    padding: 5px;
+}
+.MA{
+    width: 30%;
+    text-align: center;
+}
+/* .MA:nth-of-type(1){
+    color: #fba6bf;
+}
+.MA:nth-of-type(2){
+    color: #53cee2;
+}
+.MA:nth-of-type(3){
+    color: #f15c90;
+}
+.MA:nth-of-type(4){
+    color: #a5c956;
+} */
+.date{
+    display: inline-block;
+    padding-right: 20px;
+}
+.data{
+    display: inline-block;
+    width: 30%;
+}
+.nav-list,
+.nav-bottom{
+    padding: 0;
+    margin: 0;
+    background-color: #eff5ff;
+    font-size: 14px;
+}
+.nav{
+    display: inline-block;
+    padding: 10px 7px;
+    color: #0d187b;
+}
+.nav.active{
+    border-top: 2px solid #0d187b;
+    background-color: white;
+}
+.nav-botton .nav.active{
+    background-color: black;
+}

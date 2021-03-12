@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>消息推送</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='pushmessage'>
+				<div id='push-message'>
+					<form class="form-inline" id="push-message-search">
+						<div class="marginb10">
+							消息推送编号:
+							<input type="text" class="form-control col-6 margin width120" name="messageId" id="push-message-num">
+							发送日期：
+							<input id="push-start-time" name="startTime" type="text" class="form-control col-6 width120" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+							<input id="push-end-time" name="endTime" type="text" class="form-control col-6 width120 margin" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+							<button type="button" id="push-message-searchbtn" class="btn btn-sm btn-success float-right">
+								查询
+							</button>
+							<div class="push-checktime checktime checktimes hiddens">请正确选择时间</div>
+						</div>
+						<div class="marginb10">
+							发送人：
+							<select name="pushUserId" id="push-message-user" class="custom-select margin">
+							</select>
+							分发类别：
+							<select name="type" id="push-message-type" class="custom-select margin">
+								<option value="">全部</option>
+								<option value="1">个人</option>
+								<option value="2">多人</option>
+								<option value="3">用户组</option>
+								<option value="5">策略</option>
+								<option value="4">所有用户</option>
+							</select>
+							<button type="button" id="push-message-addbtn" class="btn btn-sm btn-primary float-right">
+								新增推送
+							</button>
+						</div>
+					</form>
+					<div class="table-responsive">
+						<div>
+							<div class="float-right">
+								导出：
+								<select name="" id="push-message-page" class="custom-select">
+									<option value="0" selected>当前页</option>
+									<option value="1">所有页</option>
+								</select>
+								<button type='button' id='btn-push-message-export' class='btn btn-success'>导出</button>
+							</div>
+							<div>
+								每页显示
+								<select name="size" id="push-message-size" class="custom-select">
+									<option value="10">10</option>
+									<option value="25">25</option>
+									<option value="50">50</option>
+									<option value="100">100</option>
+								</select>
+								条记录
+							</div>
+						</div>
+						<table class="table table-hover table-bordered table-center" id='push-message-table'>
+							<caption></caption>
+							<thead class='custom-head'>
+							<tr>
+								<th>消息推送编号</th>
+								<th>发送日期</th>
+								<th>分发类别</th>
+								<th>发送人</th>
+								<th>操作</th>
+							</tr>
+							</thead>
+							<tbody class="push-message-body"></tbody>
+						</table>
+					</div>
+					<nav class="peges" id="push-message-pages"></nav>
+					<div id="push-message-totalCounts" class="search-num">
+						本次查询共 <span class="font-red"></span> 条记录
+					</div>
+				</div>
+				<!-- modal -->
+				<div class="modal fade" id="push-detail-modal">
+					<div class="modal-dialog margintop200 width650">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="text-center fweight600">消息推送详情</h4>
+							</div>
+							<div class="modal-body clearfix">
+								<div class="col-sm-6 marginb10">
+									<span class="col-sm-6 fweight600">消息推送编号:</span><span id="push-detail-batch-id"></span>
+								</div>
+								<div class="col-sm-6 marginb10">
+									<span class="col-sm-4 fweight600">分发类别:</span><span id="push-detail-type"></span>
+								</div>
+								<div class="col-sm-6 marginb10">
+									<span class="col-sm-4 fweight600">发送日期:</span><span id="push-detail-sendtime"></span>
+								</div>
+								<div class="col-sm-6 marginb10">
+									<span class="col-sm-4 fweight600">发送人:</span><span id="push-detail-creater"></span>
+								</div>
+								<div class="col-sm-6 marginb10">
+									<span class="col-sm-4 fweight600">发送人数:</span><span id="push-detail-count"></span>
+								</div>
+								<div class="col-sm-6 marginb10 detailtype2">
+									<span class="col-sm-5 fweight600">发送用户组:</span><span id="push-detail-usergroup"></span>
+								</div>
+								<div class="col-sm-6 marginb10 detailtype3">
+									<span class="col-sm-5 fweight600">发送策略组:</span><span id="push-detail-strategy"></span>
+								</div>
+								<div class="col-sm-12 marginb10 detailtype0 detailtype1 detailtype2">
+									<span class="col-sm-2 fweight600">发送用户:</span>
+									<span id="push-detail-userlist" class="col-sm-10 push-list"></span>
+								</div>
+								<div class="col-sm-12 padding0">
+									<div class="col-sm-6 marginb10">
+										<span class="col-sm-8 fweight600">是否保存在消息列表:</span><span id="push-detail-saveMessage"></span>
+									</div>
+									<div class="col-sm-6 marginb10">
+										<span class="col-sm-4 fweight600">消息类型:</span><span id="push-detail-categoryId"></span>
+									</div>
+								</div>
+								<div class="col-sm-12 padding0">
+									<div class="col-sm-6 marginb10 yesall">
+										<span class="col-sm-6 fweight600">是否可查看详情:</span><span id="push-detail-lookMessage"></span>
+									</div>
+									<div class="col-sm-6 marginb10 yes0">
+										<span class="col-sm-4 fweight600">跳转策略:</span><span id="push-detail-modelName"></span>
+									</div>
+								</div>
+								<div class="col-sm-12 marginb10 yes1">
+									<span class="col-sm-2 fweight600 lineheight32">跳转链接:</span>
+									<span class="col-sm-10 push-detail-link push-list border0" id="push-detail-uri"></span>
+								</div>
+								<div class="col-sm-12 marginb10 yesall">
+									<span class="col-sm-2 fweight600 lineheight32">推送标题:</span>
+									<span class="col-sm-10 push-detail-title push-list border0" id="push-detail-title"></span>
+								</div>
+								<div class="col-sm-12 marginb10">
+									<span class="col-sm-2 fweight600 lineheight32">推送内容:</span>
+									<span class="col-sm-10 push-detail-sendcontent push-list border0"  id="push-detail-content"></span>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade" id="add-push-modal">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="text-center fweight600">消息推送</h4>
+							</div>
+							<div class="modal-body clearfix">
+								<form id="add-push-form">
+									<div class="col-sm-12 marginb10">
+										<label class="col-sm-3 text-right fweight600 padding0">推送对象:</label>
+										<div class="col-sm-9 add-push-type">
+											<input type="radio" name="type" value="1" checked="checked">个人&nbsp;&nbsp;
+											<input type="radio" name="type" value="2">多人&nbsp;&nbsp;
+											<input type="radio" name="type" value="3">用户组&nbsp;&nbsp;
+											<input type="radio" name="type" value="5">策略&nbsp;&nbsp;
+											<input type="radio" name="type" value="4">全部
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 lineheight34 type0 type1">
+										<label class="col-sm-3 text-right fweight600 padding0">用户:</label>
+										<div class="col-sm-4">
+											<input type="text" class="form-control" id='add-push-per' autocomplete="off" data-provide="typeahead">
+										</div>
+										<div class="col-sm-5 padding0">
+											<button class="btn btn-default btn-add-pushuser" type="button">选中</button>
+											<div class="btn-addpush-file hide type1">
+												<button id="batch-btn" class="btn btn-default btn-addbatch-push-user" type="button">批量导入</button>
+												<input id="btn-addpush-file" name='txtFile' type="file" multiple="multiple">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 lineheight34 type2 hide" id="">
+										<label class="col-sm-3 text-right fweight600 padding0">用户组:</label>
+										<div class="col-sm-9">
+											<div class="">
+												<select name="usergroupList" class="custom-select" id="add-push-usergroup"></select>
+												<button class="btn btn-default add-push-usergroup-btn" type="button">选中</button>
+												<input type="hidden" id="add-push-usergroup-hide">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 lineheight34 type3 hide" id="">
+										<label class="col-sm-3 text-right fweight600 padding0">策略:</label>
+										<div class="col-sm-9">
+											<div class="">
+												<select name="strategyList" class="custom-select" id="add-push-strategy1"></select>
+												<button class="btn btn-default add-push-strategy-btn1" type="button">选中</button>
+												<input type="hidden" id="add-push-strategy-hide1">
+											</div>
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 hide" id=""></div>
+									<div class="col-sm-12 marginb10 type0 type2 type1 type3" id="">
+										<label for="" class="col-sm-3 text-right fweight600 padding0">已选用户:</label>
+										<div class="col-sm-9">
+											<p class="push-list" id="add-push-selper"></p>
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10">
+										<label for="" class="col-sm-3 text-right fweight600 padding0">已选人数:</label>
+										<div class="col-sm-8">
+											<span id="add-push-percount">0</span>
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10">
+										<label class="col-sm-3 text-right fweight600 padding0">是否保存在消息列表:</label>
+										<div class="col-sm-9 add-push-savelist">
+											<input type="radio" name="savetype" value="1" checked="checked">保存&nbsp;&nbsp;
+											<input type="radio" name="savetype" value="0">不保存
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 lineheight34 savelist0">
+										<label class="col-sm-3 text-right fweight600 padding0">推送标题:</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" maxlength="20" name="title" id="add-push-title" placeholder="最多可输入20个文字">
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 savelist0">
+										<label for="" class="col-sm-3 text-right fweight600 padding0">推送内容:</label>
+										<div class="col-sm-9">
+											<textarea rows="5" class='form-control' id="add-push-content1" maxlength="100" name='content'></textarea>
+											<p class="text-right">您还可输入<span class="font-red">100</span>个文字</p>
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 hide savelist1">
+										<label for="" class="col-sm-3 text-right fweight600 padding0">推送内容:</label>
+										<div class="col-sm-9">
+											<textarea rows="3" class='form-control' id="add-push-content2" maxlength="30" name='content'></textarea>
+											<p class="text-right">您还可输入<span class="font-red">30</span>个文字</p>
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10">
+										<label class="col-sm-3 text-right fweight600 padding0">消息类型:</label>
+										<div class="col-sm-9 add-push-msgtype">
+											<input type="radio" name="msgtype" value="8" checked="checked">策略消息&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="radio" name="msgtype" value="6">系统消息
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 lineheight34" id="">
+										<label class="col-sm-3 text-right fweight600 padding0 msgtype0">跳转策略:</label>
+										<label class="col-sm-3 text-right fweight600 padding0 hide msgtype1">跳转链接:</label>
+										<div class="col-sm-5">
+											<select name="usergroupList" class="custom-select msgtype0" id="add-push-strategy"></select>
+											<input type="text" class="form-control hide msgtype1" id="jump-link">
+										</div>
+										<div class="col-sm-4">
+											<input type="checkbox" class="isjump-home">不跳转，默认至首页
+										</div>
+									</div>
+									<div class="col-sm-12 marginb10 savelist0">
+										<label class="col-sm-3 text-right fweight600 padding0">是否可查看详情:</label>
+										<div class="col-sm-9 add-push-showdetail">
+											<input type="radio" name="showtype" value="0" checked="checked">是&nbsp;&nbsp;
+											<input type="radio" name="showtype" value="1">否
+										</div>
+									</div>
+									<div class="col-sm-12 text-center">
+										<button class="btn btn-info margin" id="add-push-btn">推送</button>
+										<button class="btn btn-default" data-dismiss="modal">取消</button>
+									</div>
+								</form>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+.temp-head {
+    background-color: rgba(200, 221, 252, 1);
+}
+#temp-detail-modal .modal-body>div,#temp-edit-modal .modal-body>div{
+  margin-bottom:10px;
+}
+#temp-delete-modal p{
+  font-size: 16px;
+  font-weight: 600;
+}
+#temp-table button{
+  padding: 6px;
+}
+.font-red{
+	color:red;
+}
+#temp-detail-content{
+	border: 1px solid #ddd;
+	min-height: 80px;
+	border-radius: 5px;
+}
+#temp-edit-name{
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

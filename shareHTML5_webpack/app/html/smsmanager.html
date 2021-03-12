@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>短信列表</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src='./assets/js/smslist.js'></script>
+	<link rel='stylesheet' href='./assets/css/smslist.css' />
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='smslist'>
+				<div class='col-sm-12 clearfix'>
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active1 active"><a class="smslist-tab1" href="#">短信列表 </a></li>
+					</ul>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form class="form-inline" id="sms-search-from">
+								<div>
+									短信批次编号:
+									<input type="text" class="form-control col-6 margin times" name="smsBatchNum" id="sms-batch-num">
+									发送日期：
+									<input id="smssend-start-time" name="smsSendStartTime" type="text" class="form-control col-6" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+									<input id="smssend-end-time" name="smsSendEndTime" type="text" class="form-control col-6" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+									<div class="sms-checktime checktime checktimes hiddens">请正确选择时间</div>
+								</div>
+								<div>
+									创建人：
+									<select name="smsCreater" class="form-control col-6 margin" id="sms-creater"></select>
+									分发类别：
+									<select name="smsSendType" class="form-control col-6 margin" id="sms-send-type">
+										<option value="" selected>全部</option>
+										<option value="0">个人</option>
+										<option value="1">多人</option>
+										<option value="2">用户组</option>
+										<option value="3">全部</option>
+									</select>
+									发送状态：
+									<select name="smsSendStatus" class="form-control col-6 margin" id="sms-send-status">
+										<option value="" selected>全部</option>
+										<option value="1" >已发送</option>
+										<option value="0">未发送</option>
+									</select>
+									<button type="button" id="sms-list-searchbtn" class="btn btn-sm btn-success btn-beautify btn-search">
+										<i class="ace-icon fa fa-search"></i>
+										查询
+									</button>
+								</div>
+							</form>
+							<div class="text-right">
+								短信余额： <span class="font-red sms-balance"></span> 元
+							</div>
+							<div class="table-responsive" id='sms-list-table'>
+								<table class="table table-hover table-bordered ">
+									<caption></caption>
+									<thead id="all" class='sms-list-head'>
+									<tr>
+										<th>短信批次编号</th>
+										<th>发送状态</th>
+										<th>发送日期</th>
+										<th>分发类别</th>
+										<th>创建人</th>
+										<th>操作</th>
+									</tr>
+									</thead>
+									<tbody class="sms-list-body table-center">
+									</tbody>
+								</table>
+							</div>
+							<nav class="peges" id="sms-list-page">
+							</nav>
+						</div>
+					</div>
+					<!-- 对话框 -->
+					<div class="modal fade  bs-example-modal-sm" id="sms-detail-modal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<input id="userListInput" value="" style="display:none"/>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="">短信详情</h4>
+								</div>
+								<div class="modal-body clearfix">
+									<div class="col-sm-6">
+										<span class="col-sm-6">短信批次编号:</span><span id="sms-detail-batch-id"></span>
+									</div>
+									<div class="col-sm-6">
+										<span class="col-sm-6">分发类别:</span><span id="sms-detail-type"></span>
+									</div>
+									<div class="col-sm-6">
+										<span class="col-sm-6">发送日期:</span><span id="sms-detail-sendtime"></span>
+									</div>
+									<div class="col-sm-6">
+										<span class="col-sm-6">创建人:</span><span id="sms-detail-creater"></span>
+									</div>
+									<div class="col-sm-6">
+										<span class="col-sm-6">发送人数:</span><span id="sms-detail-sendnum"></span>
+									</div>
+									<div class="col-sm-6">
+										<span class="col-sm-6">短信模板:</span><span id="sms-detail-tempname"></span>
+									</div>
+									<div class="col-sm-6 hide">
+										<span class="col-sm-6">用户组:</span><span id="sms-detail-usergroup"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">发送用户:</span><span class="col-sm-8 sms-send-total sms-detail-sendtotal"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">短信内容:</span><span class="col-sm-8 sms-send-total sms-detail-sendcontent"></span>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="sms-edit-modal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<input id="userListInput" value="" style="display:none"/>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="">编辑短信</h4>
+								</div>
+								<div class="modal-body clearfix">
+									<div class="col-sm-6">
+										<span class="col-sm-6">短信批次编号:</span><span id="sms-edit-batch-id"></span>
+									</div>
+									<div class="col-sm-6">
+										<span class="col-sm-6">分发类别:</span><span id="sms-edit-type"></span>
+									</div>
+									<div class="col-sm-6">
+										<span class="col-sm-6">创建日期:</span><span id="sms-edit-createtime"></span>
+									</div>
+									<div class="col-sm-6">
+										<span class="col-sm-6">创建人:</span><span id="sms-edit-creater"></span>
+									</div>
+									<div class="col-sm-12 sms-edit-userlist">
+										<span class="col-sm-3">用户列表:</span>
+										<div class="input-group col-sm-9">
+											<input type="text" class="form-control col-sm-6 " id='sms-edit-per' autocomplete="off" data-provide="typeahead">
+											<span class="input-group-btn">
+												<button class="btn btn-default btn-sms-edit-user" type="button">选中</button>
+												<div class="btn-smsbatch-file">
+													<button id="batch-btn" class="btn btn-default btn-smsbatch-sms-user " type="button">批量导入</button>
+													<input id="btn-edit-smsbatch-file" name='txtFile' type="file" multiple="multiple">
+												</div>
+											</span>
+										</div><!-- /input-group -->
+									</div>
+									<div class="col-sm-12 sms-edit-usergroup">
+										<span class="col-sm-3">用户组:</span>
+										<div class="col-sm-9">
+											<select name="statusStr" class="col-sm-6" id="sms-edit-group"></select>
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">发送用户:</span><span class="col-sm-8 sms-send-total" id="sms-edit-user-total"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">短信模板:</span>
+										<select id="sms-edit-temptype" value="templateId"></select>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">短信内容:</span>
+										<div class="col-sm-8" style="padding-left:0;">
+											<textarea class="form-control col-7" id="sms-edit-content" name='content' rows="6" cols="" maxlength="100"></textarea>
+											<p class="text-right">您还可输入<span class="font-red" id="sms-edit-content-num"></span>个文字</p>
+											<input type="hidden" id="sms-edit-content-request">
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary sms-edit-sendbtn" data-status="0">保存</button>
+									<button type="button" class="btn btn-primary sms-edit-sendbtn" data-status="1">保存并发送</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="sms-send-modal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<input id="userListInput" value="" style="display:none"/>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="">发送短信</h4>
+								</div>
+								<div class="modal-body clearfix">
+									<p>确认发送此条短信给<span id="sms-send-user-one"></span>等<span id="sms-send-user-total"></span>位用户吗？</p>
+									<input type="hidden" id="sms-send-id">
+									<input type="hidden" id="sms-send-modal-type">
+									<input type="hidden" id="sms-send-receiver">
+									<input type="hidden" id="sms-send-templateId">
+									<input type="hidden" id="sms-send-content">
+									<input type="hidden" id="sms-send-usergroup">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="sms-send-sure">确定</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="sms-delete-modal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<input id="userListInput" value="" style="display:none"/>
+									<h4 class="">删除短信</h4>
+								</div>
+								<div class="modal-body clearfix">
+									<p>确认要删除此条短信草稿吗？</p>
+									<input type="hidden" id="sms-delete-id">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="sms-delete-sure">确定</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

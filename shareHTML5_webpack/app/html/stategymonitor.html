@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>策略监控</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src="./assets/js/stategymonitor.js"></script>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='strategymonitorcontent'>
+				<ul id="myTablist" class="nav nav-tabs straegy-tab" style="display: block;">
+					<li class="active"><a href="#commonInfo" data-toggle="tab">基本信息</a></li>
+					<li><a href="#holdininfo" data-toggle="tab" id="strategy-tab2">持仓信息</a></li>
+					<li><a href="#tradesignalpool" data-toggle="tab">买卖信号池</a></li>
+					<li><a href="#manualintervention" data-toggle="tab">手动干预</a></li>
+					<li><a href="#bullsnotice" data-toggle="tab">牛股提醒</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class='col-sm-12 straegy-content tab-pane fade in active' id='commonInfo' >
+						<h3 class='strategy-name'>
+							<span class='modelDisName'>策略1</span>
+							(实盘起始时间: <span class='date realStarttime'></span>实盘天数:<span class='date realDate'></span>)
+						</h3>
+						<div class='statistics clearfix intelligent-strategy'>
+							<h4>策略收益信息</h4>
+							<ul id="indexReturn" class='clearfix'>
+								<li class='col-sm-3 col-md-3'><span>实盘收益率:</span> <span class='rate ifcontent col-sm-12'></span></li>
+								<li class='col-sm-3 col-md-3'><span>沪深300收益率:</span> <span id='shenhenrate' class='ifcontent col-sm-12'></span></li>
+								<li class='col-sm-3 col-md-3'><span>中证500收益率:</span><span id="csirate" class='ifcontent col-sm-12'></span></li>
+								<li class='col-sm-3 col-md-3'><span>中小扳收益率1:</span><span id="zhongxiaorate" class='ifcontent col-sm-12'></span></li>
+							</ul>
+							<div>
+								<div class='switch monitior clearfix'>
+									<a class='switch-liist disabled list-3'><span>近3个月</span></a>
+									<a class='switch-liist disabled list-12'><span>最近一年</span></a>
+									<a class='switch-liist press list-all'><span>全部</span></a>
+									<div class='form-group  index-select'>
+										<select id="indexMonitorSelect"  class="form-control">
+											<option value='0'>沪深300指数</option>
+											<option value='1'>中证500指数</option>
+											<option value='2'>中小扳指数</option>
+										</select>
+									</div>
+								</div>
+								<div id='commonconratetainer' class="rategraph">
+								</div>
+							</div>
+							<div>
+								<table class='table table-bordered tablehover' id='ratelinetable'>
+									<thead>
+									<tr>
+										<th>时间</th>
+										<th>实盘收益率</th>
+										<th class='common-th'>沪深300收益率</th>
+									</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+								<div class="peges" id='rateinfopage'>
+								</div>
+							</div>
+						</div>
+						<div class="statistics clearfix hide optimization-stock">
+							<h4>策略收益信息</h4>
+							<div class="marginB20">
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								平均收益率（今日）：<span class="font-red" id="opt-stock-ratio-today"></span>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								平均收益率（近一周）：<span class="font-red" id="opt-stock-ratio-week"></span>
+							</div>
+							<div class="table-responsive">
+								<div>
+									<input type="hidden" id="opt-modalid-hide">
+									每页显示
+									<select name="size" id="opt-stock-size" class="custom-select">
+										<option value="10">10</option>
+										<option value="25">25</option>
+										<option value="50">50</option>
+										<option value="100">100</option>
+									</select>
+									条记录
+								</div>
+								<table class="table table-hover table-bordered" id='opt-stock-table'>
+									<caption></caption>
+									<thead class='custom-head'>
+									<tr>
+										<th>时间</th>
+										<!-- <th>平均收益率(今日)</th> -->
+										<th>平均收益率(近一周)</th>
+									</tr>
+									</thead>
+									<tbody class="opt-stock-body table-center">
+									</tbody>
+								</table>
+							</div>
+							<nav class="peges" id="opt-stock-pages">
+							</nav>
+							<div id="opt-stock-totalCounts" class="search-num">
+								本次查询共 <span class="font-red"></span> 条记录
+							</div>
+						</div>
+					</div>
+					<div class='col-sm-12 straegy-content tab-pane fade' id='holdininfo' >
+						<div class='analysis intelligent-strategy'>
+							<h4>持仓信息表</h4>
+							<input type="hidden" id="monitor-modalid-hide">
+							<form action="" class='form-inline'>
+								<div class='form-group'>
+									<label for='stockcodesearch1'>股票号</label>
+									<input type='number'  class="form-control" id='stockcodesearch1' />
+								</div>
+								<div class='form-group'>
+									<label for='stocknamesearch2'>股票名</label>
+									<input type='text'   class="form-control" id='stocknamesearch2'/>
+								</div>
+								<div class='form-group'>
+									<button type='button' class='btn btn-success' id="monitor-stock-searchbtn">查询</button>
+								</div>
+							</form>
+							<div class="capital-show">
+								总资产：<span class="font-red total-capital"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+								剩余可用资金：<span class="font-red available-capital"></span>
+							</div>
+							<div id='active-info'>
+								<table class=" table table-hover table-bordered" id='holdinTable'>
+									<thead>
+									<tr>
+										<th class='sort'>id</th>
+										<th class='nosort'>股票号码</th>
+										<th class="nosort">股票名称</th>
+										<th class='sorting'>最新价</th>
+										<th class='sorting'>买入均价</th>
+										<th class='sorting'>累计涨跌幅</th>
+										<th class='sorting'>占净值比例</th>
+										<th class='sorting'>持股数</th>
+										<th class='sorting'>当日涨跌幅</th>
+										<th class="nosort">操作</th>
+									</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+								<div class="clearfix">
+									<div class='pagenum'>
+										<span>第</span> <span id='holdinpagenum'>0</span> <span>页</span>
+									</div>
+									<ul class="pager" id='holdinpage' style='display: none'>
+										<li class="previous disabled"><a href="#">上一页</a></li>
+										<li class='next'><a href="#">下一页</a></li>
+									</ul>
+								</div>
+							</div>
+							<div>
+								<span>现金占净值比例:</span> <span id='cashrate'></span>
+							</div>
+						</div>
+						<div class='analysis optimization-stock'>
+							<h4>当前股池信息表</h4>
+							<form action="" class='form-inline'>
+								<div class='form-group'>
+									<label for='pref-stock-code'>股票号</label>
+									<input type='number'  class="form-control" id='pref-stock-code' />
+								</div>
+								<div class='form-group'>
+									<label for='pref-stock-name'>股票名</label>
+									<input type='text'   class="form-control" id='pref-stock-name'/>
+								</div>
+								<div class='form-group'>
+									<button type='button' class='btn btn-success' id="pref-stock-searchbtn">查询</button>
+								</div>
+							</form>
+							<div class="table-responsive">
+								<table class="table table-hover table-bordered" id='pref-stock-table'>
+									<caption></caption>
+									<thead class='custom-head'>
+									<tr>
+										<th class="table-sorting" data-prop="0" data-sort="">id</th>
+										<th>股票号码</th>
+										<th>股票名称</th>
+										<th class="table-sorting-desc" data-prop="1" data-sort="1">入选日期</th>
+										<th class="table-sorting" data-prop="2" data-sort="">入选价格</th>
+										<th class="table-sorting" data-prop="3" data-sort="">最高价格</th>
+										<th class="table-sorting" data-prop="4" data-sort="">最新价格</th>
+										<th class="table-sorting" data-prop="5" data-sort="">最高涨幅</th>
+										<th class="table-sorting" data-prop="6" data-sort="">当前涨幅</th>
+										<th class="table-sorting" data-prop="7" data-sort="">今日涨幅</th>
+										<th>操作</th>
+									</tr>
+									</thead>
+									<tbody class="pref-stock-body table-center">
+									</tbody>
+								</table>
+							</div>
+							<nav class="peges" id="pref-stock-pages">
+							</nav>
+							<div id="pref-stock-totalCounts" class="search-num">
+								本次查询共 <span class="font-red"></span> 条记录
+							</div>
+						</div>
+					</div>
+					<div class='col-sm-12 straegy-content tab-pane fade ' id='tradesignalpool' >
+						<div class='statistics intelligent-strategy'>
+							<div class='trade'>
+							</div>
+							<table  class='table table-bordered table-hover ' id='tradetables'>
+								<thead>
+								<tr>
+									<th class='sorting'>时间</th>
+									<th class='sorting'>股票代码</th>
+									<th class='nosort'>成交价</th>
+									<th class='sorting'>盈亏</th>
+									<th class='nosort'>仓位变化</th>
+								</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+							<div class="peges" id='tradepoolpage'>
+							</div>
+						</div>
+						<div class='statistics optimization-stock'>
+							<form class='hide'>
+								<button type='button' id="pref-trade-searchbtn">查询</button>
+							</form>
+							<div class="table-responsive">
+								<table class="table table-hover table-bordered" id='pref-trade-table'>
+									<caption></caption>
+									<thead class='custom-head'>
+									<tr>
+										<th class="table-sorting-desc" data-prop="0" data-sort="1">时间</th>
+										<th class="table-sorting" data-prop="1" data-sort="">股票代码</th>
+										<th>成交价</th>
+										<th class="table-sorting" data-prop="2" data-sort="">每股盈亏</th>
+										<th class="table-sorting" data-prop="3" data-sort="">最高涨幅</th>
+									</tr>
+									</thead>
+									<tbody class="pref-trade-body table-center">
+									</tbody>
+								</table>
+							</div>
+							<nav class="peges" id="pref-trade-pages">
+							</nav>
+							<div id="pref-trade-totalCounts" class="search-num">
+								本次查询共 <span class="font-red"></span> 条记录
+							</div>
+						</div>
+					</div>
+					<div class='col-sm-12 straegy-content tab-pane fade' id='manualintervention' >
+					</div>
+					<div class='col-sm-12 straegy-content tab-pane fade' id='bullsnotice' >
+						<div class='analysis'>
+							<h4>牛股提醒信息表</h4>
+							<form action="" class='form-inline'>
+								<div class='form-group col-3'>
+									<label for='stockcodesearch'>股票号</label>
+									<input type='number'  class="form-control col-5"  id='stockcodesearch' />
+								</div>
+								<div class='form-group col-3'>
+									<label for='stocknamesearch'>股票名</label>
+									<input type='text' class="form-control col-5"  id='stocknamesearch'/>
+								</div>
+								<div class='form-group col-3'>
+									<label for='operationnamesearch'>操作人</label>
+									<input type='text' class="form-control col-5" id='operationnamesearch'/>
+								</div>
+								<div class='form-group col-3' >
+									<button type='button'  class='btn btn-success'>查询</button>
+								</div>
+							</form>
+							<div class='bulls-info '>
+								<table class='table table-bordered table-hover display' cellspacing="0"  id='bullsinfotable'>
+									<thead>
+									<tr>
+										<th class='sort'>id</th>
+										<th class='nosort'>股票号码</th>
+										<th class="nosort">股票名称</th>
+										<th class="nosort">消息标题</th>
+										<th class="nosort">消息内容</th>
+										<th class='sorting'>最新更新时间</th>
+										<th class='nosort'>状态</th>
+										<th class='sorting'>发送时间</th>
+										<th class='nosort'>操作人</th>
+										<th class='nosort'>操作</th>
+									</tr>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+								<div class="peges" id='bullsinfopage' >
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class='modal fade bs-example-modal-xs ' id='bullsnoticemodal' tabindex="-1" role="dialog" aria-labelledby="bullsModalLabel"
+					 aria-hidden="true">
+					<div class='modal-dialog modal-width'>
+						<div class='modal-content'>
+							<div class='modal-header'>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="bullsModalLabel">牛股提醒</h4>
+							</div>
+							<div class='modal-body'>
+								<form action="" class='form-horizontal col-sm-offset-2' id='bullsnoticeform'>
+									<div class='form-group'>
+										<label for='noticetitle' class='col-sm-2 control-label label-left'>标题</label>
+										<div class='col-sm-6'>
+											<input type='text' class='form-control' name='noticetitle' id='noticetitle'/>
+										</div>
+									</div>
+									<div class='form-group'>
+										<label for='noticecontent' class='col-sm-2 control-label label-left'>内容</label>
+										<div class='col-sm-6'>
+											<div  class='notice-content'>
+												<span id='noticecontent1'></span>
+												<span>策略推荐的</span>
+											</div>
+											<div id='noticecontent2' class='notice-content'>
+											</div>
+											<textarea rows="3" cols="3" class='form-control' name='noticecontent' id='noticecontent' maxlength="20"
+													  placeholder="最多可输入20个文字"></textarea>
+										</div>
+									</div>
+									<div class='form-group'>
+										<div class='col-sm-6 col-sm-offset-2'>
+											<button type='button' class='btn btn-info pull-left' id='savenoticebtn'>保存</button>
+											<button type='button' class='btn btn-success pull-right' id='sendconfrimbtn'>发送</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div><!--modal-content-->
+					</div><!--modal-dialog-->
+				</div><!--modal-->
+
+				<div class='modal fade bs-example-modal-sm' id='noticeconfrimmodal' tabindex="-1" role="dialog" aria-labelledby="bullsModalLabel"
+					 aria-hidden="true">
+					<div class='modal-dialog modal-width'>
+						<div class='modal-content'>
+							<div class='modal-header'>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4 class="modal-title" id="bullsModalLabel"><i class='glyphicon glyphicon-info-sign'></i>确认提示</h4>
+							</div>
+							<div class='modal-body'>
+								<p class='bulls-notice'>您要发送的信息如下,请确认无误后再发送.</p>
+								<div class="noticesendcontent">
+								</div>
+								<div class='clearfix'>
+									<button type='button' class='btn btn-info pull-left' id='confrimSendBulls'>发送</button>
+									<button type='button' class='btn btn-default pull-right' data-dismiss="modal">取消</button>
+								</div>
+							</div>
+						</div><!--modal-content-->
+					</div><!--modal-dialog-->
+				</div><!--modal-->
+
+				<div class='modal fade margintop200' id='bulls-detail-modal' tabindex="-1" role="dialog">
+					<div class='modal-dialog width400'>
+						<div class='modal-content'>
+							<div class='modal-header'>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h4>牛股提醒详情</h4>
+							</div>
+							<div class='modal-body clearfix'>
+								<div class='col-sm-12'>
+									<label for='nbulls-detail-title' class='col-sm-3 notice-content'>标题</label>
+									<div class='col-sm-9 notice-content'>
+										<span id='bulls-detail-title'></span>
+									</div>
+								</div>
+								<div class='col-sm-12'>
+									<label for='bulls-detail-content' class='col-sm-3 notice-content'>内容</label>
+									<div class='col-sm-9'>
+										<div class='notice-content'>
+											<span id='bulls-detail-content1'></span>
+											<span>策略推荐的</span>
+										</div>
+										<div id='bulls-detail-content2' class='notice-content'>
+										</div>
+										<div id='bulls-detail-content3' class='notice-content'>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class='modal-footer'>
+								<button type='button' class='btn btn-primary' data-dismiss="modal">确定</button>
+							</div>
+						</div><!--modal-content-->
+					</div><!--modal-dialog-->
+				</div><!--modal-->
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>查看k线图</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='searchkline'>
+				<div class='col-sm-12 search-k'>
+					<h3>根据股票号进行查询</h3>
+					<div>
+						<form action="" class='form-inline'>
+							<div class='form-group'>
+								<label for='stockcodeid'> 股票号 </label> <input type='text' autocomplete="off" data-provide="typeahead" id='stockcodeid' />
+							</div>
+							<div class="checkbox">
+								<label><input type="checkbox" value="1" name='kfunc'>k线合并</label>
+							</div>
+							<div class="checkbox">
+								<label><input type="checkbox" value="2" name='kfunc'>画笔</label>
+							</div>
+							<div class="checkbox">
+								<label><input type="checkbox" value="0" name='kfunc'>找中枢</label>
+							</div>
+							<button type='button' class='btn btn-default btn-search-kline'>查看</button>
+						</form>
+						<div class='search-kline-details'>
+							<nav class="navbar navbar-default k-navbar col-sm-8"
+								 role="navigation">
+								<div class="container-fluid k-fluid">
+									<div>
+										<ul class="nav navbar-nav ktypes">
+											<li class="press ktype klist-d1"><a href="#" data-type='D1'>日k</a></li>
+											<li class="ktype klist-h1"><a href="#" data-type='H1'>一小时k</a></li>
+											<li class="ktype klist-w1"><a href="#" data-type='Week1'>周k</a></li>
+											<li class="ktype klist-m1"><a href="#" data-type='Month1'>月k</a></li>
+											<li class="dropdown ktype"><a href="#" class="dropdown-toggle m-type" data-toggle="dropdown">分钟 </a>
+												<ul class="dropdown-menu">
+													<li class='klist-m'><a data-type='M5' href="#">5分钟</a></li>
+													<li class='klist-m'><a data-type='M15' href="#">15分钟</a></li>
+													<li class='klist-m'><a data-type='M30' href="#">30分钟</a></li>
+												</ul>
+											</li>
+											<li class=" dropdown"><a href="#" class="dropdown-toggle restoration-type" data-restoration='Forward' data-toggle="dropdown">前复权</a>
+												<ul class="dropdown-menu">
+													<li class='klist-rehabilitation'><a data-restoration='None' href="#">不复权</a></li>
+													<li class='klist-rehabilitation'><a data-restoration='Forward' href="#">前复权</a></li>
+													<li class='klist-rehabilitation'><a data-restoration='Backward' href="#">后复权</a></li>
+												</ul>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</nav>
+							<a href='#' class='show-k'>全屏显示</a>
+							<div id='' class="loading" style='display: none'>正在加载中...</div>
+							<div id='klinecontainer' class="e-kgraph"></div>
+							<div id='klinecontainer2' class="e-kgraph"></div>
+							<div class='VOL'>
+								<div class="VOLCurrent clearfix"></div>
+								<div id='klinecontainer3' class="s-kgraph"></div>
+							</div>
+							<div class='MACD'>
+								<div class="MACDCurrent clearfix"></div>
+								<div id='klinecontainer4' class="s-kgraph"></div>
+							</div>
+							<div class='KDJ' style='display: none' >
+								<div class="KDJCurrent clearfix"></div>
+								<div id='klinecontainer5' class="s-kgraph" ></div>
+							</div>
+							<nav class="navbar navbar-default k-navbar" role="navigation">
+								<div class="container-fluid">
+									<div>
+										<ul class="nav navbar-nav ktypes zibtype">
+											<li class="press ktype klist-macd"><a href="#" data-type='MACD'>MACD</a></li>
+											<li class="ktype klist-KDJ"><a href="#" data-type='KDJ'>KDJ</a></li>
+										</ul>
+									</div>
+								</div>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

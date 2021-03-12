@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>邀请码管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src='./assets/js/code.js'></script>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='code'>
+				<div class='col-sm-12 clearfix'>
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a class="" href="#">邀请码管理</a></li>
+					</ul>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form class="form-inline" id="code1">
+								邀请码:
+								<input type="text" class="form-control col-6 times margin" id="codes" placeholder="邀请码">
+								用户名:
+								<input type="text" class="form-control col-6 times margin" id="userName" placeholder="用户名">
+								分发时间：
+								<input id="codestartTime" name="createTime" type="text" class="form-control col-6 times" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+								<input id="codeendTime" name="updateTime" type="text" class="form-control col-6 times" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+							</form>
+							<div class="checktime codetime hiddens">请正确选择时间</div>
+							<form class="form-inline" id="code2">
+								用户组:
+								<input type="text" class="form-control col-6 times margin" id="groupName" placeholder="用户组">
+								操作人:
+								<input type="text" class="form-control col-6 times" id="operatorName" placeholder="操作人">
+								<div class="botton-right">
+									<button type="button" id="onSearchCode" class="btn btn-sm btn-success btn-beautify">
+										<i class="ace-icon fa fa-search"></i>
+										查询
+									</button>
+									<button type="button" id="addCode" class="btn btn-sm btn-danger btn-beautify">
+										<i class="ace-icon fa fa-plus"></i>
+										按组分发邀请码
+									</button>
+									<button type="button" id="addCodePer" class="btn btn-sm btn-danger btn-beautify">
+										<i class="ace-icon fa fa-plus"></i>
+										个人分发邀请码
+									</button>
+								</div>
+							</form>
+							<div class="table-responsive" id='table'>
+								<table class="table table-hover table-bordered ">
+									<caption></caption>
+									<thead class='user-head'>
+									<tr>
+										<th>编号</th>
+										<th>邀请码</th>
+										<th>用户名</th>
+										<th>最大使用次数</th>
+										<th>已使用次数</th>
+										<th>分发时间</th>
+										<th>用户组</th>
+										<th>操作人</th>
+									</tr>
+									</thead>
+									<tbody class="codeList"></tbody>
+								</table>
+							</div>
+						</div>
+						<nav class="peges" id="codepage"></nav>
+					</div>
+					<!--个人分发邀请码 -->
+					<div class="modal fade  bs-example-modal-sm" id="myModalCodeByPer">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body" >
+									<form class="form-horizontal" role="form" id='deliverCodeFormByPer'>
+										<div class="form-group">
+											<label for="usernameper" class="col-sm-4 control-label label-center">用户</label>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<input type="text" class="form-control col-6 " id='usernameper' autocomplete="off" data-provide="typeahead">
+													<span class="input-group-btn"><button class="btn btn-default btn-add-user" type="button">添加</button>
+													</span>
+												</div><!-- /input-group -->
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="codeuser" class="col-sm-4 control-label label-center">已选用户</label>
+											<div class="col-sm-8">
+												<textarea rows="6" cols="20" class='form-control col-6' id='codeuser' name='codeuser' placeholder="已选用户,最多不能超过5个" ></textarea>
+												<ul id='codeuserlist'></ul>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="codenumberper" class="col-sm-4 control-label label-center">人均个数</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="codenumberper" name='codenumberper' placeholder="人均个数">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="maxnumberper" class="col-sm-4 control-label label-center">最大使用次数</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="maxnumberper" name='maxnumberper' placeholder="最大使用次数">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='resendCodeByPer'>发送 </button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<!--按组分发邀请码 -->
+					<div class="modal fade  bs-example-modal-sm" id="myModalCode">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body" >
+									<form class="form-horizontal" role="form" id='deliverCodeForm'>
+										<div class="form-group">
+											<label for="phonenum" class="col-sm-4 control-label label-center">用户组</label>
+											<div class="col-sm-8">
+												<select name="statusStr" class="form-control col-6" id="codeGrounp"></select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phonenum" class="col-sm-4 control-label label-center">人均个数</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="codenumber" name='codenumber' placeholder="人均个数">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phonenum" class="col-sm-4 control-label label-center">最大使用次数</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="maxnumber" name='maxnumber' placeholder="最大使用次数">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='resendCode'>发送 </button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

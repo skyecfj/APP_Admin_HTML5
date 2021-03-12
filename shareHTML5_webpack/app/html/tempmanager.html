@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>模板管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src='./assets/js/smstemplate.js'></script>
+	<link rel='stylesheet' href='./assets/css/smstemplate.css' />
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='tempmanager'>
+				<div class='col-sm-12 clearfix'>
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active" id=""><a class="tempmanager-tab1" href="#">短信模板管理</a></li>
+					</ul>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form class="form-inline" id="temp-search-form"  onsubmit="return false;">
+								<div class="" style="display: inline-block;">模板名称:
+									<input type="text"  class="form-control col-6 margin" name="name" placeholder="" id="temp-name-search">
+								</div>
+								创建人：
+								<select name="operator" class="form-control col-6 margin" id="temp-operator-search">
+									<option value="">所有</option>
+								</select>
+								<div class="botton-right">
+									<button type="button" id="temp-search-btn" class="btn btn-sm btn-success btn-beautify">
+										<i class="ace-icon fa fa-search"></i>
+										查询
+									</button>
+									<button type="button" id="" class="btn btn-sm btn-danger btn-beautify" data-toggle="modal" data-target="#addTemplateModal">
+										<i class="ace-icon fa fa-plus"></i>
+										新增
+									</button>
+								</div>
+							</form>
+							<div class="table-responsive" id='temp-table'>
+								<table class="table table-hover table-bordered ">
+									<caption></caption>
+									<thead class='temp-head'>
+									<tr>
+										<th>模板编号</th>
+										<th>模板名称</th>
+										<th>操作人</th>
+										<th>模板内容</th>
+										<th>操作</th>
+									</tr>
+									</thead>
+									<tbody class="temp-body table-center">
+									</tbody>
+								</table>
+							</div>
+							<nav class="peges" id="temp-list-page"></nav>
+						</div>
+						<div class="peges type_s" id="rebatepage"></div>
+						<nav class="peges user hiddens" id="rebatepages"></nav>
+					</div>
+					<!-- 对话框 -->
+					<div class="modal fade  bs-example-modal-sm" id="addTemplateModal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="">新增短信模板</h4>
+								</div>
+								<div class="modal-body" >
+									<form class="form-horizontal" role="form" id='add-sms-temp'>
+										<input type="hidden" id="add-temp-operator">
+										<div class="form-group">
+											<label for="typeNames" class="col-sm-3 control-label label-center">模板名称</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control col-6" id="add-temp-name" name='name' required>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="volumes" class="col-sm-3 control-label label-center">模板内容</label>
+											<div class="col-sm-8">
+												<textarea class="form-control col-7" id="add-temp-content" name='content' rows="10" cols="" required maxlength="100"></textarea>
+												<p class="text-right">您还可输入<span class="font-red" id="add-temp-numleft">100</span>个文字</p>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='add-sms-temp-btn'>添加 </button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="temp-detail-modal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<input id="userListInput" value="" style="display:none"/>
+									<h4 class="">模板详情</h4>
+								</div>
+								<div class="modal-body clearfix">
+									<div class="col-sm-12">
+										<span class="col-sm-3">模板编号:</span><span id="temp-detail-id"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">模板名称:</span><span id="temp-detail-name"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">创建人:</span><span id="temp-detail-operator"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">最后修改日期:</span><span id="temp-detail-modifyTime"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">最后修改人:</span><span id="temp-detail-modifyByName"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">模板内容:</span>
+										<span class="col-sm-8" id="temp-detail-content"></span>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="temp-edit-modal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<input id="userListInput" value="" style="display:none"/>
+									<h4 class="">编辑模板</h4>
+								</div>
+								<div class="modal-body clearfix">
+									<div class="col-sm-12">
+										<span class="col-sm-3">模板编号:</span><span id="temp-edit-id"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">模板名称:</span><input  id="temp-edit-name" type="text" value="">
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">创建人:</span><span id="temp-edit-operatorName"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">最后修改日期:</span><span id="temp-edit-modifyTime"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">最后修改人:</span><span id="temp-edit-modifyByName"></span>
+									</div>
+									<div class="col-sm-12">
+										<span class="col-sm-3">模板内容:</span>
+										<div class="col-sm-8">
+											<textarea class="form-control col-7" rows="10" maxlength="100" id="temp-edit-content"></textarea>
+											<p class="text-right">您还可输入<span class="font-red" id="edit-temp-numleft"></span>个文字</p>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="temp-edit-btn">保存</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="temp-delete-modal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<input id="userListInput" value="" style="display:none"/>
+									<h4 class="">删除模板</h4>
+								</div>
+								<div class="modal-body clearfix">
+									<p>确认要删除此模板吗？</p>
+									<input type="hidden" id="temp-delete-id">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="temp-delete-btn">确定</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

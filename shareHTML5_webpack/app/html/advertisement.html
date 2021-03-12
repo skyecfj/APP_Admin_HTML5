@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>广告轮播</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<style type="text/css">
+		#adstable tbody>tr>td:nth-child(2) {
+			word-break: break-word;
+		}
+		#adstable tbody>tr>td:nth-child(3) {
+			word-break: break-word;
+		}
+		#adstable tbody>tr>td input {
+			width: 60px;
+			border-radius: 5px;
+			padding: 3px;
+		}
+		#adstable tbody>tr>td select {
+			width: 72px;
+			border-radius: 5px;
+			padding: 4px 3px;
+		}
+</style>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='advertisement'>
+				<div class='col-sm-12'>
+					<h4 class='form-group text-center'>广告轮播</h4>
+					<ul id="adervertisementTab" class="nav nav-tabs ">
+						<li class="active in-s"><a href="#adinfo" data-toggle="tab">广告信息表</a></li>
+						<li class="in-s"><a href="#addAd" data-toggle="tab">添加广告</a></li>
+					</ul>
+					<div class='tab-content book-content panel-default clearfix'>
+						<div class='col-sm-12 tab-pane fade in active panel-body' id='adinfo'>
+							<div>
+								<table class='table table-bordered table-hover' style="table-layout: fixed; word-wrap: break-word;" id='adstable'>
+									<thead>
+									<tr>
+										<th>ID</th>
+										<th>图片地址</th>
+										<th>跳转URL</th>
+										<th>展示顺序</th>
+										<th>状态</th>
+										<th>是否对游客开放</th>
+										<th width='150'>操作</th>
+									</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+								<div class='peges' id='adspage'></div>
+							</div>
+						</div>
+						<div class=' straegy-content tab-pane fade panel-body' id='addAd'>
+							<div class='col-sm-12' id='uploadimg'>
+								<form enctype="multipart/form-data charset=utf-8" class='form-horizontal col-sm-12 file-upload' id='uploadImgForm'>
+									<div class='form-group'>
+										<label class='col-sm-3 control-label '>上传图片：</label>
+										<div class=" col-sm-6" id="uploadlogFileDiv">
+											<input id="file-img" name='picture' type="file" multiple="multiple">
+										</div>
+										<div class='col-sm-offset-1 col-sm-10'><span class=' upload-img-success' style='display: none'>图片地址：<span class='' id='imgURL'></span></span></div>
+									</div>
+								</form>
+							</div>
+							<div class='col-sm-12'>
+								<form class='form-horizontal' id='adscontentform'>
+									<div class='form-group'>
+										<label class='control-label col-sm-3' for='adindex'>显示顺序号:</label>
+										<div class='col-sm-6'>
+											<input class='form-control' id='adindex' name='adindex' type='number' />
+										</div>
+									</div>
+									<!-- <div class='form-group'>
+										<label class='control-label col-sm-3' for='adtype'>类型:</label>
+										<div class='col-sm-3'>
+											<select id='adtype' class='form-control'>
+												<option value='0'>外部链接</option>
+												<option value='1'>论股列表</option>
+												<option value='2'>邀请好友</option>
+											</select>
+										</div>
+									</div> -->
+									<div class='form-group'>
+										<label class='control-label col-sm-3' for='adpushType'>参数类型:</label>
+										<div class='col-sm-3'>
+											<select id='adpushType' class='form-control'></select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class='control-label col-sm-3' for='adPushParams'>参数:</label>
+										<div class='col-sm-6' id='adPushParams'></div>
+									</div>
+									<!-- <div>
+										<div class='form-group outline'>
+											<label class='control-label col-sm-3' for='outURL'>跳转URL:</label>
+											<div class='col-sm-6'>
+												<input class='form-control' id='outURL' name='outURL' />
+											</div>
+										</div>
+									</div> -->
+									<div class='form-group'>
+										<label class='control-label col-sm-3' for='adopen'>是否对游客开放:</label>
+										<div class='col-sm-2'>
+											<select id='adopen' class='form-control'>
+												<option value='0'>不开放</option>
+												<option value='1'>开放</option>
+											</select>
+										</div>
+									</div>
+									<div class='form-group'>
+										<div class='col-sm-offset-3  col-sm-4'>
+											<button type='button' class='btn btn-success form-control' id='addAdvertisement'>提交</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

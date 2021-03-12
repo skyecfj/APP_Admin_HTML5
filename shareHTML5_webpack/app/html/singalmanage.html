@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>信号管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<style type="text/css">
+		caption, th, td{
+			text-align:center;
+		}
+	</style>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='singal'>
+				<ul id="myTablist" class="nav nav-tabs straegy-tab" style="display: block;">
+					<li class="active"><a href="#automodelinfo" data-toggle="tab">智能策略信号</a></li>
+					<li><a href="#stockpoolinfo" data-toggle="tab" >股票池信号</a></li>
+					<li><a href="#counterweight" data-toggle="tab">复权信号</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class='col-sm-12  tab-pane fade in active' id='automodelinfo'>
+						<ul id="automodelTab" class="nav nav-tabs">
+						</ul>
+						<div class='statistics clearfix' style="margin-top: 10px;margin-left: 80px;font-size: 17px;">
+							<span id="auto_displayName"></span>
+							<span style="margin-left:30px;">实盘收益率: </span><span id="auto_realTime"></span>%
+							<span style="margin-left:30px;">仓位: </span><span id="auto_postition"></span>%
+							<button style="margin-left:30px;" class="btn btn-primary" id="auto_addPostion">加仓</button>
+						</div>
+						<div class="table-responsive" id="autoTable">
+							<table class="table table-hover table-bordered " id='auto_model_table'>
+								<caption></caption>
+								<thead class='custom-head'>
+								<tr>
+									<th>股票名（代码）</th>
+									<th>手数</th>
+									<th>占比</th>
+									<th>盈亏</th>
+									<th>动作</th>
+								</tr>
+								</thead>
+								<tbody class="auto_model_body">
+								</tbody>
+							</table>
+						</div>
+						<nav class="peges" id="auto_model_pages">
+						</nav>
+						<div id="auto_model_totalCounts" class="search-num">
+							本次查询共 <span class="font-red"></span> 条记录
+						</div>
+					</div>
+					<div class='col-sm-12 straegy-content tab-pane fade' id='stockpoolinfo'>
+						<div class='statistics clearfix register-login-box'  style="position: relative;">
+							<form class="form-inline" id="pool-login-search">
+								<div>
+									开始时间：
+									<input id="pool-start-time" name="startTime" type="text" class="form-control col-6 width120 margin" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+									结束时间：
+									<input id="pool-end-time" name="endTime" type="text" class="form-control col-6 width120 margin" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+									策略类型：	<select name="type" id="pool-modeltype" class="custom-select margin" style="width:120px;">
+									<option value="0">全部</option>
+								</select>
+								</div>
+								<div class="checktime poolcodetime hiddens" style="position:relative;left:-300px;">请正确选择时间</div>
+								<div>
+									股票代码：
+									<input type="text" class="form-control col-6 width120 margin"  id="pool-stockcode">
+									股票名称：
+									<input type="text" class="form-control col-6 width120 margin"  id="pool-stockname">
+									买卖类型：
+									<select name="type" id="pool-buytype" class="custom-select margin" style="width:120px;">
+										<option value="">全部</option>
+										<option value="0">调入</option>
+										<option value="1">调出</option>
+									</select>
+								</div>
+								<div>
+									操作人：
+									<select name="role" id="pool-operationpeople" class="custom-select margin" style="width:120px;">
+										<option value="0">全部</option>
+									</select>
+									<button type="button" id="pool-searchbtn" class="btn  btn-primary float-right" style="margin-right: 210px;">
+										查询
+									</button>
+								</div>
+							</form>
+							<button type="button" id="pool-addbtn" class="btn  btn-success float-right" style="position:absolute;top:90px;right:115px;">
+								添加
+							</button>
+							<div class="table-responsive">
+								<table class="table table-hover table-bordered " id='pool-login-table'>
+									<caption></caption>
+									<thead class='custom-head'>
+									<tr>
+										<th>编号</th>
+										<th>策略名称</th>
+										<th class="table-sorting" data-prop="0" data-sort="">股票代码</th>
+										<th>股票名称</th>
+										<th>买卖类型</th>
+										<th class="table-sorting" data-prop="1" data-sort="">价格</th>
+										<th class="table-sorting" data-prop="2" data-sort="">调仓时间</th>
+										<th>操作人</th>
+									</tr>
+									</thead>
+									<tbody class="pool-login-body">
+									</tbody>
+								</table>
+							</div>
+							<nav class="peges" id="pool-login-pages">
+							</nav>
+							<div id="pool-login-totalCounts" class="search-num">
+								本次查询共 <span class="font-red"></span> 条记录
+							</div>
+						</div>
+					</div>
+					<div class='col-sm-12 straegy-content tab-pane fade' id=counterweight>
+						<div class='statistics clearfix register-login-box'  style="position: relative;">
+							<form class="form-inline" id="singal-login-search">
+								<div>
+									开始时间：
+									<input id="weight-start-time" name="startTime" type="text" class="form-control col-6 width120 margin" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+									结束时间：
+									<input id="weight-end-time" name="endTime" type="text" class="form-control col-6 width120 margin" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+									股票代码：
+									<input type="text" class="form-control col-6 width120 margin"  id="weight-stockcode">
+								</div>
+								<div class="checktime weightcodetime hiddens" style="position:relative;left:-300px;">请正确选择时间</div>
+								<div>
+									股票名称：
+									<input type="text" class="form-control col-6 width120 margin"  id="weight-stockname">
+									操作人：
+									<select name="role" id="weight-operationpeople" class="custom-select margin" style="width:120px;">
+										<option value="0">全部</option>
+									</select>
+									<button type="button" id="weight-searchbtn" class="btn  btn-primary float-right" style="margin-right: 210px;">
+										查询
+									</button>
+								</div>
+							</form>
+							<button type="button" id="weight-addbtn" class="btn  btn-success float-right" style="position:absolute;top:45px;right:115px;">
+								添加
+							</button>
+							<div class="table-responsive">
+								<table class="table table-hover table-bordered " id='weight-login-table'>
+									<caption></caption>
+									<thead class='custom-head'>
+									<tr>
+										<th>编号</th>
+										<th class="table-sorting" data-prop="0" data-sort="">股票代码</th>
+										<th>股票名称</th>
+										<th>复权类型</th>
+										<th>复权内容</th>
+										<th class="table-sorting" data-prop="1" data-sort="">信号时间</th>
+										<th>操作人</th>
+									</tr>
+									</thead>
+									<tbody class="weight-login-body">
+									</tbody>
+								</table>
+							</div>
+							<nav class="peges" id="weight-login-pages">
+							</nav>
+							<div id="weight-login-totalCounts" class="search-num">
+								本次查询共 <span class="font-red"></span> 条记录
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 股票池信号部分弹出框 -->
+				<div class='modal fade' id='poolAdd' tabindex="-1" role="dialog" aria-labelledby="poolAdd"
+					 aria-hidden="true">
+					<div class='modal-dialog modal-width' style="width:600px;margin-top:300px;">
+						<div class='modal-content'>
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							</div>
+							<div class='modal-body clearfix' style="margin-top:20px;height:250px;" id="pop1-poolAdd">
+								<form action="" class='form-horizontal col-sm-offset-1 form-inline' onsubmit="return false;">
+									<div>
+										股票代码：
+										<input type="text" class="form-control col-6 margin" autocomplete="off" style="width:145px;" name="type" id="pop1-stocktype">
+										<select  id="typenum" size="10" style="display:none;position: absolute;
+							    left: 136px;
+							    width: 145px;
+					            outline: none;
+					            border: 1px solid #999;
+					            margin-top:33px;
+				                height: 100px;
+					            Z-index:100">
+										</select>
+										<input type="text" class="form-control col-6 width120 margin" style="display:none" name="stockname" id="pop1-stockname">
+										<!-- <button type="button" id="pop1-select" class="btn btn-primary">筛选</button> -->
+									</div>
+									<div>
+										策略名称：<select name="type" id="pop1-modeltype" class="custom-select margin" style="width:145px;">
+										<option value="0">全部</option>
+									</select>
+										买卖类型：<input type="radio" name="buytypepool" value="0" checked>调入
+										<input type="radio" name="buytypepool" value="1">调出
+									</div>
+									<div style="position:relative;">
+										<span style="display:inline-block;width:76px">价格：</span><input class="btn_price" type="number" step="0.01" style="width:50px;" id="pricepool">
+										<button class="bt2_add" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 0px;left: 126px;">+</button>
+										<button class="bt2_sub" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 12px;left: 126px;">-</button>
+									</div>
+									<div class="col-sm-12" style="margin-top:30px;"><!-- btn-lg -->
+										<button  type='button' class='btn btn-info col-sm-offset-3' id='pop1-savenoticebtn'>确认</button>
+										<button  type='button' class='btn btn-success col-sm-offset-2' id='pop1-sendconfrimbtn'>取消</button>
+									</div>
+								</form>
+							</div>
+						</div><!--modal-content-->
+					</div><!--modal-dialog-->
+				</div><!--modal-->
+				<!-- 智能策略信号部分的弹出框 -->
+				<div class='modal fade' id='autostockadd' tabindex="-1" role="dialog" aria-labelledby="autostockadd"
+					 aria-hidden="true">
+					<div class='modal-dialog modal-width' style="width:600px;margin-top:300px;">
+						<div class='modal-content'>
+							<div class="modal-header">
+								<button type="button" class="close"   data-dismiss="modal" aria-hidden="true">&times;</button>
+							</div>
+							<div class='modal-body clearfix' style="height:250px;margin-top:20px" id="pop3-poolAdd">
+								<form action="" class='form-horizontal col-sm-offset-1 form-inline' id="pop3-form" onsubmit="return false;">
+									<div>
+										股票代码：
+										<input type="text" autocomplete="off" class="form-control col-6 width120 margin" name="type" id="pop3-stocktype" >
+										股票名称：
+										<input type="text" class="form-control col-6 width120 margin" name="stockname" id="pop3-stockname" readonly>
+										<button type="button" id="pop3-select" class="btn btn-primary">筛选</button>
+									</div>
+									<div>
+										策略名称：<select name="type" id="pop3-modeltype" class="custom-select margin" style="width:120px;">
+										<option value="0">全部</option></select>
+										买卖类型：<input type="radio" name="buytype" value="0" checked>买入
+										<input type="radio" name="buytype" value="1">卖出
+									</div>
+									<div style="position:relative;">
+										<span style="display:inline-block;width:76px">手数：</span><input type="number" class="btn_number" value="1" min="1" style="width:50px;" id="handNumber">
+										<button class="bt1_add" id="bt1_add" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 0px;left: 126px;">+</button>
+										<button class="bt1_sub" id="bt1_sub" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 12px;left: 126px;">-</button>
+										<span style="display:inline-block;width:76px;margin-left:78px;">价格：</span><input class="btn_price" type="number" value="0" step="0.01" min="0.01" style="width:50px;" id="priceModel">
+										<button class="bt2_add" id="bt2_add" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 0px;left: 333px;">+</button>
+										<button class="bt2_sub" id="bt2_sub" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 12px;left: 333px;">-</button>
+									</div>
+									<div class="col-sm-12" style="margin-top:30px;"><!-- btn-lg -->
+										<button type='button' class='btn btn-info col-sm-offset-3' id='pop3-savenoticebtn'>确认</button>
+										<button type='button' class='btn btn-success col-sm-offset-2' id='pop3-sendconfrimbtn'>取消</button>
+									</div>
+								</form>
+							</div>
+						</div><!--modal-content-->
+					</div><!--modal-dialog-->
+				</div><!--modal-->
+				<!-- 复权信号部分的弹出框 -->
+				<div class='modal fade' id='counterweightadd' tabindex="-1" role="dialog" aria-labelledby="counterweightadd" aria-hidden="true">
+					<div class='modal-dialog modal-width' style="width:600px;margin-top:280px;">
+						<div class='modal-content'>
+							<div class="modal-header">
+								<button type="button" class="close"   data-dismiss="modal" aria-hidden="true">&times;</button>
+							</div>
+							<div class='modal-body clearfix' style="height:300px;margin-top:20px" id="pop4-poolAdd">
+								<form action="" class='form-horizontal col-sm-offset-1 form-inline' onsubmit="return false;">
+									<div>
+										股票代码：
+										<input type="text" autocomplete="off" class="form-control col-6 margin" style="width:145px;" name="type" id="pop4-modeltype">
+										<select  id="typenum1" size="10" style="display:none;position: absolute;
+							    left: 136px;
+							    width: 145px;
+					            outline: none;
+					            border: 1px solid #999;
+					            margin-top:33px;
+				                height: 100px;
+					            Z-index:100">
+										</select>
+										<input type="text" class="form-control col-6 width200 margin" style="display:none" name="stockname" id="pop4-stockname" readOnly>
+									</div>
+									<div>
+										复权时间：
+										<input id="weight-start-time1" name="weight-start-time1" type="text" style="margin-top:10px;width:145px;" class="form-control col-6  margin"  value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+									</div>
+									<div style="margin-top:10px;position:relative">
+										<input style="margin-bottom: 12px;" type="checkbox" name="pop4-checkbox1" value="1">分红<span style="margin-left:40px">每10股分红<input type="number" class="btn_price" value="0.000" step="0.001" style="width:50px;" id="pop4-weight1">
+			  		<button class="bt6_add" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 0px;left: 202px;">+</button>
+			  		<button class="bt6_sub" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 12px;left: 202px;">-</button><span style="margin-left:10px;">元</span></span><br/>
+										<input style="margin-bottom: 12px;" type="checkbox" name="pop4-checkbox2" value="2">送股<span style="margin-left:40px">每10股送股<input type="number" class="btn_number" value="0" style="width:50px;" id="pop4-weight2">
+			  		<button class="bt3_add" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 29px;left: 202px;">+</button>
+			  		<button class="bt3_sub" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 41px;left: 202px;">-</button><span style="margin-left:10px;">股</span></span><br/>
+										<input style="margin-bottom: 12px;" type="checkbox" name="pop4-checkbox3" value="3">转股<span style="margin-left:40px">每10股转股<input type="number" class="btn_number" value="0" style="width:50px;" id="pop4-weight3">
+			  		<button class="bt4_add" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 58px;left: 202px;">+</button>
+			  		<button class="bt4_sub" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 70px;left: 202px;">-</button><span style="margin-left:10px;">股</span></span><br/>
+										<input style="margin-bottom: 12px;" type="checkbox" name="pop4-checkbox4" value="4">配股<span style="margin-left:40px">每10股配股<input type="number" class="btn_number" value="0" style="width:50px;" id="pop4-weight4">
+			  		<button class="bt5_add" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 87px;left: 202px;">+</button>
+			  		<button class="bt5_sub" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 99px;left: 202px;">-</button><span style="margin-left:10px;">股</span></span>
+										<span style="margin-left:20px">配股价<input class="btn_price" type="number" value="0.000" step="0.001"style="width:50px;" id="pop4-weight5">
+			  		<button class="bt7_add" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 87px;left: 346px;">+</button>
+			  		<button class="bt7_sub" style="height: 12px;line-height: 6px;width: 12px;position: absolute;top: 99px;left: 346px;">-</button><span style="margin-left:10px;">元</span></span><br/>
+									</div>
+									<div class="col-sm-12" style="margin-top:30px;"><!-- btn-lg -->
+										<button type='button' class='btn btn-info col-sm-offset-3' id='pop4-savenoticebtn'>确认</button>
+										<button type='button' class='btn btn-success col-sm-offset-2' id='pop4-sendconfrimbtn'>取消</button>
+									</div>
+								</form>
+
+							</div>
+						</div><!--modal-content-->
+					</div><!--modal-dialog-->
+				</div><!--modal-->
+				<div class="modal fade" id="pool-select" tabindex="-1" role="dialog"
+					 aria-labelledby="pool-select" aria-hidden="true">
+					<div class="modal-dialog" style="width:650px;margin-top:300px;">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							</div>
+							<div class="modal-body">
+								<div><input id="pop2-text" type="text"></div>
+								<div class="table-responsive" style="height:350px;">
+									<table class="table table-hover table-bordered " id='pop2-login-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th></th>
+											<th>股票代码</th>
+											<th>股票名称</th>
+										</tr>
+										</thead>
+										<tbody class="pop2-login-body"></tbody>
+									</table>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal" id="pop2-confirm">确认</button>
+								<button type="button" class="btn btn-primary" data-dismiss="modal" id='pop2-cancel'>取消</button>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal -->
+				</div>
+				<!-- 智能策略买入弹出框 -->
+				<div class='modal fade' id='autoModelBuyer' tabindex="-1" role="dialog" aria-labelledby="autoModelBuyer"
+					 aria-hidden="true">
+					<div class='modal-dialog modal-width' style="width:500px;margin-top:300px;">
+						<div class='modal-content'>
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							</div>
+							<div id="auto-modalBody" class="modal-body" style="text-align:left;font-size:30px;color:red;">
+								<div>
+									<span id="auto-type">买入</span><span id= "auto-stockCode" style="padding-left:20px;">000001</span>
+									<span style="padding-left:20px;"><input id= "auto-newquantity" type="number" step="1" min="0" style="display:inline-block;border-color:#ADD8E6;width:80px;text-align:center;" value="10"></span>手</br>
+								</div>
+								<div style="margin-top: 10px;">
+									<span>当前价格</span>
+									<span style="padding-left:20px;">
+										<input id= "auto-newprice" type="number" step="0.01" min="0" style="display:inline-block;width:160px;border-color:#ADD8E6;text-align:center;" value="10">
+									</span>元</br>
+								</div>
+								<div style="margin-top: 10px;">
+									<span>仓位</span> <span style="padding-left:20px;" id="auto-oldposition">10</span>%→<span id="auto-newposition">20</span>%
+								</div>
+								<input type="hidden" id="stockCode_hidden">
+								<input type="hidden" id="stockName_hidden">
+								<input type="hidden" id="modelCode_hidden">
+								<input type="hidden" id="modelName_hidden">
+								<input type="hidden" id="type_hidden">
+								<input type="hidden" id="quantity_hidden">
+								<input type="hidden" id="price_hidden">
+							</div>
+							<div class="modal-footer" style="text-align:center;">
+								<button type="button" class="btn btn-default"   id="buy-confirm">确认
+								</button>
+								<button type="button" class="btn btn-primary" style="margin-left:80px" data-dismiss="modal" id='buy-cancel'>取消
+								</button>
+							</div>
+						</div><!--modal-content-->
+					</div><!--modal-dialog-->
+				</div><!--modal-->
+				<!-- 智能策略买入弹出框 -->
+				<div class='modal fade' id='addPosition' tabindex="-1" role="dialog" aria-labelledby="addPosition"
+					 aria-hidden="true">
+					<div class='modal-dialog modal-width' style="width:470px;margin-top:300px;">
+						<div class='modal-content'>
+							<div class="modal-header">
+								<button type="button" class="close"   data-dismiss="modal" aria-hidden="true">&times;</button>
+							</div>
+							<div id="auto-modalBody" class="modal-body">
+								<form action="" class='form-horizontal col-sm-offset-1 form-inline' onsubmit="return false;">
+									<div>
+										股票代码：
+										<input type="text" class="form-control col-6 margin" style="width:145px;" autocomplete="off"  name="type" id="addPostion-stockName">
+										<select  id="typenum2" size="10" style="display:none;position: absolute;
+						    left: 125px;
+						    width: 145px;
+				            outline: none;
+				            border: 1px solid #999;
+				            margin-top:33px;
+			                height: 100px;
+				            Z-index:100">
+										</select>
+										价格：
+										<input type="text" class="form-control col-6 width100 margin" name="stockname" id="addPostion-price" readonly>
+									</div>
+									<div style="margin-top:20px;margin-left:20px;">
+										<button id="addPostion-bt1" class="btn btn-primary">全仓</button>
+										<button id="addPostion-bt2" class="btn btn-success">半仓</button>
+										<button id="addPostion-bt3" class="btn btn-info">1/3</button>
+										<button id="addPostion-bt4" class="btn btn-warning">1/4</button>
+									</div>
+									<div style="margin-top:20px;margin-left:20px;">
+										<span>百分比：</span>  <input type="number" step="1" min="1" max="100" autocomplete="off" class="form-control col-6 width120 margin" id="addPostion-percent" placeholder="可自定义"><span style="display:none;color:red">必须为整数</span>
+									</div>
+									<div style="margin-top:20px;margin-left:20px;">
+										<span id="notience" style="display:none;color:red">股票代码，价格以及百分比必须填写</span>
+										<span id="notience1" style="display:none;color:red">百分比必须为正整数(1-100)</span>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer" style="text-align:center;">
+								<button type="button" class="btn btn-default"  id="addPosition-confirm">买入
+								</button>
+								<button type="button" class="btn btn-primary" style="margin-left:80px" data-dismiss="modal" id='addPosition-cancel'>取消
+								</button>
+							</div>
+						</div><!--modal-content-->
+					</div><!--modal-dialog-->
+				</div><!--modal-->
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

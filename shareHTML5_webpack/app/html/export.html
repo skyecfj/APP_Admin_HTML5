@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>导出k线图</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='exportkline'>
+				<ul id="myExportTablist" class="nav nav-tabs straegy-tab" style="display: block;">
+					<li class="active"><a href="#exportlogFile" data-toggle="tab">导入日志</a></li>
+					<li><a href="#exporttradeFile" data-toggle="tab">导入买卖点</a></li>
+				</ul>
+				<div class="tab-content">
+					<div class='col-sm-12 clearfix  upload-logfile tab-pane fade in active'  id='exportlogFile'>
+						<h3 class=''>导入聚宽的日志生成k线图</h3>
+						<div class='col-sm-12 ' id='uploadlogfile'>
+							<span class='col-sm-3 upload-title'>导入聚宽的日志文件</span>
+							<form enctype="multipart/form-data charset=utf-8" id='uploadlogForm'
+								  class='col-sm-9 file-upload'>
+								<div class="form-group col-sm-8" id="uploadlogFileDiv">
+									<input id="file-2" name='txtFile' type="file" multiple="multiple">
+								</div>
+							</form>
+						</div>
+						<div class="col-sm-12">
+							<span class='col-sm-3 upload-title'>粘贴聚宽的日志文件</span>
+							<form id='' class='col-sm-9'>
+								<div class="col-sm-8">
+									<textarea name="" id="upload-paste-log" class="upload-paste-log" rows="8"></textarea>
+								</div>
+								<div class="col-sm-4" style="margin-top:132px;padding-left:0;">
+									<button class="btn btn-primary" id="log-createdata">生成数据</button>
+									<input type="hidden" id="log-file-name" val="">
+								</div>
+							</form>
+						</div>
+						<div>
+							<table class='table table-bordered'>
+								<tbody>
+								<tr>
+									<td>k线图设置</td>
+								</tr>
+								<tr>
+									<td>
+										<div>
+											<form class='form-horizontal' role='form' id='logFile'>
+												<div class='form-group'>
+													<label for='klinetype' class='col-sm-3 control-label'>k线周期</label>
+													<div class='col-sm-4'>
+														<select class='form-control' id='klinetype'>
+															<option value='M1'>M1</option>
+															<option value='M5'>M5</option>
+															<option value='M15'>M15</option>
+															<option value='M30'>M30</option>
+															<option value='H1'>H1</option>
+															<option value='D1'>D1</option>
+														</select>
+													</div>
+												</div>
+												<div class='form-group'>
+													<label for='klinerestorationtype' class='col-sm-3 control-label'>复权类型</label>
+													<div class='col-sm-4'>
+														<select class='form-control' id='klinerestorationtype'>
+															<option value='Forward'>前复权</option>
+															<option value='Backward'>后复权</option>
+															<option value='None'>不复权</option>
+														</select>
+													</div>
+												</div>
+												<div class='form-group'>
+													<label for='kstarttime' class='col-sm-3 control-label'>起始时间偏移量</label>
+													<div class='col-sm-4'>
+														<input type="text" class="spinnerExample " value='20' id='kstarttime' />
+													</div>
+												</div>
+												<div class='form-group'>
+													<label for='kendtime' class='col-sm-3 control-label'>结束时间偏移量</label>
+													<div class='col-sm-4'>
+														<input type="text" class="spinnerExample " id='kendtime' value='20' />
+													</div>
+													<span>*偏移量是k线根数</span>
+												</div>
+											</form>
+										</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<table class='table table-bordered export-table' id='exportTable' style='display:none'>
+								<tbody></tbody>
+							</table>
+							<span class='data-complete' style='display: none'>数据已生成，可以进行导出</span>
+							<button type='button' class='btn btn-primary' disabled id='createFile'>生成pdf</button>
+							<button type='button' class='btn btn-primary  btn-export' disabled id='export'>导出成pdf文件</button>
+							<button type='button' class='btn btn-primary' disabled id='createwordFile'>生成word</button>
+							<button type='button' class='btn btn-primary btn-export-word' disabled id='exportword'>导出成word文件</button>
+							<div class="progress" style='display: none'>
+								<div class="progress-bar process-export progress-bar-success" role="progressbar"
+									 aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+									 style="width: 0%;">
+									<span></span>
+								</div>
+							</div>
+							<div>
+								<span class='data-load' style='display: none'>数据正在生成中，数据完成前，请不要进行其他操作</span>
+								<span class='loading' style='display: none'>获取数据中</span>
+							</div>
+							<a download="" href="" target="blank" id="downPdf" style='display: none'></a> <span class='data-export' style='display: none'>正在生成pdf...</span>
+							<div class='export-contaner' id='exportcontaner' >
+								<div class='kline-contanier'>
+									<div class='k-container e-graph'></div>
+									<div class='k-container2 e-kgraph'></div>
+									<div class='k-container3 e-kgraph'></div>
+									<div class='k-container4 e-kgraph'></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class='col-sm-12 clearfix  upload-logfile tab-pane fade'  id='exporttradeFile'>
+						<h3 class=''>导入聚宽的买卖点生成k线图</h3>
+						<div class='col-sm-12 ' id='uploadtradefile'>
+							<span class='col-sm-3 upload-title'>导入聚宽的买卖点文件</span>
+							<form enctype="multipart/form-data charset=utf-8" id='uploadtradeForm' class='col-sm-9 file-upload'>
+								<div class="form-group col-sm-8" id="uploadtradeFileDiv">
+									<input id="file-3" name='csvFile' type="file" multiple="multiple">
+								</div>
+							</form>
+						</div>
+						<div class="col-sm-12">
+							<span class='col-sm-3 upload-title'>粘贴聚宽的买卖点文件</span>
+							<form id='' class='col-sm-9'>
+								<div class="col-sm-10">
+									<textarea name="" id="upload-paste-trade" class="upload-paste-log" rows="8"></textarea>
+								</div>
+								<div class="col-sm-2" style="margin-top:132px;padding-left:0;">
+									<button class="btn btn-primary" id="trade-createdata">生成数据</button>
+									<input type="hidden" id="trade-file-name" val="">
+								</div>
+							</form>
+						</div>
+						<div>
+							<table class='table table-bordered'>
+								<tbody>
+								<tr>
+									<td>k线图设置</td>
+								</tr>
+								<tr>
+									<td>
+										<div>
+											<form class='form-horizontal' role='form' id='tradeform'>
+												<div class='form-group'>
+													<label for='klinetype' class='col-sm-3 control-label'>k线周期</label>
+													<div class='col-sm-4'>
+														<select class='form-control' id='klinetype'>
+															<option value='M5'>M5</option>
+															<option value='M15'>M15</option>
+															<option value='M30'>M30</option>
+															<option value='H1'>H1</option>
+															<option value='D1'>D1</option>
+														</select>
+													</div>
+												</div>
+												<div class='form-group'>
+													<label for='klinerestorationtype' class='col-sm-3 control-label'>复权类型</label>
+													<div class='col-sm-4'>
+														<select class='form-control' id='klinerestorationtype'>
+															<option value='Forward'>前复权</option>
+															<option value='Backward'>后复权</option>
+															<option value='None'>不复权</option>
+														</select>
+													</div>
+												</div>
+												<div class='form-group'>
+													<label for='kstarttime' class='col-sm-3 control-label'>起始时间偏移量</label>
+													<div class='col-sm-4'>
+														<input type="text" class="spinnerExample " value='20' id='kstarttime' />
+													</div>
+												</div>
+												<div class='form-group'>
+													<label for='kendtime' class='col-sm-3 control-label'>结束时间偏移量</label>
+													<div class='col-sm-4'>
+														<input type="text" class="spinnerExample " id='kendtime' value='20' />
+													</div>
+													<span>*偏移量是根数</span>
+												</div>
+											</form>
+										</div>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+							<table class='table table-bordered   export-table' id='exporttradeTable' style='display:none'>
+								<tbody></tbody>
+							</table>
+							<span class='data-complete' style='display: none'>数据已生成，可以进行导出</span>
+							<button type='button' class='btn btn-primary' disabled id='createTradeFile'>生成pdf</button>
+							<button type='button' class='btn btn-primary btn-export' disabled id='exporttrade'>导出成pdf文件</button>
+							<button type='button' class='btn btn-primary' disabled id='createtradewordFile'>生成word</button>
+							<button type='button' class='btn btn-primary btn-export-word ' disabled id='exporttradeword'>导出成word文件</button>
+							<div class="progress" style='display: none'>
+								<div class="progress-bar process-export progress-bar-success" role="progressbar"
+									 aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+									 style="width: 0%;">
+									<span></span>
+								</div>
+							</div>
+							<div>
+								<span class='data-load' style='display: none'>数据正在生成中，数据完成前，请不要进行其他操作</span>
+								<span class='loading' style='display: none'>获取数据中</span>
+							</div>
+							<a download="" href="" target="blank" id="downPdf" style='display: none'></a> <span class='data-export' style='display: none'>正在生成pdf...</span>
+							<div class='export-contaner' id='exporttradecontaner' >
+								<div class='kline-contanier'>
+									<div class='k-container e-graph'></div>
+									<div class='k-container2 e-kgraph'></div>
+									<div class='k-container3 e-kgraph'></div>
+									<div class='k-container4 e-kgraph'></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

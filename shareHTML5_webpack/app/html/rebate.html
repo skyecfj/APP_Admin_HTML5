@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>优惠券管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src='./assets/js/rebate.js'></script>
+	<style>
+		#onGroupForm #stragePerId-error, #onGroupForm #strageId-error{
+			position: absolute;
+			right: -99px;
+		}
+	</style>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='rebate'>
+				<div class='col-sm-12 clearfix'>
+					<ul class="nav nav-tabs" role="tablist">
+						<!-- <li role="presentation" class="active" id="active1"><a class="rebate-tab1" href="#">新增优惠券种类</a></li> -->
+						<!-- <li role="presentation" id="active2"><a class="rebate-tab2" href="#">优惠券管理</a></li> -->
+						<li role="presentation" class="active" id="active2"><a class="rebate-tab2" href="#">优惠券管理</a></li>
+					</ul>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form class="form-inline" id="onSearchForm"  onsubmit="return false;">
+								优惠券类型：
+								<select name="statusStr" class="form-control col-6 rebate margin" id="typeName2">
+									<option value="" selected>--请选择--</option>
+									<option value="0">抵扣券</option>
+									<option value="1">折扣券</option>
+									<option value="2">换购券</option>
+									<option value="3">兑换券</option>
+								</select>
+								<div class="num hiddens" id="statusStr0" style="display: inline-block;">
+									<span>抵扣值:</span>
+									<input style="width: 80px;" type="number"  class="form-control col-6 margin" name="volume" placeholder="最小值" id="volumeMin">-
+									<input style="width: 80px;" type="number"  class="form-control col-6 margin" name="volume" placeholder="最大值" id="volumeMax">
+								</div>
+								<div class="num hiddens" id="statusStr1" style="display: inline-block;">折扣值:
+									<input type="number" style="width: 80px;"  class="form-control col-6 margin" name="volume" placeholder="折扣" id="volume">%
+								</div>
+								<div class="rebate hiddens" style="display:inline-block;">
+									使用状态：
+									<select name="statusStr" class="form-control col-6" id="isUsed">
+										<option value="" selected>--请选择--</option>
+										<option value="0">未使用</option>
+										<option value="1">已使用</option>
+									</select>
+								</div>
+							</form>
+							<form class="form-inline rebate hiddens" id="res">
+								过期状态：
+								<select name="statusStr" class="form-control col-6 margin" id="isExpired">
+									<option value="" selected>--请选择--</option>
+									<option value="0">未过期</option>
+									<option value="1">已过期</option>
+								</select>
+								操作人:
+								<input type="text" class="form-control col-6 margin" id="operatorName" placeholder="操作人">
+								用户名:
+								<input type="text" class="form-control col-6" id="userName" placeholder="用户名">
+							</form>
+							<form class="form-inline rebate hiddens" id="times_res">
+								分发时间：
+								<input id="dSTime" name="createTime" type="text" class="form-control col-6 time" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>-
+								<input id="dETime" name="updateTime" type="text" class="form-control col-6 time margin" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+								有效期：
+								<input id="inSTime" name="createTime" type="text" class="form-control col-6 time" value="" onfocus="WdatePicker()"/>-
+								<input id="inETime" name="updateTime" type="text" class="form-control col-6 time" value="" onfocus="WdatePicker()"/>
+								<div class="botton-right">
+									<button type="button" id="onSearchDispense" class="btn btn-sm btn-success btn-beautify">
+										<i class="ace-icon fa fa-search"></i>
+										查询
+									</button>
+									<button type="button" id="addDispense" class="btn btn-sm btn-danger btn-beautify">
+										<i class="ace-icon fa fa-plus"></i>
+										按组分发优惠券
+									</button>
+									<button type="button" id="addDispensePer" class="btn btn-sm btn-danger btn-beautify">
+										<i class="ace-icon fa fa-plus"></i>
+										个人分发优惠券
+									</button>
+								</div>
+							</form>
+							<div class="checktime rebatetimes hiddens">请正确选择时间</div>
+							<div class="checktime rebatetime hiddens">请正确选择时间</div>
+							<div class="table-responsive" id='table1'>
+								<table class="table table-hover table-bordered ">
+									<caption></caption>
+									<thead class='user-head'>
+									<tr>
+										<th>优惠券类型</th>
+										<th>面值</th>
+										<th>新增时间</th>
+										<!-- <th>操作</th> -->
+									</tr>
+									</thead>
+									<tbody class="rebateList">
+									</tbody>
+								</table>
+							</div>
+							<div class=" hiddens" id='table2'>
+								<table class="table table-hover table-bordered ">
+									<caption></caption>
+									<thead class='user-head'>
+									<tr>
+										<th>优惠券类型</th>
+										<th>优惠券名称</th>
+										<th>面值</th>
+										<th>所使用的策略</th>
+										<th>日期类型</th>
+										<th>日期数量</th>
+										<th>有效期至</th>
+										<th>用户名</th>
+										<th>使用状态</th>
+										<th>过期状态</th>
+										<th>用户组</th>
+										<th>操作人</th>
+										<th>分发时间</th>
+									</tr>
+									</thead>
+									<tbody class="rebateDetailList">
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="peges type_s" id="rebatepage"></div>
+						<nav class="peges user hiddens" id="rebatepages"></nav>
+					</div>
+					<!-- 对话框 -->
+					<div class="modal fade  bs-example-modal-sm" id="myModal">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body" >
+									<form class="form-horizontal" role="form" id='addRebate'>
+										<div class="form-group">
+											<label for="typeNames" class="col-sm-4 control-label label-center">优惠券类型</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control col-6" id="typeNames" name='typeNames' placeholder="优惠券类型" >
+											</div>
+										</div>
+										<div class="tip types_s hiddens">
+											优惠券类型已存在,请重新填写
+										</div>
+										<div class="form-group">
+											<label for="volumes" class="col-sm-4 control-label label-center">面值</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="volumes" name='volumes'  placeholder="面值">
+											</div>
+										</div>
+										<div class="tip volume_s hiddens">
+											请输入正确数字
+										</div>
+										<div class="form-group hiddens">
+											<label for="phonenum" class="col-sm-4 control-label label-center">新增时间</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control col-6" id="newdate" placeholder="新增时间" onfocus="WdatePicker()">
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='addTicketType'>添加</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="myModalss">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body" >
+									<form class="form-horizontal" role="form" id='addRebate'>
+										<div class="form-group">
+											<label for="phonenum" class="col-sm-4 control-label label-center">用户组</label>
+											<div class="col-sm-8">
+												<select name="groupId" class="form-control col-6" id="groupId">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="typeName" class="col-sm-4 control-label label-center">优惠券名称</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control col-6" id="typeName" name='typeName'>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phonenum" class="col-sm-4 control-label label-center">优惠券类型</label>
+											<div class="col-sm-8" id="onReatForm">
+												<select name="typeId" class="form-control col-6" id="typeId">
+													<option value="0">抵扣券</option>
+													<option value="1">折扣券</option>
+													<option value="2">换购券</option>
+													<option value="3">兑换券</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group" id="volumeStr">
+											<label for="volumeId" class="col-sm-4 control-label label-center">面值</label>
+											<div class="col-sm-8">
+												<input style="display:inline-block" type="text" class="form-control col-6" id="volumeId" name='volumeId'><i></i>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="strageId" class="col-sm-4 control-label label-center">适用范围(多选)</label>
+											<div class="col-sm-8" id="onGroupForm">
+												<select 
+													name="strageId" 
+													id="strageId" 
+													class="selectpicker show-menu-arrow form-control col-6"
+													data-none-selected-text="请选择"
+													data-actions-box="true" 
+													data-live-search="true" 
+													multiple
+												>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="dateLimitType" class="col-sm-4 control-label label-center">日期类型</label>
+											<div class="col-sm-8">
+												<select name="dateLimitType" class="form-control col-6" id="dateLimitType">
+													<option value="1">月</option>
+													<option value="2">季</option>
+													<option value="3">年</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="dateLimitCount" class="col-sm-4 control-label label-center">日期数量</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="dateLimitCount" name='dateLimitCount'  placeholder="数量" >
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label for="phonenum" class="col-sm-4 control-label label-center">有效期至</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control col-6" id="indate" name='indate' placeholder="有效期至" onfocus="time();">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="counts" class="col-sm-4 control-label label-center">数量</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="counts" name='counts'  placeholder="数量" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="detail" class="col-sm-4 control-label label-center">说明</label>
+											<div class="col-sm-8">
+												<textarea rows="6" class='form-control col-6' id='detail' name='detail'></textarea>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='resend'>分发</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="myModalsPer">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body" >
+									<form class="form-horizontal" role="form" id='deliverRebatePer'>
+										<div class="form-group">
+											<label for="rebateper" class="col-sm-4 control-label label-center">用户</label>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<input type="text" class="form-control col-6 " id='rebateper' autocomplete="off" data-provide="typeahead">
+													<span class="input-group-btn"><button class="btn btn-default btn-add-rebate-user" type="button">添加</button></span>
+												</div><!-- /input-group -->
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="rebateuser" class="col-sm-4 control-label label-center">已选用户</label>
+											<div class="col-sm-8">
+												<textarea rows="6" cols="20" class='form-control col-6' id='rebateuser' name='rebateuser' placeholder="已选用户,最多不能超过5个" ></textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="typePerName" class="col-sm-4 control-label label-center">优惠券名称</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control col-6" id="typePerName" name='typePerName'>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="typePerId" class="col-sm-4 control-label label-center">优惠券类型</label>
+											<div class="col-sm-8" id="onReatPerForm">
+												<select name="typePerId" class="form-control col-6" id="typePerId">
+													<option value="0">抵扣券</option>
+													<option value="1">折扣券</option>
+													<option value="2">换购券</option>
+													<option value="3">兑换券</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group" id="volumePerStr">
+											<label for="volumePer" class="col-sm-4 control-label label-center">面值</label>
+											<div class="col-sm-8">
+												<input style="display:inline-block" type="text" class="form-control col-6" id="volumePer" name='volumePer'><i></i>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="stragePerId" class="col-sm-4 control-label label-center">适用范围(多选)</label>
+											<div class="col-sm-8" id="onGroupForm">
+												<select 
+												name="stragePerId" 
+												id="stragePerId" 
+												class="selectpicker show-menu-arrow form-control col-6"
+												data-none-selected-text="请选择"
+												data-actions-box="true" 
+												data-live-search="true" 
+												multiple>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="dateLimitPerType" class="col-sm-4 control-label label-center">日期类型</label>
+											<div class="col-sm-8">
+												<select name="dateLimitPerType" class="form-control col-6" id="dateLimitPerType">
+													<option value="1">月</option>
+													<option value="2">季</option>
+													<option value="3">年</option>
+												</select>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="dateLimitPerCount" class="col-sm-4 control-label label-center">日期数量</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="dateLimitPerCount" name='dateLimitPerCount'  placeholder="数量" >
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="indateper" class="col-sm-4 control-label label-center">有效期至</label>
+											<div class="col-sm-8">
+												<input type="text" class="form-control col-6" id="indateper" name='indateper' placeholder="有效期至" onfocus="time();">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="countsper" class="col-sm-4 control-label label-center">数量</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" id="countsper" name='countsper'  placeholder="数量" >
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="detailPer" class="col-sm-4 control-label label-center">说明</label>
+											<div class="col-sm-8">
+												<textarea rows="6" class='form-control col-6' id='detailPer' name='detailPer'></textarea>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='resendPer'>分发</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

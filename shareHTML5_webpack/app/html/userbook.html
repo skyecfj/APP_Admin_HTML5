@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>用户订单管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='userbookcontent'>
+				<ul id="bookTablist" class="nav nav-tabs ">
+					<li class="active"><a href="#bookInfo" data-toggle="tab">用户订单</a></li>
+				</ul>
+				<div class="tab-content panel-default book-content">
+					<div class='col=sm-12  tab-pane fade in active panel-body' id='bookInfo'>
+						<form action="" class='form-inline types' id='bookform' >
+								用户名：
+								<input type='tel'  class="form-control col-6 margin"  id='bbokusername'  placeholder='用户名' />
+								订单号:
+								<input type='tel' class="form-control col-6 margin"  id='bookid' placeholder='订单号'/>
+								订单处理状态:
+								<select id='bookstatus' class='form-control col-6 margin'>
+									<option value=""></option>
+									<option value="1">成功</option>
+									<option value='0'>失败</option>
+								</select><br><br>
+								订单类别:
+								<select id='booktype' class='form-control col-6 margin'>
+									<option value="">全部</option>
+									<option value='日'>一元支付</option>
+									<option value='月'>按月支付</option>
+									<option value='季'>按季支付</option>
+									<option value='年'>按年支付</option>
+									
+								</select>
+								支付金额：
+								<input style="width: 100px;" type="tel" class="form-control col-3 margin" id="bookcashamountfrom" placeholder="">
+								至
+								<input style="width: 100px;" type="tel" class="form-control col-3 margin" id="bookcashamountto" placeholder=""><br><br>
+								操作人：
+								<input type='text' class="form-control col-6 margin5"  id='bookoperation' placeholder='操作人'/>
+								<button type='button'  class='btn btn-success' id='btnsearchorder'>查询</button>
+						</form>
+						<table class='table table-bordered' id='booktable'>
+							<thead>
+							<tr>
+								<th>编号</th>
+								<th>订单号</th>
+								<th>用户名</th>
+								<th>策略名</th>
+								<th>订单金额</th>
+								<th>订单数量</th>
+								<th>支付宝账户</th>
+								<th>支付金额</th>
+								<th>下单时间</th>
+								<th>订单处理状态</th>
+								<th>操作人</th>
+								<th>操作</th>
+							</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+						<div class='clearfix'>
+							<div class='peges' id='bookpages'></div>
+						</div>
+						<div class='operation'>
+							<span>操作说明</span>
+							<span>1.根据邮件给出的'订单号'进行查询.</span>
+							<span>2.若订单处理状态为'失败'，则查看订单支付宝账户</span>
+							<span>3.查询企业支付宝账户是否收到该账户的支付的交易金额</span>
+							<span>4.确认收到的金额，则对订单进行'补单'操作</span>
+							<span>5.补单成功后,订单状态为'成功','补单'按钮不可用</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

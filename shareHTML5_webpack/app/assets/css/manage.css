@@ -1,0 +1,742 @@
+
+.tabs {
+	background-color:#fff;
+	margin-left: 11px;
+	margin-top: 50px;
+	padding-left: 0;
+	padding-right: 0;
+
+
+}
+.no-bottom {
+	margin-bottom: 0;
+}
+
+.panel-default .heading {
+	background-color: #fff;
+
+}
+
+.panel-title a {
+	color:#000;
+	text-align: center;
+}
+#modellist .active>a, #modelmonitorlist .active>a,.panel .active,.panel li.active>a,.heading.active a {
+
+	color:#fff;
+	background-color:#000;
+}
+.information {
+	background-color: white;
+	height: 100%;
+
+	min-height:100%;
+	margin-left: 15px;
+	margin-top: 50px;
+
+}
+
+.add {
+	float: right;
+	margin-top: 10px;
+}
+
+caption {
+	text-align: center;
+	font-size: 20px;
+}
+
+.user-head {
+	background-color: rgba(200, 221, 252, 1);
+}
+
+.strategy-name {
+	text-align: center;
+	line-height: 1.8em;
+	margin: 20px 0;
+}
+
+.statistics {
+	line-height: 1.8em;
+}
+
+.statistics h4 {
+	margin: 10px 0;
+	color: blue;
+}
+
+.statistics li {
+
+	display: inline;
+}
+
+.analysis h4 {
+	margin: 30px 0;
+	text-align: center;
+	color: blue;
+}
+
+.col-6 {
+	width: 60%;
+}
+.col-3{
+	width:18%;
+}
+.form-inline .col-5 {
+	width: 65%;
+}
+#updatepasswordmodal .label-left, #addUserModal .label-left {
+	text-align: left;
+}
+#usertable .update{
+	margin-right: 10px;
+}
+.delete {
+	margin-right: 10px;
+}
+#update-name {
+  padding-top: 7px;
+  font-size: 16px;
+  line-height: 29px;
+ }
+#active-info {
+	padding-bottom: 20px;
+}
+
+.date {
+	color: red;
+	margin-right: 10px;
+}
+
+.pagenum {
+	float: right;
+	margin-right: 20px;
+}
+
+.required {
+	color: red;
+}
+
+.graph {
+	width: 850px;
+	height: 300px;
+	background-color:grey;
+	margin-top:20px;
+}
+.kgraph {
+	width: 850px;
+	height: 200px;
+	background-color:grey;
+}
+.e-graph {
+	width: 800px;
+	height: 330px;
+
+	margin-top:20px;
+}
+.s-kgraph {
+		width: 800px;
+	height: 120px;
+	background:#ffffff;
+
+
+}
+.s-graph{
+	width: 100%;
+	height: 120px;
+	background:#ffffff;
+
+}
+
+.e-kgraph {
+		width: 800px;
+	height: 200px;
+	background:#ffffff;
+}
+.e-fgraph{
+	width: 100%;
+	height: 200px;
+	background:#ffffff;
+}
+
+.straegy-content{
+	  background-color: white;
+    height: 100%;
+    margin-left: 15px;
+
+}
+.straegy-tab{
+	margin-left:15px;
+	margin-top:50px;
+}
+.information{
+	margin-top: 50px;
+}
+.switch{
+	display:block;
+
+
+
+}
+.switch-liist{
+	padding:2px 10px;
+	border:1px solid #ddd;
+	margin:0;
+	float:left;
+	display:inline-block;
+}
+.press{
+	background-color:#07e;
+	color:#fff;
+	border:1px solid #07e;
+}
+.index-select{
+float:left;
+margin-left:50px;
+}
+.rategraph{
+	max-width: 100%;
+	height: 300px;
+	background-color:grey;
+	margin-top:20px;
+}
+.switch-liist{
+	cursor: pointer;
+}
+ .disabled{
+ color: rgb(119, 119, 119);
+cursor: not-allowed;
+ }
+ .file-list{
+ position:absolute;
+ bottom:50px;
+ left:20px;
+ padding-top:25px;
+background:#fff;
+ border:1px solid #fff;
+ text-align:center;
+ }
+ .welcome{
+ height:500px;
+ padding:50px 70px;
+ text-align:center;
+ }
+ #onSearchForm .error,#coins .error,#onSearchUser2 .error{
+ margin-bottom:0;
+ float:none;
+ }
+ .peges  .error{
+ margin-top:30px;
+ }
+.ktypes .ktype{
+	margin-right:10px;
+}
+.k-navbar{
+	margin-bottom:0;
+}
+.navbar-default .ktypes .press>a{
+	color:#fff;
+}
+.left-panel{
+	border:0;
+}
+.panel-content li.active a,.panel-content li.active>a:focus,.panel-content li.active>a:hover{
+	background-color:#000;
+	border:0;
+
+}
+.panel-content{
+	border-left:4px solid #19a9d5;
+}
+
+.panel-content li a,.panel-content ul{
+
+	color:#000;
+	border:0;
+}
+.file-upload{
+	margin-top:20px;
+}
+.upload-title{
+	margin-top:20px;
+}
+.upload-logfile{
+	margin:30px;
+}
+.hiddens{
+	display:none!important;
+}
+.search-k {
+	text-align:center;
+}
+.search-k h3{
+
+	margin:25px 0;
+}
+
+#noticecontent{
+	font-size:20px;
+	color:rgb(255,204,51);
+}
+#noticeconfrimmodal p{
+	display:block;
+	text-align:center;
+	font-size:16px;
+	font-weight:600;
+}
+.noticesendcontent{
+	width:250px;
+	height:380px;
+	margin:20px auto;
+	font-size:16px;
+	color:#333;
+	background:url(../../img/bullsend.png);
+	background-size:100% 100%;
+	font-family:'Microsoft Yahei'
+}
+.notice-content{
+	margin-top:5px;
+	font-size:16px;
+}
+.notice-title{
+	color:#333;
+	padding-top:10px;
+	padding-bottom:20px;
+}
+.btn-bulls-send{
+	margin-top:10px;
+}
+#noticecontent1,#bulls-detail-content1{
+	color:rgb(231,179,37);
+	font-weight:600;
+}
+.control-label{
+	font-size:16px;
+}
+.notice-msg{
+	margin-top:150px;
+}
+.notice-msg1{
+	color:rgb(231,179,37);
+}
+.notice-msg3{
+	color:rgb(255,204,51);
+
+}
+.bulls-notice{
+	text-align:center;
+}
+.first-trade{
+	background-color:#ffff00
+}
+.paginate_input{
+	width:50px;
+}
+.opreating-title{
+	margin:20px auto;
+	text-align:center;
+}
+.operating-content{
+	color:rgb(244,175,12);
+}
+.noboder-table th,.noboder-table td{
+	padding:10px 20px;
+	text-align:left;
+}
+.k-navbar{
+	height:30px;
+	min-height:40px;
+}
+.k-navbar   li > a{
+	padding:5px 20px;
+}
+#klinecontainer{
+	margin-top:20px;
+}
+.KDJCurrent span ,.MACDCurrent span,.VOLCurrent span{
+	padding:0 20px;
+	float:left;
+	font-size:12px;
+}
+.date{
+
+
+}
+.full{
+	position:absolute;
+	text-align:center;
+	top:0px;
+	left:0px;
+	right:0px;
+	background:#ffffff;
+	height:100%;
+	min-height:100%;
+	 bottom:0px;
+	 visibility:visible;
+	  filter: Alpha(opacity=90);
+}
+.k-date{
+	float:left;
+}
+.book-content{
+	border:1px solid #ddd
+}
+.col-4{
+	width:25%
+}
+.operation span{
+	display:block;
+	color:#00BFFF
+}
+.capital-show{
+	height: 16px;
+	line-height: 16px;
+	text-align: right;
+	margin-bottom: 10px;
+	font-weight: 600;
+	font-size: 14px;
+}
+.pagination>li>a:hover{
+	cursor: pointer;
+}
+.font-red{
+	color: red;
+}
+.font-green{
+	color: green;
+}
+.custom-head{
+	background-color: rgba(200, 221, 252, 1);
+}
+.float-right{
+	float: right;
+}
+.register-login-box,.tactics-subscribe-box,.codedata-box,
+.agency-info-box,.brokerage-Settlement-box{
+	margin-top:20px;
+}
+.width50{
+	width: 50px !important;
+}
+.width70{
+	width: 70px !important;
+}
+.width96{
+	width: 96px !important;
+}
+.width100{
+	width: 100px !important;
+}
+.width120{
+	width: 120px !important;
+}
+.width160{
+	width: 160px !important;
+}
+.width190{
+	width: 190px !important;
+}
+.width200{
+	width: 200px !important;
+}
+.width400{
+	width: 400px !important;
+}
+.width650{
+	width: 650px !important;
+}
+.width800{
+	width: 800px !important;
+}
+#register-login-search{
+	margin-bottom: 20px;
+}
+#singal-login-search{
+	margin-bottom: 20px;
+}
+c{
+	margin-bottom: 20px;
+}
+#register-login-search div,#singal-login-search div,#pool-login-search div,#tactics-subscribe-search div,#poolAdd div,
+#tactics-subscribe-search,#codedata-search div,#autostockadd div,
+#agency-info-search div,#brokerage-Settlement-search div,
+#agency-modal-search div{
+	margin-bottom: 10px;
+}
+#subagent-modal .modal-dialog{
+	margin: 200px auto;
+	width: 400px;
+}
+#subagent-modal .modal-body{
+	font-size: 16px;
+  height: 100px;
+  line-height: 82px;
+}
+.modal-dialog{
+	margin-top: 100px;
+	margin-left: 80px;
+}
+.custom-select{
+	height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#register-login-searchbtn{
+	margin-right: 60px;
+}
+div.tactics-checktime1{
+	text-align: right;
+	padding-right: 122px;
+}
+div.tactics-checktime2{
+	text-align: left;
+	padding-left: 177px;
+}
+#yingYuan-search{
+	margin:20px 0 30px 0;
+}
+#sign-analysis-search,#agency-info-search,#brokerage-Settlement-search{
+	margin-bottom:30px;
+}
+#sign-analysis-search div{
+	margin-top:10px;
+}
+.search-num{
+	margin-top: 24px;
+}
+table .table-sorting{
+  background: url("../img/sort_both1.png") no-repeat;
+  background-position: right center;
+  padding-right:13px !important;
+  cursor: pointer;
+}
+table .table-sorting-asc{
+  background: url("../img/sort_asc.png") no-repeat;
+  background-position: right center;
+  padding-right:13px !important;
+  cursor: pointer;
+}
+table .table-sorting-desc{
+	background: url("../img/sort_desc.png") no-repeat;
+  background-position: right center;
+  padding-right:13px !important;
+  cursor: pointer;
+}
+#numOptimization td{
+	text-align: center;
+}
+#numOptimization td input{
+	height: 30px;
+  width: 80px;
+  margin-left: 24px;
+}
+#numOptimization-article-table tr td input{
+	margin-left: 75px;
+}
+.codedata-summary,.register-login-summary,
+.sign-analysis-summary{
+	margin: 20px 0;
+  font-size: 18px;
+  padding-left: 20px;
+  color: #666;
+}
+#tactics-subscribe-num-table thead tr {
+	display:block;
+}
+#tactics-subscribe-num-table tbody {
+	display: block;
+	height: 74px;
+	overflow: auto;
+}
+#tactics-subscribe-num-table th {
+	width:192px;
+}
+#tactics-subscribe-num-table td {
+	width:192px;
+	text-align: center;
+}
+#app-operation-analyze .table-responsive td,
+.table-center td{
+	text-align: center;
+}
+.table-center tr:nth-child(even){
+	background: #EDF3FA;
+}
+#agency-info-modal .agency-info-dialog{
+	width: 1020px;
+}
+#agency-info-modal .modal-dialog.agency-info-dialog{
+	width: 850px;
+	margin-left: 7px;
+}
+.agency-info-user{
+	font-size: 1.2em;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+#brokerage-table input[type="text"]{
+	width: 50px;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+#agency-manage td{
+	text-align: center;
+}
+#brokerage-table tfoot td{
+	border: 0;
+}
+.fweight600{
+	font-weight: 600 !important;
+}
+.lpadding0{
+	padding-left: 0;
+	margin-bottom: 10px;
+}
+#brokerage-show-img{
+	max-width: 100px;
+	max-height: 50px;
+}
+.pay-input{
+	height: 34px;
+  padding: 6px 12px;
+  margin-top: 3px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+#brokerage-pay-comment,
+#brokerage-mergepay-comment{
+	border-radius: 4px;
+  margin-top: 10px;
+  padding: 5px;
+}
+.btn-brokerage-pay-box{
+  display: inline-block;
+  position: relative;
+}
+.btn-brokerage-pay-box .btn-brokerage-file{
+    position: absolute;
+    top:0px;
+    left:0px;
+    width:82px;
+    height:34px;
+    opacity:0;
+}
+.word-break{
+	word-break: break-word;
+}
+#brokerage-pay-modal .modal-dialog,
+#brokerage-show-modal .modal-dialog,
+#brokerage-mergepay-modal .modal-dialog,
+#brokerage-save-modal .modal-dialog{
+	margin:200px auto;
+}
+#brokerage-save-modal .modal-body{
+	font-size: 16px;
+	height: 100px;
+	line-height: 30px;
+}
+.brokerage-pay-img{
+	width: 97%;
+}
+div.brokerage-checktime{
+	text-align: left;
+	padding-left: 177px;
+}
+#push-message-search{
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+.margintop200{
+	margin-top: 200px !important;
+}
+.marginb10{
+	margin-bottom: 10px !important;
+}
+.marginT20{
+	margin-top: 20px !important;
+}
+.marginB20{
+	margin-bottom: 20px !important;
+}
+.border0{
+	border:0 !important;
+}
+.padding0{
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+.push-list,#ug-bi-user{
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 5px;
+  min-height: 32px;
+  max-height: 100px;
+  max-width: 100%;
+  overflow-y: auto;
+  word-wrap: break-word;
+}
+.btn-addpush-file,.ug-bi-btn{
+  display: inline-block;
+  position: relative;
+}
+.btn-addpush-file #btn-addpush-file,
+.ug-bi-btn #ug-bi-file{
+  position: absolute;
+  top:0px;
+  left:0px;
+  width:82px;
+  height:34px;
+  opacity:0;
+}
+.lineheight34{
+	line-height: 34px;
+}
+.lineheight32{
+	line-height: 32px;
+}
+#ug-bi-user{
+	min-height: 100px;
+	max-height: 150px;
+}
+.ug-bi-btn{
+	padding: 0;
+  width: 70px;
+  overflow: hidden;
+  margin-left: 10px;
+  cursor: pointer;
+}
+#strategy-template-modal .strategy-template-text{
+	border: 0;
+}
+#strategy-template-modal .form-control[disabled]{
+	cursor: text;
+	background-color: #fff;
+	box-shadow:0 0 #fff;
+}
+#strategy-pushmsg{
+	border-radius: 5px;
+	padding: 5px;
+	margin-top: 5px;
+}
+.strategy-templist{
+	margin-top: 7px;
+}
+/*导出k线图*/
+.upload-paste-log{
+	width: 100%;
+	border-radius: 5px;
+	padding: 5px;
+	margin-top:20px;
+	margin-bottom: 10px;
+	font-size: 12px;
+	resize: none;
+}

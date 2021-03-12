@@ -1,0 +1,61 @@
+.sms-list-head {
+    background-color: rgba(200, 221, 252, 1);
+}
+#sms-detail-modal .modal-body>div,#sms-edit-modal .modal-body>div{
+	margin-bottom:10px;
+}
+.sms-send-total{
+	border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 5px;
+  min-height: 50px;
+  max-height: 120px;
+  max-width: 100%;
+  overflow-y: scroll;
+  word-wrap: break-word;
+}
+#sms-search-from>div{
+	margin-bottom:10px;
+}
+#sms-send-modal p,#sms-delete-modal p{
+	font-size: 16px;
+	font-weight: 600;
+}
+#sms-send-modal p>span{
+	color:red;
+}
+.btn-smsbatch-file{
+    display: inline-block;
+    position: relative;
+
+}
+.btn-smsbatch-file #btn-edit-smsbatch-file{
+    position: absolute;
+    top:0px;
+    left:0px;
+    width:82px;
+    height:34px;
+    opacity:0;
+}
+#sms-edit-group,#sms-edit-temptype{
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.font-red{
+  color:red;
+}
+#sms-edit-user-total .del-user i{
+    color:#8e8e8e;
+}
+#sms-edit-user-total .del-user i:hover{
+    cursor: pointer;
+}

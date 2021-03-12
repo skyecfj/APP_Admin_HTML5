@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>虚拟币管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src='./assets/js/coin.js'></script>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='coin'>
+				<div class='col-sm-12 clearfix'>
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active"><a class="" href="#">虚拟币管理</a></li>
+					</ul>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<form class="form-inline" id="coins">
+								面值:
+								<input type="text" class="form-control col-6 times margin" id="volume" name='volume' placeholder="面值">
+								用户名:
+								<input type="text" class="form-control col-6 times margin" id="userName" placeholder="用户名">
+								分发时间：
+								<input id="coinstartTime" name="createTime" type="text" class="form-control col-6 times" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+								<input id="coinendTime" name="updateTime" type="text" class="form-control col-6 times" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+							</form>
+							<div class="checktime cointime hiddens">请正确选择时间</div>
+							<form class="form-inline" id="coinss">
+								用户组:
+								<input type="text" class="form-control col-6 times margin" id="groupName" placeholder="用户组">
+								操作人:
+								<input type="text" class="form-control col-6 times margin" id="operatorName" placeholder="操作人">
+								<div class="botton-right">
+									<button type="button" id="onSearchCoin" class="btn btn-sm btn-success btn-beautify">
+										<i class="ace-icon fa fa-search"></i>
+										查询
+									</button>
+									<button type="button" id="addCoin" class="btn btn-sm btn-danger btn-beautify">
+										<i class="ace-icon fa fa-plus"></i>
+										按组分发虚拟币
+									</button>
+									<button type="button" id="addCoinByPer" class="btn btn-sm btn-danger btn-beautify">
+										<i class="ace-icon fa fa-plus"></i>
+										个人分发虚拟币
+									</button>
+								</div>
+							</form>
+							<div class="table-responsive" id='table'>
+								<table class="table table-hover table-bordered ">
+									<caption></caption>
+									<thead class='user-head'>
+									<tr>
+										<th>编号</th>
+										<th>面值（个）</th>
+										<th>用户名</th>
+										<th>分发时间</th>
+										<th>用户组</th>
+										<th>操作人</th>
+									</tr>
+									</thead>
+									<tbody class='coinList'>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<nav class="peges" id="coinpage">
+						</nav>
+					</div>
+					<!-- 按组分发-->
+					<div class="modal fade  bs-example-modal-sm" id="myModalCoin">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body" >
+									<form class="form-horizontal" role="form" id='addRebate'>
+										<div class="form-group">
+											<label for="coinGrounp" class="col-sm-4 control-label label-center">用户组</label>
+											<div class="col-sm-8">
+												<select name="statusStr" class="form-control col-6" id="coinGrounp">
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="coinnumber" class="col-sm-4 control-label label-center">人均个数</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" name='coinnumber' id="coinnumber" placeholder="人均个数">
+											</div>
+										</div>
+										<div class="tip amount_s hiddens">
+											请输入正确数字
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='resendCoin'>发送 </button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+					<div class="modal fade  bs-example-modal-sm" id="myModalCoinPer">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<h4 class="modal-title"></h4>
+								</div>
+								<div class="modal-body" >
+									<form class="form-horizontal" role="form" id='addcoinByPer'>
+										<div class="form-group">
+											<label for="coinPer" class="col-sm-4 control-label label-center">用户</label>
+											<div class="col-sm-6">
+												<div class="input-group">
+													<input type="text" class="form-control col-6 " id='coinPer' autocomplete="off" data-provide="typeahead">
+													<span class="input-group-btn"><button class="btn btn-default btn-add-coin-user" type="button">添加</button></span>
+												</div><!-- /input-group -->
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="coinuser" class="col-sm-4 control-label label-center">已选用户</label>
+											<div class="col-sm-8">
+												<textarea rows="6" cols="20" class='form-control col-6' id='coinuser' name='coinuser' placeholder="已选用户,最多不能超过5个" ></textarea>
+
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="coinnumberPer" class="col-sm-4 control-label label-center">人均个数</label>
+											<div class="col-sm-8">
+												<input type="number" class="form-control col-6" name='coinnumberPer' id="coinnumberPer" placeholder="人均个数">
+											</div>
+										</div>
+										<div class="tip amount_s hiddens">
+											请输入正确数字
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id='resendCoinPer'>发送 </button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

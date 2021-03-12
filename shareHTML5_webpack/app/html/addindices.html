@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>指数管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='addindiecs'>
+				<div><button class = "btn btn-danger" id="add_indices"  style="float:right;margin-top:20px;margin-left:20px">新增指数</button></div>
+				<div>
+					<table class="table table-hover table-bordered table-center" id='add-indices-table'>
+						<caption></caption>
+						<thead class='custom-head'>
+						<tr>
+							<th>编号</th>
+							<th>指数代码</th>
+							<th>市场代码</th>
+							<th>指数名称</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody class="add-indices-body"></tbody>
+					</table>
+					<nav class="peges" id="add-indices-pages">
+					</nav>
+					<div id="add-indices-totalCounts" class="search-num">
+						本次查询共 <span class="font-red"></span> 条记录
+					</div>
+				</div>
+				<div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document" style="width:470px;margin-top:300px;">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title">新增指数</h4>
+							</div>
+							<div class="modal-body">
+								<form action="" class='form-horizontal col-sm-offset-1 form-inline' onsubmit="return false;">
+									<div>
+										指数代码：
+										<input type="text" class="form-control col-6 margin" style="width:145px;" autocomplete="off"  name="type" id="addIndices-code">
+										<select  id="typenum-indices" size="10" style="display:none;position: absolute;
+						    left: 125px;
+						    width: 145px;
+				            outline: none;
+				            border: 1px solid #999;
+				            margin-top:33px;
+			                height: 100px;
+				            Z-index:100"></select>
+									</div>
+									<div style="margin-top:20px">
+										市场代码：<input type="text" id="addIndices-market" class="form-control col-6 margin" style="width:145px;"></div>
+									<div style="margin-top:20px">
+										指数名称：<input type="text" id="addIndices-name" class="form-control col-6 margin" style="width:145px;"/></div>
+								</form>
+							</div>
+							<div class="modal-footer" style="text-align:center;">
+								<button type="button" class="btn btn-default" id="add_confirm">确认</button>
+								<button type="button" class="btn btn-primary" style="margin-left:80px" data-dismiss="modal">取消</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

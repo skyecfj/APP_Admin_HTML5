@@ -1,0 +1,75 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="detailModalLabel">详情</h4>
+        </div>
+        <div class="modal-body">
+            <table class="detail-table table table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th class="sorting">日期</th>
+                    <th class='sorting'>价格</th>
+                    <th class='nosort'>操作</th>
+                    <th class='sorting'>数量(手)</th>
+                    <th class='nosort'>仓位变化</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="clearfix">
+                <div class='pagenum'>
+                    <span>第</span><span id='detailpagenum'>0</span><span>页</span>
+                </div>
+                <ul class="pager" id='detailpage' style="display: none">
+                    <li class='previous disabled'><a href="#">上一页</a></li>
+                    <li class='next '><a href="#">下一页</a></li>
+                </ul>
+            </div>
+            <nav class="navbar navbar-default k-navbar" role="navigation">
+                <div class="container-fluid">
+                    <div>
+                        <ul class="nav navbar-nav ktypes">
+                            <li class="press ktype klist-d1 "><a href="#" data-type='D1'>日k</a></li>
+                            <li class="ktype klist-h1"><a href="#" data-type='H1'>一小时k</a></li>
+                            <li class="ktype klist-w1"><a href="#" data-type='Week1'>周k</a></li>
+                            <li class="ktype klist-m1"><a href="#" data-type='Month1'>月k</a></li>
+                            <li class="dropdown ktype"><a href="#" class="dropdown-toggle m-type" data-toggle="dropdown">分钟 </a>
+                                <ul class="dropdown-menu">
+                                    <li class='klist-m'><a data-type='M5' href="#">5分钟</a></li>
+                                    <li class='klist-m'><a data-type='M15' href="#">15分钟</a></li>
+                                    <li class='klist-m'><a data-type='M30' href="#">30分钟</a></li>
+                                </ul>
+                            </li>
+                            <li class=" dropdown"><a href="#" class="dropdown-toggle restoration-type" data-restoration='Forward' data-toggle="dropdown">前复权</a>
+                                <ul class="dropdown-menu">
+                                    <li class='klist-rehabilitation'><a data-restoration='None' href="#">不复权</a></li>
+                                    <li class='klist-rehabilitation'><a data-restoration='Forward' href="#">前复权</a></li>
+                                    <li class='klist-rehabilitation'><a data-restoration='Backward' href="#">后复权</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div id='' class="loading">正在加载中...</div>
+            <div id='kcontainer' class="graph"></div>
+            <div id='kcontainer2' class="kgraph"></div>
+            <div id='kcontainer3' class="kgraph"></div>
+            <div id='kcontainer4' class="kgraph" style='display: none'></div>
+            <nav class="navbar navbar-default k-navbar" role="navigation">
+                <div class="container-fluid">
+                    <div>
+                        <ul class="nav navbar-nav ktypes zibtype">
+                            <li class="press ktype klist-macd"><a href="#" data-type='MACD'>MACD</a></li>
+                            <li class="ktype klist-KDJ"><a href="#" data-type='KDJ'>KDJ</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+        </div>
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

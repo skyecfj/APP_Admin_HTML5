@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>运营数据分析</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='operatingcontent'>
+				<div class='col-sm-12' id="app-operation-analyze">
+					<h1 class='opreating-title'>APP运营数据分析</h1>
+					<ul id="operatingTab" class="nav nav-tabs operating-tab" style="display: block;">
+						<li class="active"><a href="#userregisterdata" data-toggle="tab"> 注册登录</a></li>
+						<li><a href="#stagetybook" data-toggle="tab">策略订阅</a></li>
+						<li><a href="#signAnalysis" data-toggle="tab">签到</a></li>
+						<li><a href="#yingYuan" data-toggle="tab">盈元</a></li>
+						<li><a href="#codedata" data-toggle="tab">邀请码</a></li>
+						<!-- <li><a href="#numOptimization" data-toggle="tab">优化数值</a></li> -->
+					</ul>
+					<div class='tab-content'>
+						<div class='col-sm-12 straegy-content tab-pane fade in active' id='userregisterdata'>
+							<div class='statistics clearfix register-login-box'>
+								<form class="form-inline" id="register-login-search">
+									<div>
+										用户名:
+										<input type="text" class="form-control col-6 margin width120" name="userName" id="register-login-user">
+										注册时间：
+										<input id="register-start-time" name="startTime" type="text" class="form-control col-6 width120" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+										<input id="register-end-time" name="endTime" type="text" class="form-control col-6 width120 margin" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+										最近登录时间:
+										<input type="number" class="form-control col-6 margin width70" name="lastLoginTime" id="last-login-time">天内
+										<div class="register-checktime checktime checktimes hiddens">请正确选择时间</div>
+									</div>
+									<div>
+										最近：
+										<select name="type" id="lately-login" class="custom-select margin">
+											<option value="">请选择</option>
+											<option value="0">一周</option>
+											<option value="1">一个月</option>
+											<option value="2">三个月</option>
+										</select>
+										登陆次数：
+										<select name="compare" id="login-compare" class="custom-select margin">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 margin width70" name="count" id="login-count">次&nbsp;&nbsp;&nbsp;&nbsp;
+										邀请代理：
+										<input type="text" class="form-control col-6 width120" name="agentedPeople" id="register-login-agentedPeople">
+									</div>
+									<div>
+										用户角色：
+										<select name="role" id="register-login-role" class="custom-select margin">
+											<option value="">全部</option>
+											<option value="0">普通用户</option>
+											<option value="1">代理用户</option>
+										</select>
+										<button type="button" id="register-login-searchbtn" class="btn btn-sm btn-success float-right">
+											查询
+										</button>
+									</div>
+								</form>
+								<div class="register-login-summary">
+									总用户数：<span class="font-red summary-total"></span>人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									今日新增注册：<span class="font-red summary-add-register"></span>人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									今日新增登录：<span class="font-red summary-add-login"></span>人
+								</div>
+								<div class="table-responsive">
+									<div>
+										<div class="float-right">
+											导出：
+											<select name="" id="register-login-page" class="custom-select">
+												<option value="0" selected>当前页</option>
+												<option value="1">所有页</option>
+											</select>
+											<button type='button' id='btn-register-login-export' class='btn btn-success'>导出</button>
+										</div>
+										<div>
+											每页显示
+											<select name="size" id="register-login-size" class="custom-select">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+											条记录
+										</div>
+									</div>
+									<table class="table table-hover table-bordered " id='register-login-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>用户名</th>
+											<th>用户角色</th>
+											<th class="table-sorting-desc" data-prop="0" data-sort="1">注册时间</th>
+											<th class="table-sorting" data-prop="1" data-sort="">最后一次登录时间</th>
+											<th>近一周登陆次数</th>
+											<th>近一个月登陆次数</th>
+											<th>近三个月登陆次数</th>
+											<th>邀请代理</th>
+											<th>操作</th>
+										</tr>
+										</thead>
+										<tbody class="register-login-body">
+										</tbody>
+									</table>
+								</div>
+								<nav class="peges" id="register-login-pages">
+								</nav>
+								<div id="register-login-totalCounts" class="search-num">
+									本次查询共 <span class="font-red"></span> 条记录
+								</div>
+							</div>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade ' id='stagetybook'>
+							<div class='statistics clearfix tactics-subscribe-box'>
+								<form class="form-inline" id="tactics-subscribe-search">
+									<div>
+										用户名:
+										<input type="text" class="form-control col-6 margin width120" name="tacticsUser" id="tactics-user">
+										用户类型：
+										<select name="isregist" id="isregist" class="custom-select">
+											<option value="">全部</option>
+											<option value=0>注册用户</option>
+										</select>
+										策略名:
+										<select name="tacticsName" id="tactics-name" class="custom-select">
+											<option value="">==请选择==</option>
+										</select><br><br>
+										订阅起始时间：
+										<input id="subscribe-start-time1" name="subscribeStartTime1" type="text" class="form-control col-6 width120" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+										<input id="subscribe-start-time2" name="subscribeStartTime2" type="text" class="form-control col-6 width120" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+										<div class="tactics-checktime1 checktime checktimes hiddens">请正确选择时间</div>
+									</div>
+									<div style="position:relative;">
+										订阅到期时间：
+										<input id="subscribe-end-time1" name="subscribeEndTime1" type="text" class="form-control col-6 width120" value="" onfocus="WdatePicker()"/>至
+										<input id="subscribe-end-time2" name="subscribeEndTime2" type="text" class="form-control col-6 width120" value="" onfocus="WdatePicker()"/>
+										<div class="tactics-checktime2 checktime checktimes hiddens">请正确选择时间</div>
+										<button type="button" id="tactics-subscribe-searchbtn" class="btn btn-sm btn-success float-right">
+											查询
+										</button>
+									</div>
+								</form>
+								<div class="">
+									<table class="table table-hover table-bordered" id='tactics-subscribe-num-table'>
+										<thead class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>策略名</th>
+											<th>今日新增订阅</th>
+											<th>总订阅</th>
+											<th>订阅中</th>
+										</tr>
+										</thead>
+										<tbody class="tactics-subscribe-num-body">
+										</tbody>
+									</table>
+								</div>
+								<div class="table-responsive">
+									<div>
+										<div class="float-right">
+											导出：
+											<select name="" id="tactics-export-page" class="custom-select">
+												<option value="0" selected>当前页</option>
+												<option value="1">所有页</option>
+											</select>
+											<button type='button' id='btn-tactics-export' class='btn btn-success'>导出</button>
+										</div>
+										<div>
+											每页显示
+											<select name="size" id="tactics-subscribe-size" class="custom-select">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+											条记录
+										</div>
+									</div>
+									<table class="table table-hover table-bordered " id='tactics-subscribe-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>用户名</th>
+											<th>策略名</th>
+											<th class="table-sorting-desc" data-prop="0" data-sort="1">订阅起始时间</th>
+											<th class="table-sorting" data-prop="1" data-sort="">订阅到期时间</th>
+										</tr>
+										</thead>
+										<tbody class="tactics-subscribe-body">
+										</tbody>
+									</table>
+								</div>
+								<nav class="peges" id="tactics-subscribe-page">
+								</nav>
+								<div id="tactics-subscribe-totalCounts" class="search-num">
+									本次查询共 <span class="font-red"></span> 条记录
+								</div>
+							</div>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade' id='signAnalysis'>
+							<div class='statistics clearfix sign-analysis-box'>
+								<form class="form-inline" id="sign-analysis-search">
+									<div>
+										用户名:
+										<input type="text" class="form-control col-6 margin width120" name="userName" id="sign-analysis-user">&nbsp;&nbsp;
+										签到次数：
+										<select name="totalCompare" id="sign-frequency-compare" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 width70" name="totalCount" id="sign-frequency-count">次&nbsp;&nbsp;
+										最长连续签到：
+										<select name="maxCompare" id="sign-continuous-compare" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 width70" name="maxDays" id="sign-continuous-count">天
+									</div>
+									<div>
+										最近签到时间：
+										<input type="number" class="form-control col-6 width70" name="lastSignInTime" id="sign-lately-count">天内&nbsp;&nbsp;
+										最近：
+										<select name="type" id="sign-frequency-lately-type" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">一周</option>
+											<option value="1">一个月</option>
+											<option value="2">三个月</option>
+										</select>
+										签到次数：
+										<select name="compare" id="sign-frequency-lately-compare" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 width70" name="count" id="sign-frequency-lately-count">次
+										<button type="button" id="sign-analysis-searchbtn" class="btn btn-sm btn-success float-right">
+											查询
+										</button>
+									</div>
+								</form>
+								<div class="sign-analysis-summary">
+									今日签到：<span class="font-red summary-total"></span>人
+								</div>
+								<div class="table-responsive">
+									<div>
+										<div class="float-right">
+											导出：
+											<select name="" id="sign-analysis-export-page" class="custom-select">
+												<option value="0" selected>当前页</option>
+												<option value="1">所有页</option>
+											</select>
+											<button type='button' id='btn-sign-analysis-export' class='btn btn-success'>导出</button>
+										</div>
+										<div>
+											每页显示
+											<select name="size" id="sign-analysis-size" class="custom-select">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+											条记录
+										</div>
+									</div>
+									<table class="table table-hover table-bordered " id='sign-analysis-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>用户名</th>
+											<th class="table-sorting" data-prop="0" data-sort="">签到次数</th>
+											<th class="table-sorting" data-prop="1" data-sort="">最近一次签到时间</th>
+											<th class="table-sorting" data-prop="2" data-sort="">近一周签到次数</th>
+											<th class="table-sorting" data-prop="3" data-sort="">近一个月签到次数</th>
+											<th class="table-sorting" data-prop="4" data-sort="">近三个月签到次数</th>
+											<th class="table-sorting" data-prop="5" data-sort="">最长连续签到天数</th>
+										</tr>
+										</thead>
+										<tbody class="sign-analysis-body">
+										</tbody>
+									</table>
+								</div>
+								<nav class="peges" id="sign-analysis-pages">
+								</nav>
+								<div id="sign-analysis-totalCounts" class="search-num">
+									本次查询共 <span class="font-red"></span> 条记录
+								</div>
+							</div>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade' id='yingYuan'>
+							<div class='statistics clearfix yingYuan-box'>
+								<form class="form-inline" id="yingYuan-search">
+									<div>
+										用户名:
+										<input type="text" class="form-control col-6 margin width120" name="userName" id="yingYuan-user">
+										盈元余额：
+										<select name="compare" id="yingYuan-have-compare" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 width70" name="haveCount" id="yingYuan-have-count">个&nbsp;&nbsp;
+										已用盈元：
+										<select name="compare" id="yingYuan-used-compare" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 width70" name="usedCount" id="yingYuan-used-count">个
+										<button type="button" id="yingYuan-searchbtn" class="btn btn-sm btn-success float-right">
+											查询
+										</button>
+									</div>
+								</form>
+								<div class="table-responsive">
+									<div>
+										<div class="float-right">
+											导出：
+											<select name="" id="yingYuan-export-page" class="custom-select">
+												<option value="0" selected>当前页</option>
+												<option value="1">所有页</option>
+											</select>
+											<button type='button' id='btn-yingYuan-export' class='btn btn-success'>导出</button>
+										</div>
+										<div>
+											每页显示
+											<select name="size" id="yingYuan-size" class="custom-select">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+											条记录
+										</div>
+									</div>
+									<table class="table table-hover table-bordered " id='yingYuan-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>用户名</th>
+											<th class="table-sorting" data-prop="0" data-sort="">盈元余额</th>
+											<th class="table-sorting" data-prop="1" data-sort="">已用盈元</th>
+											<th class="table-sorting" data-prop="2" data-sort="">签到获得</th>
+											<th class="table-sorting" data-prop="3" data-sort="">分享获得</th>
+											<th class="table-sorting" data-prop="4" data-sort="">系统赠送</th>
+										</tr>
+										</thead>
+										<tbody class="yingYuan-body">
+										</tbody>
+									</table>
+								</div>
+								<nav class="peges" id="yingYuan-pages">
+								</nav>
+								<div id="yingYuan-totalCounts" class="search-num">
+									本次查询共 <span class="font-red"></span> 条记录
+								</div>
+							</div>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade ' id='codedata'>
+							<div class='statistics clearfix codedata-box'>
+								<form class="form-inline" id="codedata-search">
+									<div>
+										用户名:
+										<input type="text" class="form-control col-6 margin width120" name="userName" id="codedata-user">&nbsp;&nbsp;
+										总邀请数：
+										<select name="totalCompare" id="codedata-totalCompare" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 width70" name="totalCount" id="codedata-totalCount">人&nbsp;&nbsp;
+										奖励盈元：
+										<select name="rewardCompare" id="codedata-rewardCompare" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 width70" name="rewardCount" id="codedata-rewardCount">个
+									</div>
+									<div>
+										今日邀请数：
+										<select name="todayCompare" id="codedata-todayCompare" class="custom-select">
+											<option value="">请选择</option>
+											<option value="0">小于</option>
+											<option value="1">等于</option>
+											<option value="2">大于</option>
+										</select>
+										<input type="number" class="form-control col-6 width70" name="todayCount" id="codedata-todayCount">人
+										<button type="button" id="codedata-searchbtn" class="btn btn-sm btn-success float-right">
+											查询
+										</button>
+									</div>
+								</form>
+								<div class="codedata-summary">
+									累计邀请：<span class="font-red codedata-summary-total"></span>人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									今日新增：<span class="font-red codedata-summary-today"></span>人
+								</div>
+								<div class="table-responsive">
+									<div>
+										<div class="float-right">
+											导出：
+											<select name="" id="codedata-export-page" class="custom-select">
+												<option value="0" selected>当前页</option>
+												<option value="1">所有页</option>
+											</select>
+											<button type='button' id='btn-codedata-export' class='btn btn-success'>导出</button>
+										</div>
+										<div>
+											每页显示
+											<select name="size" id="codedata-size" class="custom-select">
+												<option value="10">10</option>
+												<option value="25">25</option>
+												<option value="50">50</option>
+												<option value="100">100</option>
+											</select>
+											条记录
+										</div>
+									</div>
+									<table class="table table-hover table-bordered " id='codedata-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>用户名</th>
+											<th class="table-sorting" data-prop="0" data-sort="">今日邀请数</th>
+											<th class="table-sorting" data-prop="1" data-sort="">总邀请数</th>
+											<th class="table-sorting" data-prop="2" data-sort="">奖励盈元</th>
+											<th class="table-sorting" data-prop="3" data-sort="">成功邀请数</th>
+										</tr>
+										</thead>
+										<tbody class="codedata-body"></tbody>
+									</table>
+								</div>
+								<nav class="peges" id="codedata-pages">
+								</nav>
+								<div id="codedata-totalCounts" class="search-num">
+									本次查询共 <span class="font-red"></span> 条记录
+								</div>
+							</div>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade' id='numOptimization'>
+							<div class='statistics clearfix numOptimization-box'>
+								<h4>文章优化数值</h4>
+								<div class="table-responsive">
+									<table class="table table-hover table-bordered " id='numOptimization-article-table'>
+										<caption></caption>
+										<thead id="" class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>优化类别</th>
+											<th>放大倍数</th>
+											<th>随机数</th>
+											<th>操作</th>
+										</tr>
+										</thead>
+										<tbody class="numOptimization-article-body"></tbody>
+									</table>
+								</div>
+								<h4>策略优化数值</h4>
+								<form class="form-inline" id="numOptimization-search">
+									所属策略:
+									<select name="tacticsNumOptimizationName" id="tactics-numOptimization-name" class="custom-select">
+										<option value="">全部</option>
+									</select>
+									<button type="button" id="numOptimization-searchbtn" class="btn btn-sm btn-success float-right">
+										查询
+									</button>
+								</form>
+								<div class="table-responsive">
+									<table class="table table-hover table-bordered " id='numOptimization-tactics-table'>
+										<caption></caption>
+										<thead class='custom-head'>
+										<tr>
+											<th>编号</th>
+											<th>优化类别</th>
+											<th>所属策略</th>
+											<th>真实数值</th>
+											<th>放大倍数</th>
+											<th>随机数</th>
+											<th>优化数值</th>
+											<th>操作</th>
+										</tr>
+										</thead>
+										<tbody class="numOptimization-tactics-body"></tbody>
+									</table>
+								</div>
+								<nav class="peges" id="numOptimization-tactics-pages"></nav>
+							</div>
+						</div>
+						<!-- 转代理modal -->
+						<div id="subagent-modal" class="modal fade" role="dialog">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-body">
+										<input type="hidden" id="subagent-id">确认将用户<span id="subagent-name" class="font-red"></span>转为代理用户？
+									</div>
+									<div class="modal-footer">
+										<button class="btn btn-info btn-subagent-sure">确认</button>
+										<button class="btn btn-default" data-dismiss="modal">取消</button>
+									</div>
+								</div>
+							</div>
+						</div><!-- modal -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

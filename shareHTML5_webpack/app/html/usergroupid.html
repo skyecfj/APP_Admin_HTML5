@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>用户组管理</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src='./assets/js/usergroupid.js'></script>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='usergroupid'>
+				<input type="text" value="" id="groupIds" style="display:none">
+				<input type="text" value="" id="delgroupId" style="display:none">
+				<input type="text" value="" id="delgroupName" style="display:none">
+				<div id="selectList"value=""></div>
+			<div class='col-sm-12 clearfix'>
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="active1 active"><a class="user-tab1" href="#user-group">新增用户组</a></li>
+					<li role="presentation" class="active2" ><a class="user-tab2" href="#user-group">用户组管理</a></li>
+				</ul>
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<form class="form-inline types" id="onSearchUser">
+							用户名:
+							<input type="text" class="form-control col-6 margin" name="userName" id="userName" placeholder="用户名">
+							注册时间：
+							<input id="userstartTime" name="startTime" type="text" class="form-control col-6" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+							<input id="userendTime" name="endTime" type="text" class="form-control col-6" value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+							<div class="checktime checktimes hiddens">请正确选择时间</div><br><br>
+							全部订单金额：
+							<input type="number" class="form-control col-6 margin" name="totalAmount" id="totalAmount" placeholder="金额">
+							订阅次数：
+							<input type="number" class="form-control col-6 margin" name="subscribeTimes" id="subscribeTimes" placeholder="订阅次数">
+						</form><br>
+						<form class="form-inline types" id="onSearchUser2" onsubmit="return false;">
+							<!-- 最近（一周、一月、三月）签到次数 尚未确定传输字段  -->
+							最近：
+							<select name="recordType" class="form-control col-6 margin" id="signInType">
+								<option value="" selected>--请选择--</option>
+								<option value="0">一周 </option>
+								<option value="1">一个月 </option>
+								<option value="2">三个月</option>
+							</select>
+							签到次数：
+							<select name="operator" class="form-control col-6"  id="signIn">
+								<option value="" selected>--请选择--</option>
+								<option value="1">小于</option>
+								<option value="0">大于</option>
+								<option value="2">等于</option>
+								<option value="3">大于等于</option>
+								<option value="4">小于等于</option>
+							</select>
+							<input type="number" class="form-control col-6 times" name="signInTimes" id="signInTimes_1" placeholder="次数">
+							<span>次</span><br><br>
+							<!-- 最近（一周、一月、三月）登录次数  -->
+							最近：
+							<select name="recordType" class="form-control col-6 margin" id="recordType">
+								<option value="" selected>--请选择--</option>
+								<option value="0">一周 </option>
+								<option value="1">一个月 </option>
+								<option value="2">三个月</option>
+							</select>
+							登录次数：
+							<select name="operator" class="form-control col-6"  id="operator">
+								<option value="" selected>--请选择--</option>
+								<option value="1">小于</option>
+								<option value="0">大于</option>
+								<option value="2">等于</option>
+								<option value="3">大于等于</option>
+								<option value="4">小于等于</option>
+							</select>
+							<input type="number" class="form-control col-6 times" name="loginTimes" id="loginTimes_1" placeholder="次数">
+							<span>次</span>
+							<div class="botton-right">
+								<button type="button" id="onSearchUsers" class="btn btn-sm btn-success btn-beautify btn-search">
+									<i class="ace-icon fa fa-search"></i>
+									查询
+								</button>
+								<button type="button" id="addUserGroup" class="btn btn-sm btn-danger btn-beautify">
+									<i class="ace-icon fa fa-plus"></i>
+									新增用户组
+								</button>
+								<button type="button"  class="btn btn-sm btn-primary btn-beautify btn-select-user">
+									<i class="ace-icon fa fa-plus"></i>
+									选中全部用户
+								</button>
+							</div>
+							<div class='error-msg col-sm-offset-5'></div>
+							<div class="chectime checkdates hiddens error col-sm-offset-5" ></div>
+						</form>
+						<form class="form-inline user hiddens" onsubmit="return false;">
+							用户组名称:
+							<input type="text" class="form-control col-6 " name="userName" id="groupNameId" placeholder="用户组名称">
+							用户组状态:
+							<select name="groupType" class="form-control col-6 margin" id="groupType">
+								<option value="" selected>--请选择--</option>
+								<option value="0">停用 </option>
+								<option value="1">启用 </option>
+							</select>
+							<div class="botton-right">
+								<button type="button" id="usergroup-bulkimport-btn" class="btn btn-sm btn-primary margin">批量导入</button>
+								<button type="button" id="onSearchGroup" class="btn btn-sm btn-success btn-beautify">
+									<i class="ace-icon fa fa-search"></i>
+									查询
+								</button>
+							</div>
+						</form>
+						<div class="table-responsive" id='usertable1'>
+							<table class="table table-hover table-bordered ">
+								<caption></caption>
+								<thead id="all" class='user-head'>
+								<tr class="userTableTr">
+									<th class="all glyphicon glyphicon-unchecked"></th>
+									<th>用户名</th>
+									<th>注册时间</th>
+									<th>最近一次登录时间</th>
+									<th>全部订单金额</th>
+									<th>订阅次数</th>
+									<th class="hidden usertablesignin"></th>
+									<th class="hidden usertablelogin"></th>
+								</tr>
+								</thead>
+								<tbody class="userList"></tbody>
+							</table>
+							<div class="close hiddens">关闭</div>
+						</div>
+						<div class="table-responsive hiddens" id='usertable2'>
+							<table class="table table-hover table-bordered ">
+								<caption></caption>
+								<thead class='user-head'>
+								<tr>
+									<th>用户组名称</th>
+									<th>人数</th>
+									<th>操作</th>
+								</tr>
+								</thead>
+								<tbody class="groupList table-center">
+								</tbody>
+							</table>
+						</div>
+						<div class="table-responsive hiddens" id='usertable3'>
+							<span class="checkuser margin"></span>
+							<span class="checkcount"></span>
+							<table class="table table-hover table-bordered ">
+								<caption></caption>
+								<thead class='user-head'>
+								<tr>
+									<th>用户名</th>
+									<th>注册时间</th>
+									<th>最近一次登录时间</th>
+									<th>近一周登录次数</th>
+									<th>近一个月登录次数</th>
+									<th>近三个月登录次数</th>
+									<th class='user-group-opreation'>操作</th>
+								</tr>
+								</thead>
+								<tbody class="userListCheck">
+								</tbody>
+							</table>
+							<!-- <div class="close hiddens">关闭</div> -->
+							<button type="button" class="btn btn-sm btn-primary btn-beautify btn-group-adduser">
+								<i class="ace-icon fa fa-search"></i>
+								新增
+							</button>
+							<button type="button" class="btn btn-sm btn-danger btn-beautify closed hiddens">
+								<i class="ace-icon fa fa-search"></i>
+								关闭
+							</button>
+						</div>
+					</div>
+					<div class="peges types" id="page"></div>
+					<div class="peges user hiddens" id="pages"></div>
+					<div class="peges user-group hiddens" id="userpages"></div>
+				</div>
+				<!-- 对话框 -->
+				<div class="modal fade  bs-example-modal-sm" id="myModalUser1">
+					<div class="modal-dialog" >
+						<div class="modal-content">
+							<div class="modal-header">
+								<input id="userListInput" value="" style="display:none"/>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title"></h4>
+							</div>
+							<div class="modal-body" >
+								<form class="form-horizontal" role="form" id=''>
+									<div class="form-group">
+										<label for="phonenum" class="col-sm-4 control-label label-center">用户组名称</label>
+										<div class="col-sm-8">
+											<input type="text"  class="form-control col-6" id="numberName" placeholder="用户组名称">
+										</div>
+									</div>
+									<div class="tip users hiddens">
+										请选择需要加入的用户
+									</div>
+									<div class="tip name hiddens">
+										请填写用户组名称
+									</div>
+									<div class="tip groupnamess hiddens">
+										用户组名已存在,请重新填写
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id='addGroup'>保存 </button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade  bs-example-modal-lg" id="groupAddUserModal">
+					<div class="modal-dialog" style="width:800px;" >
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title"></h4>
+							</div>
+							<div class="modal-body" >
+								<span class="checkuser margin"></span>
+								<span class="checkcount"></span>
+								<input id="userListGroupInput" value="" style="display:none"/>
+								<form class="form-inline " id="onSearchUserGroup">
+									<div class='form-group'>
+										<label for="name">用户名:</label>
+										<input type="text" class="form-control  margin" name="name" id="userName" placeholder="用户名">
+									</div>
+									<div class='form-group'>
+										<label > 注册时间：</label>
+										<input id="userstartTime" name="startTime" type="text" class="form-control " value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>至
+										<input id="userendTime" name="endTime" type="text" class="form-control " value="" onfocus="WdatePicker({maxDate: '%y-%M-%d 00:00:00'})"/>
+										<div class="checktime checktimes hiddens">请正确选择时间</div>
+									</div>
+								</form>
+								<form class="form-inline on-serarch-user-2 clearfix" id="groupUserSearch" onsubmit="return false;">
+									最近：
+									<select name="recordType" class="form-control col-6 margin" id="recordType">
+										<option value="" selected>--请选择--</option>
+										<option value="0">一周 </option>
+										<option value="1">一个月 </option>
+										<option value="2">三个月</option>
+									</select>
+									登录次数：
+									<select name="operator" class="form-control col-6"  id="operator">
+										<option value="" selected>--请选择--</option>
+										<option value="1">小于</option>
+										<option value="0">大于</option>
+										<option value="2">等于</option>
+										<option value="3">大于等于</option>
+										<option value="4">小于等于</option>
+									</select>
+									<input type="text" class="form-control col-6 times" name="loginTimes" id="loginTimesGroup" placeholder="次数">
+									<span>次</span>
+									<div class="botton-right">
+										<button type="button"  class="btn btn-sm btn-success btn-beautify btn-group-search-user btn-search">
+											<i class="ace-icon fa fa-search"></i>
+											查询
+										</button>
+										<button type="button" class="btn btn-sm btn-primary btn-beautify btn-select-user btn-group">
+											<i class="ace-icon fa fa-plus"></i>
+											选中全部用户
+										</button>
+									</div>
+									<div class='error-msg col-sm-offset-5'></div>
+									<div class="chectime checkdates hiddens error col-sm-offset-5" >最近,登录次数，比较符都不能为空</div>
+								</form>
+								<div class="table-responsive" id='usernotgrouptable'>
+									<table class="table table-hover table-bordered ">
+										<caption></caption>
+										<thead id="all" class='user-head'>
+										<tr>
+											<th class="all glyphicon glyphicon-unchecked group"></th>
+											<th>用户名</th>
+											<th>注册时间</th>
+											<th>最近一次登录时间</th>
+											<th>近一周登录次数</th>
+											<th>近一个月登录次数</th>
+											<th>近三个月登录次数</th>
+										</tr>
+										</thead>
+										<tbody class="groupuserList">
+										</tbody>
+									</table>
+									<div class="peges" id="groupuserpage">
+										<div class="close hiddens">关闭</div>
+									</div>
+									<div class="tip users-group hiddens">
+										请选择需要加入的用户
+									</div>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id='btnGroupAddUser'>确认</button>
+								<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<div class="modal fade  bs-example-modal-sm" id="myModalUser3">
+					<div class="modal-dialog" >
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title"></h4>
+							</div>
+							<div class="modal-body" >
+								<form class="form-horizontal" role="form" id='addvalidAddForm'>
+									<div class="form-group">
+										<label for="groupNames" class="col-sm-4 control-label label-center">用户组名称</label>
+										<div class="col-sm-8">
+											<input type="text" class="form-control col-6" id="delrName" readonly>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id='delConfim'>确定 </button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+				<!-- 批量导入模态框 -->
+				<div class="modal fade" id="usergroup-bulkimport-modal">
+					<div class="modal-dialog" >
+						<div class="modal-content">
+							<div class="modal-header">
+								<input id="userListInput" value="" style="display:none"/>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4>新增用户组</h4>
+							</div>
+							<div class="modal-body" >
+								<form class="form-horizontal" role="form" id="ug-bi-form">
+									<div class="form-group">
+										<label for="ug-bi-name" class="col-sm-3 control-label label-center">用户组名称</label>
+										<div class="col-sm-9">
+											<input type="text"  class="form-control col-6" id="ug-bi-name" placeholder="用户组名称">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="ug-bi-user" class="col-sm-3 control-label label-center">已选用户</label>
+										<div class="col-sm-9">
+											<p class="col-sm-9" id="ug-bi-user">
+											</p>
+											<div class="col-sm-3 ug-bi-btn">
+												<button id="ug-bi-sel" class="btn btn-default btn-sm">
+													选择文件
+												</button>
+												<input id="ug-bi-file" name='txtFile' type="file" multiple="multiple">
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id='ug-bi-save'>确认 </button>
+								<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>

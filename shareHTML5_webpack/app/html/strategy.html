@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>策略分析</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src="./assets/js/stategymonitor.js"></script>
+</head>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='strategycontent'>
+				<div>
+					<ul id="myTab" class="nav nav-tabs straegy-tab" style="display: block;">
+						<li class="active in-s"><a href="#earningsprofiles" data-toggle="tab"> 收益概况</a></li>
+						<li class='out'><a href="#uploadfile" data-toggle="tab">导入买卖点</a></li>
+						<li><a href="#tradeanaylysis" data-toggle="tab">买卖点分析</a></li>
+						<li class="in-s"><a href="#earningsrate" data-toggle="tab">收益率详情</a></li>
+						<li class="in-s"><a href="#maximumretracement" data-toggle="tab">最大回撤</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class='col-sm-12 straegy-content tab-pane fade in active'
+							 id='earningsprofiles'>
+							<div class='statistics'>
+								<h4>策略统计信息</h4>
+								<ul class='clearfix'>
+									<li class='col-sm-3 col-md-3'><span>策略收益率:</span> <span
+											class='rate ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>策略年化收益率:</span> <span
+											id='annualrate' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>基准收益:</span> <span
+											id='benchmark' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>基准年化收益率:</span><span
+											id="enchmarkannualrate" class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>Alpha:</span><span
+											id='alpha' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>Beta:</span> <span
+											id='beta' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>Sharpe:</span> <span
+											id='sharpe' class='ifcontent col-sm-12'></span></li>
+
+									<li class='col-sm-3 col-md-3'><span>Algorithm
+								Volatility:</span> <span id='volatility' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>Benchmark
+								Volatility:</span> <span id='benchmarkvolatility'
+														 class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>胜率:</span> <span
+											id='odds' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>日胜率:</span> <span
+											id='dayodds' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>盈亏比:</span> <span
+											id='profitlossrate' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>盈利次数:</span> <span
+											id='profitnum' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>亏损次数:</span> <span
+											id='loss' class='ifcontent col-sm-12'></span></li>
+									<li class='col-sm-3 col-md-3'><span>最大回撤:</span><span
+											id="maximumRetracement" class='ifcontent col-sm-12'></span></li>
+								</ul>
+								<div>
+									<form class='form-inline' >
+										<div class='form-group form-annual'>
+											<label>各年度实盘收益率</label>
+											<select  id='annualratelist'></select>
+											<span class='annaul-span' ></span>
+										</div>
+									</form>
+								</div>
+								<div class='rate-line'>
+									<div class='switch anaylysis clearfix'>
+										<a class='switch-liist disabled list-3' disabled="true"><span>近3个月</span></a>
+										<a class='switch-liist disabled list-12' disabled="true"><span>最近一年</span></a>
+										<a class='switch-liist press list-all'><span>全部</span></a>
+										<div class='form-group index-select'>
+											<select id="indexTabSelect" class="form-control">
+												<option value='0'>沪深300指数</option>
+												<option value='1'>中证500指数</option>
+												<option value='2'>中小扳指数</option>
+											</select>
+										</div>
+									</div>
+									<div id='ratecontainer' class="rategraph"></div>
+								</div>
+							</div>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade out-pane' id='uploadfile'>
+							<br>
+							<form enctype="multipart/form-data charset=utf-8" id='uploadForm'>
+								<div class="form-group " id="uploadFileDiv">
+									<input id="file-1" name='csvFile' type="file" multiple="multiple">
+								</div>
+								<hr>
+							</form>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade'
+							 id='tradeanaylysis'>
+							<div class='analysis'>
+								<h4>买卖点分析</h4>
+								<form action="" class='form-inline' id='searchdateform'>
+									<div class='form-group'>
+										<label for='tradestartTime'>起始时间</label>
+										<input id='tradestartTime' onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd  HH:mm:ss',lang:'zh-cn' })"/>
+									</div>
+									<div class='form-group'>
+										<label for='tradesendTime'>结束时间</label>
+										<input id='tradesendTime'  onfocus="WdatePicker({ dateFmt: 'yyyy-MM-dd  HH:mm:ss',lang:'zh-cn' })"/>
+									</div>
+
+									<button type='button' class='btn-search-date btn btn-default'>查询</button>
+									<div class="checktime checktimes hiddens">请正确选择时间</div>
+								</form>
+								<div id='active-info'>
+									<table class="anaysis-table table table-hover table-bordered"
+										   id='ananysisTable'>
+										<thead>
+										<tr>
+											<th class='sort'>最近一次买入时间</th>
+											<th class="nosort">股票名称(股票代号)</th>
+											<th class='sorting'>盈亏(%)</th>
+											<th class='sorting'>仓位</th>
+										</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+									<div class="clearfix">
+										<ul class="pager" id='analysispage' style='display: none'>
+											<li class="previous disabled"><a href="#">上一页</a></li>
+											<li class='next'><a href="#">下一页</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade ' id='earningsrate'>
+							<div class='statistics'>
+								<h4>收益率</h4>
+								<table class="display table " style="table-layout: fixed;margin-left: 0px;width: 818px !important;word-break: break-all;"  cellspacing="0" id='ratetable'>
+									<caption>过去n个月（包含本月）的 收益率</caption>
+									<thead>
+									<tr class='active'>
+										<th class='sorting'>日期</th>
+										<th class="nosort">1个月</th>
+										<th class="nosort">3个月</th>
+										<th class="nosort">6个月</th>
+										<th class="nosort">12个月</th>
+									</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+						<div class='col-sm-12 straegy-content tab-pane fade' id='maximumretracement'>
+							<div class='statistics'>
+								<h4>最大回撤</h4>
+								<table class="table" style="table-layout: fixed;margin-left: 0px;width: 818px;word-break: break-all;" id='retracementtable'>
+									<caption>过去n个月（包含本月）的 Max Drawdown</caption>
+									<thead>
+										<tr class='active'>
+											<th class='sorting'>日期</th>
+											<th class="nosort">1个月</th>
+											<th class="nosort">3个月</th>
+											<th class="nosort">6个月</th>
+											<th class="nosort">12个月</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>
+

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>新增短信</title>
+	<!-- 加载公共部分 -->
+	<script type="text/javascript" src="./assets/js/head.js"></script>
+	<!-- 加载页面单独部分 -->
+	<script type="text/javascript" src='../assets/js/addsms.js'></script>
+<body>
+<div id="header"></div>
+<div class='container content'>
+	<div class='row'>
+		<div id="leftMenu"></div>
+		<div>
+			<div class='col-sm-9 information' id='addsms'>
+				<div class='col-sm-12 clearfix'>
+					<ul class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active" id=""><a class="addsms-tab1" href="#">新增短信</a></li>
+					</ul>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="text-right">
+								短信余额： <span class="font-red sms-balance"></span> 元
+							</div>
+							<form class="form-inline" id="send-sms-form"  onsubmit="return false;">
+								<div class="col-sm-12">
+									<label class="col-sm-2 text-right">分发类别:</label>
+									<div class="col-sm-10 per-category">
+										<input type="radio" name="type" value="0" checked="checked">个人
+										<input type="radio" name="type" value="1">多人
+										<input type="radio" name="type" value="2">用户组
+										<input type="radio" name="type" value="3">全部
+									</div>
+								</div>
+								<div class="col-sm-12" id="user-list">
+									<label class="col-sm-2 text-right user-list-label">用户列表:</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<input type="text" class="form-control col-6 " id='add-sms-per' autocomplete="off" data-provide="typeahead">
+											<span class="input-group-btn">
+												<button class="btn btn-default btn-add-sms-user" type="button">
+													选中
+												</button>
+												<div class="btn-addbatch-file hide">
+													<button id="batch-btn" class="btn btn-default btn-addbatch-sms-user" type="button">
+														批量导入
+													</button>
+													<input id="btn-addbatch-file" name='txtFile' type="file" multiple="multiple">
+												</div>
+											</span>
+										</div><!-- /input-group -->
+									</div>
+								</div>
+								<div class="col-sm-12 hide" id="usergroup-list">
+									<label class="col-sm-2 text-right">用户组:</label>
+									<div class="col-sm-10">
+										<div class="input-group">
+											<select name="usergroupList" class="form-control col-6 margin" id="usergroup-select">
+											</select>
+											<span class="input-group-btn">
+												<button class="btn btn-default btn-addgroup-coin-user" type="button">
+													选中
+												</button>
+											</span>
+										</div><!-- /input-group -->
+									</div>
+								</div>
+								<div class="col-sm-12 hide" id="pergroup-checked">
+									<label for="coinuser" class="col-sm-2 text-right">已选用户组:</label>
+									<div class="col-sm-8">
+										<p class="checked-per" id="checked-sms-usergroup">
+										</p>
+									</div>
+								</div>
+								<div class="col-sm-12" id="per-checked">
+									<label for="coinuser" class="col-sm-2 text-right">已选用户:</label>
+									<div class="col-sm-8">
+										<p class="checked-per" id="checked-sms-user">
+										</p>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label for="coinuser" class="col-sm-2 text-right">已选人数:</label>
+									<div class="col-sm-8">
+										<span id="check-per-num">0</span>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label class="col-sm-2 text-right">选择模板:</label>
+									<div class="col-sm-2">
+										<select name="templateId" class="form-control col-6" id="template-type">
+										</select>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<label for="coinuser" class="col-sm-2 text-right">短信内容:</label>
+									<div class="col-sm-8">
+										<textarea rows="6" class='form-control' id='sms-temp-content' maxlength="100" name='content'></textarea>
+										<p class="text-right">您还可输入<span class="font-red" id="sms-temp-content-num">100</span>个文字</p>
+									</div>
+								</div>
+								<div class="col-sm-12 text-center add-sms-btns">
+									<button type="button" data-type="addSmsSave" class="btn btn-sm btn-success">
+										<i class="ace-icon fa fa-search"></i>
+										保存
+									</button>
+									<button type="button" data-type="addSmsSend" class="btn btn-sm btn-primary">
+										<i class="ace-icon fa fa-plus"></i>
+										保存并发送
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="modal fade  bs-example-modal-sm" id="add-send-alluser">
+						<div class="modal-dialog" >
+							<div class="modal-content">
+								<div class="modal-header">
+									<input id="userListInput" value="" style="display:none"/>
+									<h4 class="">保存并发送</h4>
+								</div>
+								<div class="modal-body clearfix">
+									<p>确认要发送给所有用户吗？</p>
+									<input type="hidden" id="temp-delete-id">
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" id="add-send-alluser-btn">确定</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								</div>
+							</div><!-- /.modal-content -->
+						</div><!-- /.modal-dialog -->
+					</div><!-- /.modal -->
+				</div>
+			</div>
+		</div>
+		<div id="user"></div>
+	</div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel" aria-hidden="true"></div>
+</body>
+</html>
